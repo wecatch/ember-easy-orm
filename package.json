@@ -1,7 +1,7 @@
 {
   "name": "ember-easy-orm",
-  "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "version": "0.0.1",
+  "description": "The easy orm for ember app",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -15,7 +15,10 @@
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "",
+  "author": {
+    "name":"wecatch",
+    "url":"http://wecatch.me"
+  },
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.1.2",
@@ -38,7 +41,9 @@
     "ember-try": "0.0.6"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "orm",
+    "form"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.3"
