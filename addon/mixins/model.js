@@ -14,7 +14,7 @@ export default Ember.Mixin.create(Ember.Evented, {
         var record = {};
 
         //filter model data
-        Ember.$.each(Ember.keys(model), function(index, key) {
+        Ember.$.each(Object.keys(model), function(index, key) {
             if ($this.model.hasOwnProperty(key)) {
                 record[key] = model[key];
             }
