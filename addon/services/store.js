@@ -3,6 +3,10 @@ import Ember from 'ember';
 export default Ember.Service.extend({
     modelFor: function(type) {
         var klass = this.container.lookupFactory('model:' + type);
+        if(!klass) {
+            Ember.Logger.warn('model '+ type + ' is undefined');
+            return Ember.Object.create();
+        }
         return klass.create();
     },
     find: function(type, params) {

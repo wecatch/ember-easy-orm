@@ -1,126 +1,71 @@
 import Ember from "ember";
 
-var FormMixin = Ember.Mixin.create({
-    isSaving: false,
-    isSuccess: false,
-    isError: false,
-    needs: ['application'],
-    application: function() {
-        return this.get('controllers.application');
-    }.property(),
+var form = Ember.Mixin.create({
     actions: {
-        saveForm: function(record) {
-            var $this = this;
-            var error = '你的网络有问题或网站的服务出了问题';
-            this.store.save($this.modelName, record).then(function(data) {
-                $this.set('isSaving', false);
-                if (data.code === 0) {
-                    $this.set('isSuccess', true);
-                    $this.set('msg', '修改成功');
-                    $this.send('_actionEdit', false);
-                    $this.send('_actionCreate', false);
-                    try {
-                        $this.send('successCallback');
-                    } catch (e) {}
-                } else {
-                    $this.set('isError', true);
-                    $this.set('msg', data.msg || error);
-                    try {
-                        $this.send('errorCallback');
-                    } catch (e) {}
-                }
-            }, function(reason) {
-                $this.set('isSaving', false);
-                $this.set('isSuccess', false);
-                $this.set('isError', true);
-                $this.set('msg', error);
-                try {
-                    $this.send('errorCallback');
-                } catch (e) {
-                    console.log(reason);
-                }
-            });
+        /**
+        * @function edit triggle when user click edit action
+        * @returns  void
+        */
+        edit: function(){
+            this.toggleProperty('formModalShow');
         },
-        createForm: function() {
-            this.send('_actionCreate', true);
+
+        /**
+        * @function save triggle when user click save action
+        * @returns  void
+        */
+        save: function(){
+            this.toggleProperty('loading');
+            if(!this.validate()) return;
+            this.store.save(this.get('modelName'), this.get('model')).then(Ember.run.bind(this, function(data){
+                this.toggleProperty('loading');
+                this.send('callback', 'save', data);
+            }));
         },
-        edit: function() {
-            this.send('_actionEdit', true);
+
+        /**
+        * @function delete triggle when user click save action
+        * @returns  void
+        */
+        delete: function(){
+            this.toggleProperty('loading');
+            this.store.deleteRecord(this.get('modelName'), this.get('model')).then(Ember.run.bind(this, function(data){
+                this.toggleProperty('loading');
+                this.send('callback', 'delete', data);
+            }));
         },
-        create: function() {
-            this.set('model', this.store.createRecord(this.modelName));
-            this.send('createForm');
+        
+        /**
+        * @function callback ajax request callback
+        * @returns  void
+        */        
+        callback: function(action, data){
+            Ember.Logger.info('subclass override this function for response data');
         },
-        delete: function() {
-            var $this = this;
-            this.store.deleteRecord($this.modelName, $this.get('model')).then(function(data) {
-                if (data.code === 0) {
-                    $this.get('parentController').get("content").removeObject($this.get('model'));
-                }
-            });
+
+
+        /**
+        * @function validate validate model 
+        * @returns  Boolean
+        */
+        cancel: function(){
+            Ember.Logger.info('subclass override this function for form modify cancel');
         },
-        _actionCreate: function(status) {
-            this.set('isSaving', false);
-            this.set('isError', false);
-            this.set('isSuccess', false);
-            this.set('isEditMode', false);
-            var modal = "#" + this.get('formModalId');
-            if (status) {
-                Ember.$(modal).modal('show');
-            } else {
-                Ember.$(modal).modal('hide');
-            }
-        },
-        _actionEdit: function(status) {
-            this.set('isSaving', false);
-            this.set('isError', false);
-            this.set('isSuccess', false);
-            this.set('isCreateMode', false);
-            var modal = '#' + this.get('_id');
-            if (status) {
-                Ember.$(modal).modal('show');
-            } else {
-                Ember.$(modal).modal('hide');
-            }
-        }
     },
-    isSuccessObserver: Ember.immediateObserver('isSuccess', function() {
-        if (this.get('isSuccess')) {
-            this.set('isError', false);
-            this.set('isSaving', false);
-        }
-    }),
-    isErrorObserver: Ember.immediateObserver('isError', function() {
-        if (this.get('isError')) {
-            this.set('isSuccess', false);
-            this.set('isSaving', false);
-        }
-    }),
-    isSavingObserver: Ember.immediateObserver('isSaving', function() {
-        if (this.get('isSaving')) {
-            this.set('isSuccess', false);
-            this.set('isError', false);
-        }
-    }),
-    formModalId: function() {
-        return 'form-' + this.modelName;
-    }.property(),
-    isTip: function() {
-        return this.get('isSuccess') || this.get('isError');
-    }.property('isSuccess', 'isError'),
-    isEditMode: false,
-    isCreateMode: false,
-    isEditModeObserver: Ember.immediateObserver('isEditMode', function() {
-        this.send('_actionEdit', this.get('isEditMode'));
-    }),
-    isCreateModeObserver: Ember.immediateObserver('isCreateMode', function() {
-        this.send('_actionCreate', this.get('isCreateMode'));
-    }),
-    msg: '',
+    /**
+    * @function validate validate model 
+    * @returns  Boolean
+    */
+    validate: function(){
+        Ember.Logger.info('subclass override this function for model validate');
+        return true
+    },
+    errorMsg: 'Ops! Something is wrong!',
+    successMsg: 'Saved successfully!',
+    loading: false,
+    formModalShow: false,
+    application: Ember.inject.controller(),
 });
 
 
-Ember.FormController = Ember.Controller.extend(FormMixin);
-
-
-export default FormMixin;
+export default form;
