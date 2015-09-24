@@ -50,6 +50,7 @@ var form = Ember.Mixin.create({
         */
         cancel: function(){
             Ember.Logger.info('subclass override this function for form modify cancel');
+            this.toggleProperty('formModalShow');
         },
     },
     /**
