@@ -126,14 +126,14 @@ export default Ember.Mixin.create(Ember.Evented, {
     find: function(params) {
         let $this = this;
         params = $this._filterParams(params);
-        return Ember.$.getJSON(this.get('api'), params || {}).then(function(data) {
+        return Ember.$.getJSON(this.get('api'), params || {}).then(Ember.run.bind(this, function(data,  textStatus, jqXHR) {
             let dataList = [];
-            let resp = $this._resp(data);
-            Ember.$.each(resp[$this.get('rootKey')] || [], function(index, i) {
+            let resp = this._resp(data);
+            Ember.$.each(resp[this.get('rootKey')] || [], function(index, i) {
                 dataList.push(Ember.Object.create(i));
             });
             return dataList;
-        });
+        }));
     },
 
     /**
