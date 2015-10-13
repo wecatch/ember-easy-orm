@@ -18,7 +18,7 @@ export default Ember.Mixin.create(Ember.Evented, {
     rootURL: '',
 
     /**
-     * The response data root key
+     * The response data business logic root key like: {'code': 0, 'resp':{'user':[]}, 'msg':''}, the user is rootKey
      *
      * @property {Ember.String} rootKey
      * @default  ""
@@ -42,7 +42,7 @@ export default Ember.Mixin.create(Ember.Evented, {
     primaryKey: '_id',
 
     /**
-     * The response data root key
+     * The response data root key like: {'code': 0, 'resp':{'user':[]}, 'msg':''}, the resp is dataRootKey 
      *
      * @property {Ember.String} dataRootKey
      * @default  ""
