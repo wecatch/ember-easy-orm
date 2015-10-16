@@ -84,14 +84,20 @@ export default Ember.Mixin.create(Ember.Evented, {
             method = 'put';
         }
 
-        return Ember.$.ajax({
+        let _ajax = {
             type: method,
             url: url,
             data: record,
             dataType: 'json',
             traditional: true
-        }).then(function(data) {
-            return data;
+        }
+
+        return new Ember.RSVP.Promise(function(resolve, reject) {
+            Ember.$.ajax(_ajax).done(function(data) {
+                resolve(data);
+            }).fail(function(jqXHR, responseText, errorThrown) {
+                reject(`${responseText} ${errorThrown}`);
+            });
         });
     },
 
@@ -108,17 +114,24 @@ export default Ember.Mixin.create(Ember.Evented, {
      * @returns  response data
      */
     deleteRecord: function(model) {
-        let $this = this;
-        let _id = $this.get('primaryKey');
-        return Ember.$.ajax({
+        let _model = Ember.Object.create(model),
+            self = this,
+            url = this.get('api') + '/' + model[this.get('primaryKey')];
+
+        let _ajax = {
             type: 'delete',
-            url: $this.get('api') + '/' + model.get(_id),
+            url: url,
             dataType: 'json'
-        }).then(function(data) {
-            return data;
+        }
+
+        return new Ember.RSVP.Promise(function(resolve, reject) {
+            Ember.$.ajax(_ajax).done(function(data) {
+                resolve(data);
+            }).fail(function(jqXHR, responseText, errorThrown) {
+                reject(`${responseText} ${errorThrown}`);
+            });
         });
     },
-
     /**
      * @function find find the records from backend according to params
      * @returns  response data
@@ -126,7 +139,7 @@ export default Ember.Mixin.create(Ember.Evented, {
     find: function(params) {
         let $this = this;
         params = $this._filterParams(params);
-        return Ember.$.getJSON(this.get('api'), params || {}).then(Ember.run.bind(this, function(data,  textStatus, jqXHR) {
+        return Ember.$.getJSON(this.get('api'), params || {}).then(Ember.run.bind(this, function(data, textStatus, jqXHR) {
             let dataList = [];
             let resp = this._resp(data);
             Ember.$.each(resp[this.get('rootKey')] || [], function(index, i) {
@@ -169,9 +182,9 @@ export default Ember.Mixin.create(Ember.Evented, {
         let dataRootKey = this.get('dataRootKey'),
             resp = data;
         if (!Ember.isBlank(dataRootKey)) {
-            if(Ember.isNone(data[dataRootKey])){
-                Ember.Logger.error(this.get('api')+' response data "'+dataRootKey+'" key is undefined');
-            }else{
+            if (Ember.isNone(data[dataRootKey])) {
+                Ember.Logger.error(this.get('api') + ' response data "' + dataRootKey + '" key is undefined');
+            } else {
                 return data[dataRootKey];
             }
         }
