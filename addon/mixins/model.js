@@ -139,14 +139,27 @@ export default Ember.Mixin.create(Ember.Evented, {
     find: function(params) {
         let $this = this;
         params = $this._filterParams(params);
-        return Ember.$.getJSON(this.get('api'), params || {}).then(Ember.run.bind(this, function(data, textStatus, jqXHR) {
-            let dataList = [];
-            let resp = this._resp(data);
-            Ember.$.each(resp[this.get('rootKey')] || [], function(index, i) {
-                dataList.push(Ember.Object.create(i));
+        return new Ember.RSVP.Promise(function(resolve, reject) {
+            Ember.$.getJSON($this.get('api'), params || {}).done(function(data) {
+                let resp = null;
+                try {
+                    resp = $this._resp(data);
+                } catch (e) {
+                    reject(e);
+                    return;
+                }
+                let dataList = resp[$this.get('rootKey')];
+                if (!Ember.isArray(dataList)) {
+                    reject('response data resolve error rootKey ' + $this.get('rootKey') + ' is undefined');
+                }
+                Ember.$.each(dataList || [], function(index, i) {
+                    dataList.push(Ember.Object.create(i));
+                });
+                resolve(dataList);
+            }).fail(function(jqXHR, responseText, errorThrown) {
+                reject(`${responseText} ${errorThrown}`);
             });
-            return dataList;
-        }));
+        });
     },
 
     /**
@@ -155,9 +168,25 @@ export default Ember.Mixin.create(Ember.Evented, {
      */
     findOne: function(id) {
         let $this = this;
-        return Ember.$.getJSON($this.get('api') + '/' + id).then(function(data) {
-            let resp = $this._resp(data);
-            return Ember.Object.create(resp[$this.get('rootKey')] || {});
+        return new Ember.RSVP.Promise(function(resolve, reject) {
+            Ember.$.getJSON($this.get('api') + '/' + id).done(function(data) {
+                let resp = null;
+                try {
+                    resp = $this._resp(data);
+                } catch (e) {
+                    reject(e);
+                    return;
+                }
+                let dataObject = resp[$this.get('rootKey')];
+                if(Ember.isNone(dataObject)){
+                    let message = 'response data resolve error rootKey ' + $this.get('rootKey') + ' is undefined';
+                    Ember.Logger.error(message);
+                    reject(message);
+                }
+                return Ember.Object.create(dataObject || {});
+            }).fail(function(jqXHR, responseText, errorThrown) {
+                reject(`${responseText} ${errorThrown}`);
+            });
         });
     },
 
@@ -183,12 +212,13 @@ export default Ember.Mixin.create(Ember.Evented, {
             resp = data;
         if (!Ember.isBlank(dataRootKey)) {
             if (Ember.isNone(data[dataRootKey])) {
-                Ember.Logger.error(this.get('api') + ' response data "' + dataRootKey + '" key is undefined');
+                let message = 'response data dataRootKey "' + dataRootKey + '" is undefined';
+                Ember.Logger.error(message);
+                throw message;
             } else {
                 return data[dataRootKey];
             }
         }
-
         return resp;
     }
 });
