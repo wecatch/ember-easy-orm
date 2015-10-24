@@ -183,7 +183,7 @@ export default Ember.Mixin.create(Ember.Evented, {
                     Ember.Logger.error(message);
                     reject(message);
                 }
-                return Ember.Object.create(dataObject || {});
+                resolve(Ember.Object.create(dataObject || {}));
             }).fail(function(jqXHR, responseText, errorThrown) {
                 reject(`${responseText} ${errorThrown}`);
             });
