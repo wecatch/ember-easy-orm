@@ -1,6 +1,6 @@
 {
   "name": "ember-easy-orm",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The easy orm for ember app",
   "directories": {
     "doc": "doc",
