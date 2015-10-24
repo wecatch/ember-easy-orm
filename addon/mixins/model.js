@@ -152,10 +152,12 @@ export default Ember.Mixin.create(Ember.Evented, {
                 if (!Ember.isArray(dataList)) {
                     reject('response data resolve error rootKey ' + $this.get('rootKey') + ' is undefined');
                 }
+
+                let resultList = [];
                 Ember.$.each(dataList || [], function(index, i) {
-                    dataList.push(Ember.Object.create(i));
+                    resultList.push(Ember.Object.create(i));
                 });
-                resolve(dataList);
+                resolve(resultList);
             }).fail(function(jqXHR, responseText, errorThrown) {
                 reject(`${responseText} ${errorThrown}`);
             });
