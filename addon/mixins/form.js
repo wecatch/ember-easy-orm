@@ -63,6 +63,7 @@ let godForm = Ember.Mixin.create(injectStore, {
          * @returns  void
          */
         success(action, data) {
+            this.toggleProperty('modalShow');
             Ember.Logger.info('subclass override this function for response data');
             this.sendAction ? this.sendAction('success', action, data) : '';
         },
