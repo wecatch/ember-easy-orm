@@ -14,15 +14,15 @@ let injectStore = Ember.Object.create({
     }.on('init')
 });
 
-
+// when godForm call delete, pass selectedItem to success
 let deleteObject = function (selectedItem){
     this.toggleProperty('loading');
     this.get('store').deleteRecord(this.get('modelName'), selectedItem).then(Ember.run.bind(this, function(data) {
         this.toggleProperty('loading');
-        this.send('success', 'delete', data);
+        this.send('success', 'delete', data, selectedItem);
     }), Ember.run.bind(this, function(reason) {
         this.toggleProperty('loading');
-        this.send('fail', 'delete', reason);
+        this.send('fail', 'delete', reason, selectedItem);
     }));
 };
 
@@ -38,7 +38,7 @@ let godForm = Ember.Mixin.create(injectStore, {
          * @function add create new record according to modelName
          * @returns  void
          */
-        add(selectedItem) {
+        add() {
             this.toggleProperty('modalShow');
             this.set('selectedItem', this.get('store').createRecord(this.get('modelName')));
         },
@@ -55,25 +55,25 @@ let godForm = Ember.Mixin.create(injectStore, {
         cancel(){
             this.toggleProperty('modalShow');
         },
-        remove (selectedItem){
+        remove(selectedItem){
             deleteObject.call(this, selectedItem);
         },
         /**
          * @function  success ajax request success callback
          * @returns  void
          */
-        success(action, data) {
+        success(action, data, selectedItem) {
             this.toggleProperty('modalShow');
             Ember.Logger.info('subclass override this function for response data');
-            this.sendAction ? this.sendAction('success', action, data) : '';
+            this.sendAction ? this.sendAction('success', action, data, selectedItem) : '';
         },
         /**
          * @function  success ajax request success callback
          * @returns  void
          */
-        fail(action, reason) {
+        fail(action, reason, selectedItem) {
             Ember.Logger.info('subclass override this function for fail request');
-            this.sendAction ? this.sendAction('fail', action, reason) : '';
+            this.sendAction ? this.sendAction('fail', action, reason, selectedItem) : '';
         },
     },
     
@@ -104,8 +104,8 @@ let formComponent = Ember.Mixin.create(injectStore, {
          * @function delete triggle when user click save action
          * @returns  void
          */
-        remove (model) {
-            deleteObject.call(this, model);
+        remove() {
+            deleteObject.call(this, this.get('model'));
         },
 
         /**
@@ -114,7 +114,7 @@ let formComponent = Ember.Mixin.create(injectStore, {
          */
         success(action, data) {
             Ember.Logger.info('subclass override this function for response data');
-            this.sendAction('success', action, data);
+            this.sendAction('success', action, data, this.get('model'));
         },
         /**
          * @function  success ajax request success callback
@@ -122,7 +122,7 @@ let formComponent = Ember.Mixin.create(injectStore, {
          */
         fail(action, reason) {
             Ember.Logger.info('subclass override this function for fail request');
-            this.sendAction('fail', action, reason);
+            this.sendAction('fail', action, reason, this.get('model'));
         },
         /**
          * @function validate validate model 
@@ -130,7 +130,7 @@ let formComponent = Ember.Mixin.create(injectStore, {
          */
         cancel() {
             Ember.Logger.info('subclass override this function for form modify cancel');
-            this.sendAction('cancel');
+            this.sendAction('cancel', this.get('model'));
         },
     },
     validate: function() {
