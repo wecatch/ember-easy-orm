@@ -43,6 +43,52 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
     primaryKey: '_id',
 
     /**
+     * The object is for extract response data {user: [], comment:[], avatar: {}}
+     *
+     * @property {Ember.Object} displayModel
+     * @default  null
+     */
+    displayModel: null,
+
+    /**
+     * url for find request
+     *
+     * @function return find api
+     * @default  /host/namespace/?key=params[key]
+     */
+    urlForFind: function(params) {
+        return this.get('api');
+    },
+
+    /**
+     * url for findOne request
+     *
+     * @function return find api
+     * @default  /host/namespace/?key=params[key]
+     */
+    urlForFindOne: function(id, data) {
+        reurn this.get('api') + '/' + id
+    },
+    /**
+     * url for save request
+     *
+     * @function return find api
+     * @default  /host/namespace/?key=params[key]
+     */
+    urlForSave: function(id, model) {
+        return id ? this.get('api') + '/' + id : this.get('api');
+    },
+
+    /**
+     * url for delete request
+     *
+     * @function return find api
+     * @default  /host/namespace/?key=params[key]
+     */
+    urlForDelete: function(id, data) {
+        return id ? this.get('api') + '/' + id : this.get('api');
+    },
+    /**
      * @The model object primary key
      * @function api according to url return the request api
      * @property {Ember.String} primaryKey
@@ -59,21 +105,17 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
     save: function(model, options) {
         let self = this,
             primaryKey = this.primaryKey,
-            url = this.get('api'),
+            url = this.urlForSave(model[primaryKey], model),
             record = {};
 
         //filter model data
-        Object.keys(model).forEach(function(key, index) {
-            if (self.model.hasOwnProperty(key)) {
-                record[key] = model[key];
-            }
+        Object.keys(this.model).forEach(function(key, index) {
+            record[key] = model[key] !== undefined ? model[key] : self.model[key];
         });
 
         //check if is new data
         if (model[primaryKey]) {
             record[primaryKey] = model[primaryKey];
-            url = this.get('api') + '/' + model[primaryKey];
-
             return this.request.put(url, record, options).then(function(data) {
                 return self.saveSerializer(data);
             }, function(reason) {
@@ -106,9 +148,8 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
      * @returns  response data
      */
     deleteRecord: function(model, data, options) {
-        let _model = Ember.Object.create(model),
-            self = this,
-            url = this.get('api') + '/' + model[this.get('primaryKey')];
+        self = this,
+            url = this.urlForDelete(model[this.primaryKey], data);
 
         return this.request.delete(url, data, options).then(function(data) {
             return self.deleteSerializer(data);
@@ -122,7 +163,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
      */
     find: function(params, options) {
         let self = this,
-            url = this.get('api'),
+            url = this.urlForFind(params),
             filterParams = this._filterParams(params);
 
         return this.request.get(url, filterParams, options).then(function(data) {
@@ -137,7 +178,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
      * @returns  response data
      */
     findOne: function(id, data, options) {
-        let url = this.get('api') + '/' + id;
+        let url = this.urlForFindOne(id, data);
 
         return this.request.get(url, data, options).then(function(data) {
             return self.findOneSerializer(data);
@@ -161,6 +202,25 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
         return params;
     },
     findSerializer: function(data) {
+        let result = {};
+        if(this.displayModel){
+            let objectKeys = Object.keys(this.displayModel);
+            for (let i = 0; i < objectKeys.length; i++) {
+                let key = objectKeys[i];
+                let keyAttr = this.displayModel[key];
+                if(keyAttr==='array'){
+                    result[key] = Ember.ArrayProxy.create({content: data[key]});
+                    continue;
+                }
+                if(keyAttr==='object'){
+                    result[key] = Ember.Object.create(data[key]);
+                    continue;
+                }
+                result[key] = data[key];
+            }
+            return result;
+        }
+
         //data is null or undefined
         if (Ember.isNone(data)) {
             Ember.Logger.error('findSerializer response data is invalid');
@@ -178,18 +238,13 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
             return data;
         }
 
-        // parsedObject must be array
+        // response data must be array
         if (!Ember.isArray(data[this.rootKey])) {
             Ember.Logger.error('findSerializer parsedData is not array');
             return [];
         }
 
-        let parsedData = [];
-        data[this.rootKey].forEach(function(item) {
-            parsedData.push(item);
-        });
-
-        return parsedData;
+        return Ember.ArrayProxy.create({content: data[this.rootKey]});
     },
     findOneSerializer: function(data) {
         //data is null or undefined
