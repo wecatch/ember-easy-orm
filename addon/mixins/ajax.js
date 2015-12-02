@@ -89,8 +89,5 @@ export default Ember.Mixin.create({
     init: function() {
         this._super();
         this.set('request.parent', this);
-        Ember.RSVP.on('error', function(reason){
-            Ember.Logger.error(reason);
-        });
     }
 });
