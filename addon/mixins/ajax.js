@@ -3,33 +3,33 @@ import Ember from 'ember';
 export default Ember.Mixin.create({
     request: {
         parent: null,
-        get: function(url, data, options) {
+        get: function(url, options) {
             let self = this.parent;
-            return self.ajax('get', url, data, options).then(function(data) {
+            return self.ajax('get', url, options).then(function(data) {
                 return self.getSerializer(data);
             }, function(reason) {
                 throw new Error(reason);
             });;
         },
-        post: function(url, data, options) {
+        post: function(url, options) {
             let self = this.parent;
-            return self.ajax('post', url, data, options).then(function(data) {
+            return self.ajax('post', url, options).then(function(data) {
                 return self.postSerializer(data);
             }, function(reason) {
                 throw new Error(reason);
             });;
         },
-        delete: function(url, data, options) {
+        delete: function(url, options) {
             let self = this.parent;
-            return self.ajax('delete', url, data, options).then(function(data) {
+            return self.ajax('delete', url, options).then(function(data) {
                 return self.deleteSerializer(data);
             }, function(reason) {
                 throw new Error(reason);
             });
         },
-        put: function(url, data, options) {
+        put: function(url, options) {
             let self = this.parent;
-            return self.ajax('put', url, data, options).then(function(data) {
+            return self.ajax('put', url, options).then(function(data) {
                 return self.putSerializer(data);
             }, function(reason) {
                 throw new Error(reason);
@@ -39,7 +39,7 @@ export default Ember.Mixin.create({
     ajaxSettings: {
         dataType: 'json'
     },
-    ajax: function(method, url, data, options) {
+    ajax: function(method, url, options) {
         let self = this,
             ajaxSettings = {};
         Ember.merge(ajaxSettings, this.ajaxSettings);
@@ -55,13 +55,13 @@ export default Ember.Mixin.create({
             throw new Error(`ajax request url is invalid: ${url}`);
         }
 
-        Ember.merge(ajaxSettings, {type: method, url: url, data: data || {}});
+        Ember.merge(ajaxSettings, {type: method, url: url});
         return new Ember.RSVP.Promise(function(resolve, reject) {
             Ember.$.ajax(ajaxSettings).done(function(data) {
                 resolve(self.RESTSerializer(data));
             }).fail(function(jqXHR, responseText, errorThrown) {
-                Ember.Logger.error(`ajax jqXHR ${jqXHR}`);
-                Ember.Logger.error(`ajax ajaxSettings ${ajaxSettings}`);
+                Ember.Logger.error(jqXHR);
+                Ember.Logger.error(ajaxSettings);
                 reject(`${responseText} ${errorThrown}`);
             });
         });
@@ -89,5 +89,8 @@ export default Ember.Mixin.create({
     init: function() {
         this._super();
         this.set('request.parent', this);
+        Ember.RSVP.on('error', function(reason){
+            Ember.Logger.error(reason);
+        });
     }
 });

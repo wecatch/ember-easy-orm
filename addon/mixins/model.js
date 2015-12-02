@@ -67,7 +67,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
      * @default  /host/namespace/?key=params[key]
      */
     urlForFindOne: function(id, data) {
-        reurn this.get('api') + '/' + id
+        return this.get('api') + '/' + id
     },
     /**
      * url for save request
@@ -102,7 +102,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
      * @function save save the record to backend
      * @returns  response data
      */
-    save: function(model, options) {
+    save: function(model) {
         let self = this,
             primaryKey = this.primaryKey,
             url = this.urlForSave(model[primaryKey], model),
@@ -116,14 +116,14 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
         //check if is new data
         if (model[primaryKey]) {
             record[primaryKey] = model[primaryKey];
-            return this.request.put(url, record, options).then(function(data) {
+            return this.request.put(url, {'data': record}).then(function(data) {
                 return self.saveSerializer(data);
             }, function(reason) {
                 throw new Error(reason);
             });
         }
 
-        return this.request.post(url, record, options).then(function(data) {
+        return this.request.post(url, {'data': record}).then(function(data) {
             return self.saveSerializer(data);
         }, function(reason) {
             throw new Error(reason);
@@ -147,11 +147,13 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
      * @function deleteRecord delete the record from backend
      * @returns  response data
      */
-    deleteRecord: function(model, data, options) {
-        self = this,
-            url = this.urlForDelete(model[this.primaryKey], data);
+    deleteRecord: function(model, data) {
+        let self = this,
+            _id = typeof model ==='string' || typeof model ==='number' ? model : model[this.primaryKey],
+            url = this.urlForDelete(_id, data),
+            options = data ? {data: data} : {};
 
-        return this.request.delete(url, data, options).then(function(data) {
+        return this.request.delete(url, options).then(function(data) {
             return self.deleteSerializer(data);
         }, function(reason) {
             throw new Error(reason);
@@ -161,12 +163,13 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
      * @function find find the records from backend according to params
      * @returns  response data
      */
-    find: function(params, options) {
+    find: function(params) {
         let self = this,
             url = this.urlForFind(params),
-            filterParams = this._filterParams(params);
+            filterParams = this._filterParams(params),
+            options = filterParams ? {data: filterParams} : {};
 
-        return this.request.get(url, filterParams, options).then(function(data) {
+        return this.request.get(url, options).then(function(data) {
             return self.findSerializer(data);
         }, function(reason) {
             throw new Error(reason);
@@ -177,10 +180,11 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
      * @function findOne find only one according to primary id
      * @returns  response data
      */
-    findOne: function(id, data, options) {
-        let url = this.urlForFindOne(id, data);
+    findOne: function(id, data) {
+        let url = this.urlForFindOne(id, data),
+            options = data ? {data: data} : {};
 
-        return this.request.get(url, data, options).then(function(data) {
+        return this.request.get(url, options).then(function(data) {
             return self.findOneSerializer(data);
         }, function(reason) {
             throw new Error(reason);
