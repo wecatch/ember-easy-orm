@@ -17,7 +17,7 @@ export default Ember.Mixin.create({
                 return self.postSerializer(data);
             }, function(reason) {
                 throw new Error(reason);
-            });;
+            });
         },
         delete: function(url, options) {
             let self = this.parent;

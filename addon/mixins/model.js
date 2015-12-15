@@ -182,6 +182,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
      */
     findOne: function(id, data) {
         let url = this.urlForFindOne(id, data),
+            self = this,
             options = data ? {data: data} : {};
 
         return this.request.get(url, options).then(function(data) {
@@ -245,6 +246,8 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
         // response data must be array
         if (!Ember.isArray(data[this.rootKey])) {
             Ember.Logger.error('findSerializer parsedData is not array');
+            Ember.Logger.warn(data);
+            Ember.Logger.warn(this.rootKey);
             return [];
         }
 
