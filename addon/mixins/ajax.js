@@ -67,23 +67,23 @@ export default Ember.Mixin.create({
         });
     },
     RESTSerializer: function(data) {
-        Ember.Logger.info('subclass override this function for response data serializer');
+        Ember.Logger.info('subclass override RESTSerializer for response data serializer');
         return data;
     },
     getSerializer: function(data) {
-        Ember.Logger.info('subclass override this function for get response data serializer');
+        Ember.Logger.info('subclass override getSerializer for get response data serializer');
         return data;
     },
     postSerializer: function(data) {
-        Ember.Logger.info('subclass override this function for post response data serializer');
+        Ember.Logger.info('subclass override postSerializer for post response data serializer');
         return data;
     },
     putSerializer: function(data) {
-        Ember.Logger.info('subclass override this function for put response data serializer');
+        Ember.Logger.info('subclass override putSerializer for put response data serializer');
         return data;
     },
     deleteSerializer: function(data) {
-        Ember.Logger.info('subclass override this function for delete response data serializer');
+        Ember.Logger.info('subclass override deleteSerializer for delete response data serializer');
         return data;
     },
     init: function() {

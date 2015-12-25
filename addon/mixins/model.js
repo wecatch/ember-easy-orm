@@ -214,11 +214,11 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
                 let key = objectKeys[i];
                 let keyAttr = this.displayModel[key];
                 if(keyAttr==='array'){
-                    result[key] = Ember.ArrayProxy.create({content: data[key]});
+                    result[key] = this.to_array(data[key]);
                     continue;
                 }
                 if(keyAttr==='object'){
-                    result[key] = Ember.Object.create(data[key]);
+                    result[key] = this.to_object(data[key]);
                     continue;
                 }
                 result[key] = data[key];
@@ -251,7 +251,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
             return [];
         }
 
-        return Ember.ArrayProxy.create({content: data[this.rootKey]});
+        return this.to_array(data[this.rootKey]);
     },
     findOneSerializer: function(data) {
         //data is null or undefined
@@ -277,12 +277,20 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
             return {};
         }
 
-        return Ember.Object.create(data[this.rootKey]);
+        return this.to_object(data[this.rootKey]);
+    },
+    to_array: function(data){
+        return Ember.makeArray(data);
+    },
+    to_object: function(data){
+        return Ember.Object.create(data);
     },
     saveSerializer: function(data) {
-        return this.findOneSerializer(data);
+        Ember.Logger.info('subclass override saveSerializer for response data serializer');
+        return data;
     },
     deleteSerializer: function(data) {
-        return this.findOneSerializer(data);
+        Ember.Logger.info('subclass override deleteSerializer for response data serializer');
+        return data;
     }
 });
