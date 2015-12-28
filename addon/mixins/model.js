@@ -117,16 +117,24 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
         if (model[primaryKey]) {
             record[primaryKey] = model[primaryKey];
             return this.request.put(url, {'data': record}).then(function(data) {
-                return self.saveSerializer(data);
+                try{
+                    return self.saveSerializer(data);
+                }catch(e){
+                    throw(e);                    
+                }
             }, function(reason) {
-                throw new Error(reason);
+                throw(reason);
             });
         }
 
         return this.request.post(url, {'data': record}).then(function(data) {
-            return self.saveSerializer(data);
+            try{
+                return self.saveSerializer(data);
+            }catch(e){
+                throw(reason);
+            }
         }, function(reason) {
-            throw new Error(reason);
+            throw(reason);
         });
     },
 
@@ -154,9 +162,13 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
             options = data ? {data: data} : {};
 
         return this.request.delete(url, options).then(function(data) {
-            return self.deleteSerializer(data);
+            try{
+                return self.deleteSerializer(data);
+            }catch(e){
+                throw(e);
+            }
         }, function(reason) {
-            throw new Error(reason);
+            throw(reason);
         });
     },
     /**
@@ -170,9 +182,13 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
             options = filterParams ? {data: filterParams} : {};
 
         return this.request.get(url, options).then(function(data) {
-            return self.findSerializer(data);
+            try{
+                return self.findSerializer(data);
+            }catch(e){
+                throw(e);                
+            }
         }, function(reason) {
-            throw new Error(reason);
+            throw(reason);
         });;
     },
 
@@ -186,9 +202,13 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
             options = data ? {data: data} : {};
 
         return this.request.get(url, options).then(function(data) {
-            return self.findOneSerializer(data);
+            try{
+                return self.findOneSerializer(data);
+            }catch(e){
+                throw(e);                
+            }
         }, function(reason) {
-            throw new Error(reason);
+            throw(reason);
         });
     },
     /**

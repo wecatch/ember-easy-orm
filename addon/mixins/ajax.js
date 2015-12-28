@@ -6,33 +6,49 @@ export default Ember.Mixin.create({
         get: function(url, options) {
             let self = this.parent;
             return self.ajax('get', url, options).then(function(data) {
-                return self.getSerializer(data);
+                try{
+                    return self.getSerializer(data);
+                }catch(e){
+                    throw(e)
+                }
             }, function(reason) {
-                throw new Error(reason);
-            });;
+                throw(reason);
+            });
         },
         post: function(url, options) {
             let self = this.parent;
             return self.ajax('post', url, options).then(function(data) {
-                return self.postSerializer(data);
-            }, function(reason) {
-                throw new Error(reason);
+                try{
+                    return self.postSerializer(data);
+                }catch(e){
+                    throw(e)            
+                }
+            }, function(reason){
+                throw(reason);
             });
         },
         delete: function(url, options) {
             let self = this.parent;
             return self.ajax('delete', url, options).then(function(data) {
-                return self.deleteSerializer(data);
+                try{
+                    return self.deleteSerializer(data);
+                }catch(e){
+                    throw(e);                    
+                }
             }, function(reason) {
-                throw new Error(reason);
+                throw(reason);
             });
         },
         put: function(url, options) {
             let self = this.parent;
             return self.ajax('put', url, options).then(function(data) {
-                return self.putSerializer(data);
+                try{
+                    return self.putSerializer(data);
+                }catch(e){
+                   throw(e);                   
+                }
             }, function(reason) {
-                throw new Error(reason);
+                throw(reason);
             });
         },
     },
@@ -58,7 +74,11 @@ export default Ember.Mixin.create({
         Ember.merge(ajaxSettings, {type: method, url: url});
         return new Ember.RSVP.Promise(function(resolve, reject) {
             Ember.$.ajax(ajaxSettings).done(function(data) {
-                resolve(self.RESTSerializer(data));
+                try{
+                    resolve(self.RESTSerializer(data));
+                }catch(e){
+                    reject(e);                    
+                }
             }).fail(function(jqXHR, responseText, errorThrown) {
                 Ember.Logger.error(jqXHR);
                 Ember.Logger.error(ajaxSettings);
