@@ -48,7 +48,7 @@ let godForm = Ember.Mixin.create(injectStore, {
          */
         edit(selectedItem) {
             this.toggleProperty('modalShow');
-            if (!Ember.isEmpty(selectedItem)) {
+            if (!Ember.isNone(selectedItem)) {
                 this.set('selectedItem', selectedItem);
             }
         },
