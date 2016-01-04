@@ -8,7 +8,7 @@ export {
 
 let injectStore = Ember.Object.create({
     injectStore: function() {
-        if (Ember.isEmpty(this.get('store'))) {
+        if (Ember.isNone(this.get('store'))) {
             this.set('store', Ember.inject.service('store'));
         }
     }.on('init')
