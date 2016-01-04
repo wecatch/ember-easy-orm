@@ -1,10 +1,5 @@
 import Ember from 'ember';
 
-export {
-    formComponent,
-    godForm,
-}
-
 
 let injectStore = Ember.Object.create({
     injectStore: function() {
@@ -65,7 +60,9 @@ let godForm = Ember.Mixin.create(injectStore, {
         success(action, data, selectedItem) {
             this.toggleProperty('modalShow');
             Ember.Logger.info('subclass override this function for response data');
-            this.sendAction ? this.sendAction('success', action, data, selectedItem) : '';
+            if(this.sendAction) {
+                this.sendAction('success', action, data, selectedItem);
+            }
         },
         /**
          * @function  success ajax request success callback
@@ -73,7 +70,9 @@ let godForm = Ember.Mixin.create(injectStore, {
          */
         fail(action, reason, selectedItem) {
             Ember.Logger.info('subclass override this function for fail request');
-            this.sendAction ? this.sendAction('fail', action, reason, selectedItem) : '';
+            if(this.sendAction) {
+                this.sendAction('fail', action, reason, selectedItem);
+            }
         },
     },
     
@@ -90,7 +89,7 @@ let formComponent = Ember.Mixin.create(injectStore, {
          */
         save() {
             this.toggleProperty('loading');
-            if (!this.validate()) return;
+            if (!this.validate()) {return;}
             this.get('store').save(this.get('modelName'), this.get('model')).then(Ember.run.bind(this, function(data) {
                 this.toggleProperty('loading');
                 this.send('success', 'save', data);
@@ -135,6 +134,12 @@ let formComponent = Ember.Mixin.create(injectStore, {
     },
     validate: function() {
         Ember.Logger.info('subclass override this function for model validate');
-        return true
-    },
+        return true;
+    }
 });
+
+
+export {
+    formComponent,
+    godForm
+}

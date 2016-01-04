@@ -9,7 +9,7 @@ export default Ember.Mixin.create({
                 try{
                     return self.getSerializer(data);
                 }catch(e){
-                    throw(e)
+                    throw(e);
                 }
             }, function(reason) {
                 throw(reason);
@@ -21,7 +21,7 @@ export default Ember.Mixin.create({
                 try{
                     return self.postSerializer(data);
                 }catch(e){
-                    throw(e)            
+                    throw(e);         
                 }
             }, function(reason){
                 throw(reason);
