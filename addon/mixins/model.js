@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import ajax from './ajax';
 
+
 export default Ember.Mixin.create(ajax, Ember.Evented, {
     /**
      * The api host, default is current host
@@ -56,7 +57,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
      * @function return find api
      * @default  /host/namespace/?key=params[key]
      */
-    urlForFind: function(params) {
+    urlForFind: function() {
         return this.get('api');
     },
 
@@ -66,8 +67,8 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
      * @function return find api
      * @default  /host/namespace/?key=params[key]
      */
-    urlForFindOne: function(id, data) {
-        return this.get('api') + '/' + id
+    urlForFindOne: function(id) {
+        return this.get('api') + '/' + id;
     },
     /**
      * url for save request
@@ -75,7 +76,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
      * @function return find api
      * @default  /host/namespace/?key=params[key]
      */
-    urlForSave: function(id, model) {
+    urlForSave: function(id) {
         return id ? this.get('api') + '/' + id : this.get('api');
     },
 
@@ -85,7 +86,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
      * @function return find api
      * @default  /host/namespace/?key=params[key]
      */
-    urlForDelete: function(id, data) {
+    urlForDelete: function(id) {
         return id ? this.get('api') + '/' + id : this.get('api');
     },
     /**
@@ -94,10 +95,9 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
      * @property {Ember.String} primaryKey
      * @return   "api"
      */
-    api: function() {
+    api: Ember.computed('host', 'namespace', 'url', function() {
         return this.host + this.namespace + this.url;
-    }.property(),
-
+    }),
     /**
      * @function save save the record to backend
      * @returns  response data
@@ -106,12 +106,14 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
         let self = this,
             primaryKey = this.primaryKey,
             url = this.urlForSave(model[primaryKey], model),
-            record = {};
+            record = {},
+            model_keys = Object.keys(this.model);
 
         //filter model data
-        Object.keys(this.model).forEach(function(key, index) {
+        for (var i = model_keys.length - 1; i >= 0; i--) {
+            let key = model_keys[i];
             record[key] = model[key] !== undefined ? model[key] : self.model[key];
-        });
+        }
 
         //check if is new data
         if (model[primaryKey]) {
@@ -131,7 +133,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
             try{
                 return self.saveSerializer(data);
             }catch(e){
-                throw(reason);
+                throw(e);
             }
         }, function(reason) {
             throw(reason);
@@ -189,7 +191,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
             }
         }, function(reason) {
             throw(reason);
-        });;
+        });
     },
 
     /**

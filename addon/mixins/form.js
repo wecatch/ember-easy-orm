@@ -1,14 +1,5 @@
 import Ember from 'ember';
 
-
-let injectStore = Ember.Object.create({
-    injectStore: function() {
-        if (Ember.isNone(this.get('store'))) {
-            this.set('store', Ember.inject.service('store'));
-        }
-    }.on('init')
-});
-
 // when godForm call delete, pass selectedItem to success
 let deleteObject = function (selectedItem){
     this.toggleProperty('loading');
@@ -23,11 +14,12 @@ let deleteObject = function (selectedItem){
 
 
 // godForm mixin is used to controll many object's removing and adding and editing
-let godForm = Ember.Mixin.create(injectStore, {
+var godForm = Ember.Mixin.create({
     modelName: '',
     model: null,
     selectedItem: null,
     modalShow: false,
+    store: Ember.inject.service(),
     actions: {
         /**
          * @function add create new record according to modelName
@@ -79,9 +71,10 @@ let godForm = Ember.Mixin.create(injectStore, {
 });
 
 
-let formComponent = Ember.Mixin.create(injectStore, {
+var formComponent = Ember.Mixin.create({
     modelName: '',
     model: null,
+    store: Ember.inject.service(),
     actions: {
         /**
          * @function save triggle when user click save action
@@ -132,7 +125,7 @@ let formComponent = Ember.Mixin.create(injectStore, {
             this.sendAction('cancel', this.get('model'));
         },
     },
-    validate: function() {
+    validate() {
         Ember.Logger.info('subclass override this function for model validate');
         return true;
     }
@@ -142,4 +135,4 @@ let formComponent = Ember.Mixin.create(injectStore, {
 export {
     formComponent,
     godForm
-}
+};

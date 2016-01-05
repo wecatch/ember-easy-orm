@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Service.extend(Ember.Evented, {
-    pub: function (argument) {
+    pub: function () {
         return this.trigger.apply(this, arguments);
     },
     sub: function (){
