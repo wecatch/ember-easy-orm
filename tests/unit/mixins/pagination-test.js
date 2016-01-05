@@ -2,7 +2,7 @@ import Ember from 'ember';
 import {paginationRoute, paginationController} from 'ember-easy-orm/mixins/pagination';
 import { module, test } from 'qunit';
 
-module('Unit | Mixin | ajax');
+module('Unit | Mixin | pagination');
 
 // Replace this with your real tests.
 test('pagination object init', function(assert) {

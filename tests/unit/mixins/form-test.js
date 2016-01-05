@@ -2,7 +2,7 @@ import Ember from 'ember';
 import {formComponent, godForm} from 'ember-easy-orm/mixins/form';
 import { module, test } from 'qunit';
 
-module('Unit | Mixin | ajax');
+module('Unit | Mixin | form');
 
 // Replace this with your real tests.
 test('formComponent object init', function(assert) {
