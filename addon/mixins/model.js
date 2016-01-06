@@ -250,19 +250,13 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
 
         //data is null or undefined
         if (Ember.isNone(data)) {
-            Ember.Logger.error('findSerializer response data is invalid');
-            return [];
+            Ember.Logger.error('findSerializer response data is null');
+            return this.to_array();
         }
 
-        // rootKey not string
-        if (typeof this.rootKey !== 'string') {
-            Ember.Logger.error('findSerializer rootKey must be string');
-            return [];
-        }
-
-        // rootKey is empty, no parse
-        if (Ember.isEmpty(this.rootKey)) {
-            return data;
+        // rootKey is empty
+        if (!this.rootKey) {
+            return this.to_array(data);
         }
 
         // response data must be array
@@ -270,7 +264,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
             Ember.Logger.error('findSerializer parsedData is not array');
             Ember.Logger.warn(data);
             Ember.Logger.warn(this.rootKey);
-            return [];
+            return this.to_array();
         }
 
         return this.to_array(data[this.rootKey]);
@@ -278,34 +272,28 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
     findOneSerializer: function(data) {
         //data is null or undefined
         if (Ember.isNone(data)) {
-            Ember.Logger.error('findOneSerializer response data is invalid');
-            return {};
+            Ember.Logger.error('findOneSerializer response data is null');
+            return this.to_object();
         }
 
-        // rootKey not string
-        if (typeof this.rootKey !== 'string') {
-            Ember.Logger.error('findOneSerializer rootKey must be string');
-            return {};
-        }
-
-        // rootKey is empty, no parse
-        if (Ember.isEmpty(this.rootKey)) {
+        // rootKey is empty
+        if (!this.rootKey) {
             return data;
         }
 
         // parsedObject must be object
         if (Ember.isNone(data[this.rootKey])) {
-            Ember.Logger.error('findOneSerializer parsedObject is invalid');
-            return {};
+            Ember.Logger.error('findOneSerializer parsedObject is null');
+            return this.to_object();
         }
 
         return this.to_object(data[this.rootKey]);
     },
     to_array: function(data){
-        return Ember.makeArray(data);
+        return Ember.A(data || []);
     },
     to_object: function(data){
-        return Ember.Object.create(data);
+        return Ember.Object.create(data || {});
     },
     saveSerializer: function(data) {
         Ember.Logger.info('subclass override saveSerializer for response data serializer');
@@ -314,5 +302,11 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
     deleteSerializer: function(data) {
         Ember.Logger.info('subclass override deleteSerializer for response data serializer');
         return data;
+    },
+    init: function(){
+        this._super(...arguments);
+        if(typeof this.rootKey !== 'string'){
+            throw new Error(`rootKey only allow string type, now is ${this.rootKey}`);
+        }
     }
 });

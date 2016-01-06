@@ -9,10 +9,10 @@ module('Unit | Mixin | ajax');
 let App;
 
 module('Unit: ajax', {
-  beforeEach: function(){
+  beforeEach(){
     App = startApp();
   },
-  afterEach: function(){
+  afterEach(){
     Ember.run(App, 'destroy');
   },
   setup() {

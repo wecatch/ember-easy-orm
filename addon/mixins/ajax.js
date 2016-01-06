@@ -82,7 +82,7 @@ export default Ember.Mixin.create({
             }).fail(function(jqXHR, responseText, errorThrown) {
                 Ember.Logger.error(jqXHR);
                 Ember.Logger.error(ajaxSettings);
-                reject(`${responseText} ${errorThrown}`);
+                reject(new Error(`${responseText} ${errorThrown}`));
             });
         });
     },
