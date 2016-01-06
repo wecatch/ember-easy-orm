@@ -9,7 +9,7 @@ This Ember addon support some basic model layer for ajax request like find, crea
 In your ember-cli project, install this addon from npm 
 
 ```
-npm install ember-easy-orm --save
+npm install ember-easy-orm --save-dev
 
 ```
 
@@ -35,7 +35,7 @@ modify model/user.js code like this
 ```
 import model from 'ember-easy-orm/mixins/model'
 
-export default Ember.Mixin.create(model, {
+export default Ember.Object.extend(model, {
     
 });
 
@@ -65,6 +65,15 @@ export default Ember.Route.extend({
 
 
 # Release notes
+
+## 0.0.4
+
+**2016-01-06**
+
+- add ajax mixin to support lower level ajax request
+- add ajax, model unit test
+- redesign model mixin for custome response data
+- more flexible model api
 
 ## 0.0.2
 
