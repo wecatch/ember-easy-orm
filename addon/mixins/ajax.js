@@ -1,57 +1,61 @@
 import Ember from 'ember';
 
+const _get = function(url, options) {
+    let self = this.parent;
+    return self.ajax('get', url, options).then(function(data) {
+        try{
+            return self.getSerializer(data);
+        }catch(e){
+            throw(e);
+        }
+    }, function(reason) {
+        throw(reason);
+    });
+};
+
+const _post = function(url, options) {
+    let self = this.parent;
+    return self.ajax('post', url, options).then(function(data) {
+        try{
+            return self.postSerializer(data);
+        }catch(e){
+            throw(e);         
+        }
+    }, function(reason){
+        throw(reason);
+    });
+};
+
+
+const _delete = function(url, options) {
+    let self = this.parent;
+    return self.ajax('delete', url, options).then(function(data) {
+        try{
+            return self.deleteSerializer(data);
+        }catch(e){
+            throw(e);                    
+        }
+    }, function(reason) {
+        throw(reason);
+    });
+};
+
+const _put = function(url, options) {
+    let self = this.parent;
+    return self.ajax('put', url, options).then(function(data) {
+        try{
+            return self.putSerializer(data);
+        }catch(e){
+           throw(e);                   
+        }
+    }, function(reason) {
+        throw(reason);
+    });
+};
+
+
 export default Ember.Mixin.create({
-    request: {
-        parent: null,
-        get: function(url, options) {
-            let self = this.parent;
-            return self.ajax('get', url, options).then(function(data) {
-                try{
-                    return self.getSerializer(data);
-                }catch(e){
-                    throw(e);
-                }
-            }, function(reason) {
-                throw(reason);
-            });
-        },
-        post: function(url, options) {
-            let self = this.parent;
-            return self.ajax('post', url, options).then(function(data) {
-                try{
-                    return self.postSerializer(data);
-                }catch(e){
-                    throw(e);         
-                }
-            }, function(reason){
-                throw(reason);
-            });
-        },
-        delete: function(url, options) {
-            let self = this.parent;
-            return self.ajax('delete', url, options).then(function(data) {
-                try{
-                    return self.deleteSerializer(data);
-                }catch(e){
-                    throw(e);                    
-                }
-            }, function(reason) {
-                throw(reason);
-            });
-        },
-        put: function(url, options) {
-            let self = this.parent;
-            return self.ajax('put', url, options).then(function(data) {
-                try{
-                    return self.putSerializer(data);
-                }catch(e){
-                   throw(e);                   
-                }
-            }, function(reason) {
-                throw(reason);
-            });
-        },
-    },
+    request: null,
     ajaxSettings: {
         dataType: 'json'
     },
@@ -108,6 +112,14 @@ export default Ember.Mixin.create({
     },
     init: function() {
         this._super();
-        this.set('request.parent', this);
+        let self = this;
+        const request = {
+            parent: self,
+            get: _get,
+            post: _post,
+            put: _put,
+            delete: _delete
+        };
+        this.set('request', request);
     }
 });
