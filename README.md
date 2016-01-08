@@ -16,7 +16,7 @@ npm install ember-easy-orm --save-dev
 or install the latest version from github
 
 ```
-npm install https://github.com/wecatch/ember-easy-orm --save
+npm install https://github.com/wecatch/ember-easy-orm --save-dev
 
 ```
 
@@ -62,9 +62,20 @@ export default Ember.Route.extend({
 - save
 - createRecord
 - deleteRecord
+- ajax
+- request.get
+- request.post
+- request.put
+- request.delete
 
 
 # Release notes
+
+## 0.0.5
+
+**2016-01-08**
+
+- fix issues#11
 
 ## 0.0.4
 
