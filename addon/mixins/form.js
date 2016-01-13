@@ -26,7 +26,7 @@ var godForm = Ember.Mixin.create({
          * @returns  void
          */
         add() {
-            this.toggleProperty('modalShow');
+            this.set('modalShow', true);
             this.set('selectedItem', this.get('store').createRecord(this.get('modelName')));
         },
         /**
@@ -34,13 +34,13 @@ var godForm = Ember.Mixin.create({
          * @returns  void
          */
         edit(selectedItem) {
-            this.toggleProperty('modalShow');
+            this.set('modalShow', true);
             if (!Ember.isNone(selectedItem)) {
                 this.set('selectedItem', selectedItem);
             }
         },
         cancel(){
-            this.toggleProperty('modalShow');
+            this.set('modalShow', false);
         },
         remove(selectedItem){
             deleteObject.call(this, selectedItem);
@@ -50,10 +50,18 @@ var godForm = Ember.Mixin.create({
          * @returns  void
          */
         success(action, data, selectedItem) {
-            this.toggleProperty('modalShow');
             Ember.Logger.info('subclass override this function for response data');
+            this.set('modalShow', false);
             if(this.sendAction) {
                 this.sendAction('success', action, data, selectedItem);
+            }
+
+            if(action === 'create'){
+                this.model.insertAt(0, selectedItem);
+            }
+
+            if(action === 'delete'){
+                this.model.removeObject(selectedItem);
             }
         },
         /**
@@ -67,7 +75,12 @@ var godForm = Ember.Mixin.create({
             }
         },
     },
-    
+    init(){
+        this._super(...arguments);
+        if(!this.modelName){
+            throw new Error(`mixin godForm modelName is invalid: ${this.modelName}`);
+        }
+    }
 });
 
 
@@ -83,12 +96,14 @@ var formComponent = Ember.Mixin.create({
         save() {
             this.toggleProperty('loading');
             if (!this.validate()) {return;}
+            let primaryKey = this.get('store').modelFor(this.modelName).primaryKey;
+            let actionName = Ember.get(this.model, primaryKey) ? 'update' : 'create';
             this.get('store').save(this.get('modelName'), this.get('model')).then(Ember.run.bind(this, function(data) {
                 this.toggleProperty('loading');
-                this.send('success', 'save', data);
+                this.send('success', actionName, data);
             }), Ember.run.bind(this, function(reason) {
                 this.toggleProperty('loading');
-                this.send('fail', 'save', reason);
+                this.send('fail', actionName, reason);
             }));
         },
 
@@ -106,6 +121,9 @@ var formComponent = Ember.Mixin.create({
          */
         success(action, data) {
             Ember.Logger.info('subclass override this function for response data');
+            if((action === 'create'|| action === 'update') && data){
+                Ember.merge(this.model, data);
+            }
             this.sendAction('success', action, data, this.get('model'));
         },
         /**
@@ -128,6 +146,12 @@ var formComponent = Ember.Mixin.create({
     validate() {
         Ember.Logger.info('subclass override this function for model validate');
         return true;
+    },
+    init(){
+        this._super(...arguments);
+        if(!this.modelName){
+            throw new Error(`mixin formComponent modelName is invalid: ${this.modelName}`);
+        }
     }
 });
 
