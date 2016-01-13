@@ -19,6 +19,7 @@ var godForm = Ember.Mixin.create({
     model: null,
     selectedItem: null,
     modalShow: false,
+    reason: null,
     store: Ember.inject.service(),
     actions: {
         /**
@@ -70,6 +71,7 @@ var godForm = Ember.Mixin.create({
          */
         fail(action, reason, selectedItem) {
             Ember.Logger.info('subclass override this function for fail request');
+            this.set('reason', reason);
             if(this.sendAction) {
                 this.sendAction('fail', action, reason, selectedItem);
             }
@@ -88,6 +90,7 @@ var formComponent = Ember.Mixin.create({
     modelName: '',
     model: null,
     store: Ember.inject.service(),
+    reason: null,
     actions: {
         /**
          * @function save triggle when user click save action
@@ -122,7 +125,7 @@ var formComponent = Ember.Mixin.create({
         success(action, data) {
             Ember.Logger.info('subclass override this function for response data');
             if((action === 'create'|| action === 'update') && data){
-                Ember.merge(this.model, data);
+                Ember.setProperties(this.model, data);
             }
             this.sendAction('success', action, data, this.get('model'));
         },
@@ -132,6 +135,7 @@ var formComponent = Ember.Mixin.create({
          */
         fail(action, reason) {
             Ember.Logger.info('subclass override this function for fail request');
+            this.set('reason', reason);
             this.sendAction('fail', action, reason, this.get('model'));
         },
         /**
