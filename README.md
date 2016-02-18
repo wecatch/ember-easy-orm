@@ -1,5 +1,7 @@
 # Ember-easy-orm
 
+[![Build Status](https://travis-ci.org/wecatch/ember-easy-orm.svg?branch=master)](https://travis-ci.org/wecatch/ember-easy-orm)
+
 This Ember addon support some basic model layer for ajax request like find, create, delete and so on. When you use this addon, please remove ember-data. It also support some mixin for component to easily manage form
 
 # Getting Started
