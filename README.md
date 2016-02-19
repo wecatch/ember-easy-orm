@@ -57,6 +57,15 @@ export default Ember.Route.extend({
 
 ```
 
+## Running Tests
+ 
+
+- `ember test`
+- `ember test --server`
+
+`npm test` (Runs `ember try:testall` to test your addon against multiple Ember versions)
+
+
 # Store service  api
 
 - find
