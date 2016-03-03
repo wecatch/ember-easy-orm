@@ -139,13 +139,15 @@ test('model mixin find', function(assert) {
 
 
 test('model DS', function(assert) {
-    assert.expect(8);
+    assert.expect(9);
 
     assert.equal(DS.attr('string'), '');
     assert.equal(DS.attr('number'), 0);
     assert.equal(DS.attr('boolean'), true);
     assert.equal(DS.attr('number', {defaultValue: 20}), 20);
     assert.equal(DS.attr('boolean', {defaultValue: false}), false);
+    assert.equal(DS.attr('array').length, 0);
+
 
     assert.equal(DS.attr({defaultValue: 10}), 10);
     assert.equal(DS.attr({defaultValue: function(){
