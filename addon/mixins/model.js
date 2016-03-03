@@ -3,18 +3,13 @@ import ajax from './ajax';
 
 export const DS = {
     attr(type, hash){
-        if(type && typeof type !== 'string'){
-            if (typeof type.defaultValue === 'function'){
-                return type.defaultValue.apply();
-            }else if(type.hasOwnProperty('defaultValue')) {
-                return type.defaultValue;
-            }
+        if(typeof type === 'object'){
+            hash = type;
+            type = undefined;
         }
 
-        if(hash !== undefined && typeof hash === 'object'){
-            if (typeof hash.defaultValue === 'function'){
-                return hash.defaultValue.apply();
-            }else if(hash.hasOwnProperty('defaultValue')){
+        if(typeof hash === 'object'){
+            if(hash.hasOwnProperty('defaultValue')){
                 return hash.defaultValue;
             }
         }
@@ -27,7 +22,7 @@ export const DS = {
             case 'number':
                 return 0
             case 'array':
-                return Ember.A();
+                return Ember.A;
         }
         
         return null;
@@ -177,7 +172,18 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
      * @returns  Object
      */
     createRecord: function(init) {
-        let record = Ember.Object.create(this.model);
+        let record = Ember.Object.create();
+        for(let property in this.model){
+            if(this.model.hasOwnProperty(property)){
+                let v = this.model[property];
+                if(typeof v === 'function'){
+                    record.set(property, v.apply());
+                }else {
+                    record.set(property, v);
+                }
+            }
+        }
+
         if (typeof init === 'object') {
             Ember.merge(record, init);
         }

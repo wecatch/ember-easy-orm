@@ -61,18 +61,38 @@ module('Unit | Mixin | model', {
 
 // Replace this with your real tests.
 test('model mixin', function(assert) {
-    let ModelObject = Ember.Object.extend(ModelMixin);
-    let subject = ModelObject.create();
+    let ModelClass = Ember.Object.extend(ModelMixin);
+    let subject = ModelClass.create();
     assert.ok(subject);
 });
 
 
+test('model mixin createRecord', function(assert){
+    let ModelClass = Ember.Object.extend(ModelMixin, {
+        model: {
+            'name': DS.attr('string'),
+            'gender': DS.attr('string', {defaultValue: 'f'}),
+            'address': DS.attr({defaultValue: function(){
+                return {'c': Math.random(new Date().getTime())};
+            }})
+        }
+    });
+    let subject = ModelClass.create();
+    assert.ok(subject);
+    let record = subject.createRecord();
+    assert.equal(record.name, '');
+    assert.equal(record.gender, 'f');
+    let record2 = ModelClass.create().createRecord();
+    assert.notEqual(record.address.c, record2.address.c);
+});
+
+
 test('model mixin find', function(assert) {
-    let ModelObject = Ember.Object.extend(ModelMixin);
+    let ModelClass = Ember.Object.extend(ModelMixin);
     const done = assert.async();
     assert.expect(16);
 
-    let subject = ModelObject.create({
+    let subject = ModelClass.create({
         namespace: '/v1',
         url:'/api',
         displayModel: {
@@ -100,7 +120,7 @@ test('model mixin find', function(assert) {
         done();
     });
 
-    let subject2 = ModelObject.create({
+    let subject2 = ModelClass.create({
         namespace: '/v1',
         url:'/api',
         rootKey: 'data'
@@ -115,7 +135,7 @@ test('model mixin find', function(assert) {
         done2();
     });
 
-    let subject3 = ModelObject.create({
+    let subject3 = ModelClass.create({
         namespace: '/v2',
         url:'/api'
     });
@@ -146,17 +166,17 @@ test('model DS', function(assert) {
     assert.equal(DS.attr('boolean'), true);
     assert.equal(DS.attr('number', {defaultValue: 20}), 20);
     assert.equal(DS.attr('boolean', {defaultValue: false}), false);
-    assert.equal(DS.attr('array').length, 0);
+    assert.equal(DS.attr('array')().length, 0);
 
 
     assert.equal(DS.attr({defaultValue: 10}), 10);
     assert.equal(DS.attr({defaultValue: function(){
         return {msg: 'ok'};
-    }}).msg, 'ok');
+    }})().msg, 'ok');
 
     assert.equal(DS.attr('number', {defaultValue: function(){
         return 11;
-    }}), 11);
+    }})(), 11);
 
 });
 
