@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ModelMixin from 'ember-easy-orm/mixins/model';
+import ModelMixin, {DS} from 'ember-easy-orm/mixins/model';
 import startApp from '../../helpers/start-app';
 import { stubRequest, FakeServer } from '../../helpers/fake-server';
 import { module, test } from 'qunit';
@@ -134,6 +134,27 @@ test('model mixin find', function(assert) {
         assert.equal(resp.code, 0);
         done4();
     });
+
+});
+
+
+test('model DS', function(assert) {
+    assert.expect(8);
+
+    assert.equal(DS.attr('string'), '');
+    assert.equal(DS.attr('number'), 0);
+    assert.equal(DS.attr('boolean'), true);
+    assert.equal(DS.attr('number', {defaultValue: 20}), 20);
+    assert.equal(DS.attr('boolean', {defaultValue: false}), false);
+
+    assert.equal(DS.attr({defaultValue: 10}), 10);
+    assert.equal(DS.attr({defaultValue: function(){
+        return {msg: 'ok'};
+    }}).msg, 'ok');
+
+    assert.equal(DS.attr('number', {defaultValue: function(){
+        return 11;
+    }}), 11);
 
 });
 

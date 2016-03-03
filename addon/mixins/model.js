@@ -1,6 +1,38 @@
 import Ember from 'ember';
 import ajax from './ajax';
 
+export const DS = {
+    attr(type, hash){
+        if(type && typeof type !== 'string'){
+            if (typeof type.defaultValue === 'function'){
+                return type.defaultValue.apply();
+            }else if(type.hasOwnProperty('defaultValue')) {
+                return type.defaultValue;
+            }
+        }
+
+        if(hash !== undefined && typeof hash === 'object'){
+            if (typeof hash.defaultValue === 'function'){
+                return hash.defaultValue.apply();
+            }else if(hash.hasOwnProperty('defaultValue')){
+                return hash.defaultValue;
+            }
+        }
+
+        switch(type){
+            case 'string':
+                return ''
+            case 'boolean':
+                return true;
+            case 'number':
+                return 0
+            case 'array':
+                return Ember.A();
+        }
+        
+        return null;
+    }
+}
 
 export default Ember.Mixin.create(ajax, Ember.Evented, {
     /**
