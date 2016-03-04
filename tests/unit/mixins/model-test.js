@@ -82,8 +82,17 @@ test('model mixin createRecord', function(assert){
     let record = subject.createRecord();
     assert.equal(record.name, '');
     assert.equal(record.gender, 'f');
-    let record2 = ModelClass.create().createRecord();
+    let record2 = subject.createRecord();
     assert.notEqual(record.address.c, record2.address.c);
+    assert.equal(record.gender, record2.gender);
+});
+
+
+test('model mixin filterParams', function(assert){
+    let ModelClass = Ember.Object.extend(ModelMixin);
+
+    let subject = ModelClass.create()._filterParams({'a': null, 'b': undefined, 'c': 0, 'd': '', e: [], f:' ', g:{}});
+    assert.equal(Object.keys(subject).length, 2);
 });
 
 

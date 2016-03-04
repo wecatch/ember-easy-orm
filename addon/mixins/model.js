@@ -260,7 +260,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
             return;
         }
         for (let k in params) {
-            if (params.hasOwnProperty(k) && !params[k]) {
+            if (params.hasOwnProperty(k) && Ember.isBlank(params[k])) {
                 delete params[k];
             }
         }
