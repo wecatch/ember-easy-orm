@@ -54,7 +54,7 @@ const _put = function(url, options) {
 };
 
 
-export default Ember.Mixin.create({
+export default Ember.Mixin.create(Ember.Evented, {
     request: null,
     ajaxSettings: {
         dataType: 'json'
@@ -76,17 +76,24 @@ export default Ember.Mixin.create({
         }
 
         Ember.merge(ajaxSettings, {type: method, url: url});
+        self.trigger('ajaxStart');
         return new Ember.RSVP.Promise(function(resolve, reject) {
             Ember.$.ajax(ajaxSettings).done(function(data) {
+                self.trigger('ajaxDone');
                 try{
                     resolve(self.RESTSerializer(data));
+                    self.trigger('ajaxSuccess');
                 }catch(e){
-                    reject(e);                    
+                    self.trigger('RESTSerializerError', e);
+                    reject(e);
                 }
             }).fail(function(jqXHR, responseText, errorThrown) {
+                self.trigger('ajaxDone');
                 Ember.Logger.error(jqXHR);
                 Ember.Logger.error(ajaxSettings);
-                reject(new Error(`${responseText} ${errorThrown}`));
+                let error = `${responseText} ${errorThrown}`;
+                self.trigger('ajaxError', error, ajaxSettings, jqXHR);
+                reject(new Error(error));
             });
         });
     },
