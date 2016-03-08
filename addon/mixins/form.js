@@ -60,7 +60,7 @@ var godForm = Ember.Mixin.create({
                 this.sendAction('success', action, data, selectedItem);
             }
 
-            if(action === 'create'){
+            if(!this.model.contains(selectedItem)){
                 this.model.insertAt(0, selectedItem);
             }
 
