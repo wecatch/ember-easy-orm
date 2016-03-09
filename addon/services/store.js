@@ -3,12 +3,23 @@ import ajax from '../mixins/ajax';
 
 export default Ember.Service.extend(ajax, {
     modelFor(type) {
-        var klass = this.container.lookupFactory('model:' + type);
-        if (!klass) {
+        var kclass; 
+        if(Ember.getOwner){
+            const {getOwner} = Ember;
+            kclass = getOwner(this).lookup('model:'+type, { singleton: false });
+            if (!kclass) {
+                Ember.Logger.warn('model:' + type + ' is not found');
+                return Ember.Object.create();
+            }
+            return kclass;
+        }
+
+        kclass = this.container.lookupFactory('model:' + type);
+        if (!kclass) {
             Ember.Logger.warn('model:' + type + ' is not found');
             return Ember.Object.create();
         }
-        return klass.create();
+        return kclass.create();
     },
     find(type, params) {
         return this.modelFor(type).find(params);
