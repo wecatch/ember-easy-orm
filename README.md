@@ -35,11 +35,30 @@ modify model/user.js code like this
 
 
 ```
-import model from 'ember-easy-orm/mixins/model'
+import Ember from 'ember';
+import model, {DS} from 'ember-easy-orm/mixins/model'
+
+const {attr} = DS;
 
 export default Ember.Object.extend(model, {
-    
-});
+    url: '/v1/food',
+    model: {
+        'name': attr('string'),
+        'desc': attr('string'),
+        'pic': attr('array'),
+        'province_id': attr('string'),
+        'city_id': attr('string'),
+        'area_id': attr('string'),
+        'town_id': attr('string'),
+        'country_id': attr('string'),
+        'url': attr('string'),
+        'host': attr('string'),
+        'tag': attr('array'),
+        'user': attr({defaultValue: function(){
+            return {name: '', 'gender': ''};
+        }})
+    },
+})
 
 ```
 
