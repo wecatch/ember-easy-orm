@@ -1,0 +1,13 @@
+{
+  "name": "The ember-easy-orm API",
+  "description": "The ember-easy-orm API: a simple easy orm for ember applications",
+  "url": "http://emberjs.com/",
+  "options": {
+    "paths": [
+      "addon/initializers",
+      "addon/mixins",
+      "addon/services"
+    ],
+    "outdir":   "docs"
+  }
+}

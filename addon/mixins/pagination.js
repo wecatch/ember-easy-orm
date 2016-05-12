@@ -1,3 +1,8 @@
+/**
+@module mixins/pagination
+*/
+
+
 import Ember from "ember";
 
 var paginationController = Ember.Mixin.create({

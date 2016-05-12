@@ -1,3 +1,6 @@
+/**
+@module mixins/ajax
+ */
 import Ember from 'ember';
 
 const _get = function(url, options) {

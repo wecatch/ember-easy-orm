@@ -1,6 +1,12 @@
+/** 
+@module mixins/form 
+*/
 import Ember from 'ember';
 
-// when godForm call delete, pass selectedItem to success
+/** 
+@private
+@method deleteObject
+*/
 let deleteObject = function (selectedItem){
     if(!this.modelName){
         throw new Error(`mixin component modelName is invalid: ${this.modelName}`);
@@ -16,43 +22,88 @@ let deleteObject = function (selectedItem){
 };
 
 
-// godForm mixin is used to controll many object's removing and adding and editing
+/** 
+godform mixin is used  for data list to create, update and delete children object 
+@class godForm
+**/
 var godForm = Ember.Mixin.create({
+    /** 
+    @property modelName
+    @type String
+    */
     modelName: '',
+    /** 
+    data set, normally array
+    @property model 
+    @type Object
+    */
     model: null,
+    /** 
+    current selected item
+    @property selectedItem
+    @type Object
+    */
     selectedItem: null,
+    /** 
+    for modal dialog
+    @property modalShow
+    @type boolean
+    */
     modalShow: false,
+    /** 
+    ajax fail reason
+    @property reason
+    @type String
+    */
     reason: null,
+    /** 
+    orm store service
+    @property store
+    @type {object} 
+    */
     store: Ember.inject.service(),
     actions: {
         /**
-         * @function add create new record according to modelName
-         * @returns  void
-         */
+        create new record according to modelName
+        @event add
+        */
         add() {
             this.set('modalShow', true);
             this.set('selectedItem', this.get('store').createRecord(this.get('modelName')));
         },
         /**
-         * @function edit triggle when user click edit action
-         * @returns  void
-         */
+        edit current selected item
+        @event edit
+        @param {Object} selectedItem
+        */
         edit(selectedItem) {
             this.set('modalShow', true);
             if (!Ember.isNone(selectedItem)) {
                 this.set('selectedItem', selectedItem);
             }
         },
+        /**
+        cancel current operation
+        @event cancel
+        */
         cancel(){
             this.set('modalShow', false);
         },
+        /**
+        remove current selected item
+        @event remove
+        @param {Object} selectedItem
+        */
         remove(selectedItem){
             deleteObject.call(this, selectedItem);
         },
         /**
-         * @function  success ajax request success callback
-         * @returns  void
-         */
+        success ajax request success callback
+        @event success
+        @params {String} action The current operation: create, update, delete
+        @params {Object} data The response data from backend server
+        @params {Object} selectedItem Thc current selected item
+        */
         success(action, data, selectedItem) {
             Ember.Logger.info('subclass override this function for response data');
             this.set('modalShow', false);
@@ -69,9 +120,12 @@ var godForm = Ember.Mixin.create({
             }
         },
         /**
-         * @function  success ajax request success callback
-         * @returns  void
-         */
+        fail ajax request success callback
+        @event fail
+        @params {string} action The current operation: create, update, delete
+        @params {Object} reason The ajax request response
+        @params {Object} selectedItem Thc current selected item
+        */
         fail(action, reason, selectedItem) {
             Ember.Logger.info('subclass override this function for fail request');
             this.set('reason', reason);

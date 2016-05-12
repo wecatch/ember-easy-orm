@@ -1,3 +1,7 @@
+/**
+@module mixins/model
+*/
+
 import Ember from 'ember';
 import ajax from './ajax';
 
