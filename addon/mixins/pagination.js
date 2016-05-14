@@ -1,7 +1,7 @@
 /**
-@module mixins/pagination
+@module mixins
+@submodule pagination
 */
-
 
 import Ember from "ember";
 

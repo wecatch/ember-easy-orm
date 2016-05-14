@@ -1,8 +1,14 @@
 /**
-@module mixins/ajax
+support ajax request in this module
+@module mixins
+@submodule ajax
  */
 import Ember from 'ember';
 
+/**
+get request function used in ajax.request property
+@private
+*/
 const _get = function(url, options) {
     let self = this.parent;
     return self.ajax('get', url, options).then(function(data) {
@@ -16,6 +22,10 @@ const _get = function(url, options) {
     });
 };
 
+/**
+post request function used in ajax.request property
+@private
+*/
 const _post = function(url, options) {
     let self = this.parent;
     return self.ajax('post', url, options).then(function(data) {
@@ -30,6 +40,10 @@ const _post = function(url, options) {
 };
 
 
+/**
+delete request function used in ajax.request property
+@private
+*/
 const _delete = function(url, options) {
     let self = this.parent;
     return self.ajax('delete', url, options).then(function(data) {
@@ -43,6 +57,11 @@ const _delete = function(url, options) {
     });
 };
 
+
+/**
+put request function used in ajax.request property
+@private
+*/
 const _put = function(url, options) {
     let self = this.parent;
     return self.ajax('put', url, options).then(function(data) {
@@ -56,12 +75,36 @@ const _put = function(url, options) {
     });
 };
 
-
+/**
+wrap jquery ajax with Ember.RSVP.Promise
+@public
+@class ajax
+*/
 export default Ember.Mixin.create(Ember.Evented, {
+    /** 
+    wrapper all request method into request object
+    @property request
+    @type Object
+    @default null
+    */
     request: null,
+    /** 
+    ajax request setting See http://devdocs.io/jquery/jquery.ajax
+    @property ajaxSettings
+    @type Object
+    @default {dataType: 'json'}
+    */
     ajaxSettings: {
         dataType: 'json'
     },
+    /** 
+    jquery ajax method wrapper, return promise
+    @method ajax
+    @param {String} method request method
+    @param {String} url request url
+    @param {Object} options ajax jquery ajax settings, see http://devdocs.io/jquery/jquery.ajax
+    @return {Promise}
+    */
     ajax: function(method, url, options) {
         let self = this,
             ajaxSettings = {};
@@ -100,22 +143,52 @@ export default Ember.Mixin.create(Ember.Evented, {
             });
         });
     },
+    /** 
+    all ajax request data serializer
+    @method RESTSerializer
+    @param {Object} data response data
+    @return serializer data
+    */
     RESTSerializer: function(data) {
         Ember.Logger.info('subclass override RESTSerializer for response data serializer');
         return data;
     },
+    /** 
+    get request data serializer
+    @method getSerializer
+    @param {Object} data response data
+    @return serializer data
+    */
     getSerializer: function(data) {
         Ember.Logger.info('subclass override getSerializer for get response data serializer');
         return data;
     },
+    /** 
+    post request data serializer
+    @method getSerializer
+    @param {Object} data response data
+    @return serializer data
+    */
     postSerializer: function(data) {
         Ember.Logger.info('subclass override postSerializer for post response data serializer');
         return data;
     },
+    /** 
+    put request data serializer
+    @method getSerializer
+    @param {Object} data response data
+    @return serializer data
+    */
     putSerializer: function(data) {
         Ember.Logger.info('subclass override putSerializer for put response data serializer');
         return data;
     },
+    /** 
+    delete request data serializer
+    @method getSerializer
+    @param {Object} data response data
+    @return serializer data
+    */
     deleteSerializer: function(data) {
         Ember.Logger.info('subclass override deleteSerializer for delete response data serializer');
         return data;

@@ -1,11 +1,14 @@
 /** 
-@module mixins/form 
+This module has two mixins: godForm and formComponent, they are used to manage form handler
+@module mixins
+@submodule form
 */
 import Ember from 'ember';
 
 /** 
-@private
-@method deleteObject
+delete object from backend server
+@event deleteObject
+@param {Object} selectedItem The current selected item
 */
 let deleteObject = function (selectedItem){
     if(!this.modelName){
@@ -24,6 +27,7 @@ let deleteObject = function (selectedItem){
 
 /** 
 godform mixin is used  for data list to create, update and delete children object 
+@public
 @class godForm
 **/
 var godForm = Ember.Mixin.create({
@@ -59,7 +63,7 @@ var godForm = Ember.Mixin.create({
     /** 
     orm store service
     @property store
-    @type {object} 
+    @type Object
     */
     store: Ember.inject.service(),
     actions: {
@@ -137,16 +141,40 @@ var godForm = Ember.Mixin.create({
 });
 
 
+/** 
+formComponent mixin is used for single object form
+@public
+@class formComponent
+**/
 var formComponent = Ember.Mixin.create({
+    /** 
+    @property modelName 
+    @type String
+    */
     modelName: '',
+    /** 
+    single object, normally for form 
+    @property model 
+    @type Object
+    */
     model: null,
+    /** 
+    orm store service
+    @property store
+    @type Object
+    */
     store: Ember.inject.service(),
+    /** 
+    ajax fail reason
+    @property reason
+    @type String
+    */
     reason: null,
     actions: {
         /**
-         * @function save triggle when user click save action
-         * @returns  void
-         */
+        save triggle when user click save action
+        @event save
+        */
         save() {
             if(!this.modelName){
                 throw new Error(`mixin formComponent modelName is invalid: ${this.modelName}`);
@@ -165,17 +193,19 @@ var formComponent = Ember.Mixin.create({
         },
 
         /**
-         * @function delete triggle when user click save action
-         * @returns  void
-         */
+        delete triggle when user click save action
+        @event remove 
+        */
         remove() {
             deleteObject.call(this, this.get('model'));
         },
 
         /**
-         * @function  success ajax request success callback
-         * @returns  void
-         */
+        success ajax request success callback
+        @event succuess  
+        @params {String} action The current operation: create, update, delete
+        @params {Object} data The response data from backend server
+        */
         success(action, data) {
             Ember.Logger.info('subclass override this function for response data');
             if((action === 'create'|| action === 'update') && data){
@@ -184,23 +214,30 @@ var formComponent = Ember.Mixin.create({
             this.sendAction('success', action, data, this.get('model'));
         },
         /**
-         * @function  success ajax request success callback
-         * @returns  void
-         */
+        fail ajax request success callback
+        @event fail
+        @params {string} action The current operation: create, update, delete
+        @params {Object} reason The ajax request response
+        */
         fail(action, reason) {
             Ember.Logger.info('subclass override this function for fail request');
             this.set('reason', reason);
             this.sendAction('fail', action, reason, this.get('model'));
         },
         /**
-         * @function validate validate model 
-         * @returns  Boolean
-         */
+        cancel current operation
+        @event cancel
+        */
         cancel() {
             Ember.Logger.info('subclass override this function for form modify cancel');
             this.sendAction('cancel', this.get('model'));
         },
     },
+    /**
+    validate current model
+    @method validate
+    @return {Boolean} Returns true when success, false when fails
+    */
     validate() {
         Ember.Logger.info('subclass override this function for model validate');
         return true;

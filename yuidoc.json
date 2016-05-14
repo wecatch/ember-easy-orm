@@ -1,13 +1,19 @@
 {
-  "name": "The ember-easy-orm API",
-  "description": "The ember-easy-orm API: a simple easy orm for ember applications",
-  "url": "http://emberjs.com/",
+  "name": "ember-easy-orm",
+  "description": "A easy ORM library for ember app",
+  "version": "0.0.7",
   "options": {
     "paths": [
-      "addon/initializers",
-      "addon/mixins",
-      "addon/services"
+      "addon"
     ],
-    "outdir":   "docs"
+    "enabledEnvironments": ["development", "production"],
+    "exclude": "vendor",
+    "outdir": "docs",
+    "linkNatives": true,
+    "quiet": true,
+    "parseOnly": false,
+    "lint": false,
+    "themedir" : "node_modules/yuidoc-lucid-theme",
+    "helpers" : ["node_modules/yuidoc-lucid-theme/helpers/helpers.js"]
   }
 }
