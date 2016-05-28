@@ -101,6 +101,12 @@ export default Ember.Route.extend({
 
 # Release notes
 
+## 0.0.7
+
+**2016-01-08**
+
+
+
 ## 0.0.5
 
 **2016-01-08**

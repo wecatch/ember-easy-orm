@@ -165,7 +165,7 @@ export default Ember.Mixin.create(Ember.Evented, {
     },
     /** 
     post request data serializer
-    @method getSerializer
+    @method postSerializer
     @param {Object} data response data
     @return serializer data
     */
@@ -175,7 +175,7 @@ export default Ember.Mixin.create(Ember.Evented, {
     },
     /** 
     put request data serializer
-    @method getSerializer
+    @method putSerializer
     @param {Object} data response data
     @return serializer data
     */
@@ -185,7 +185,7 @@ export default Ember.Mixin.create(Ember.Evented, {
     },
     /** 
     delete request data serializer
-    @method getSerializer
+    @method deleteSerializer
     @param {Object} data response data
     @return serializer data
     */
