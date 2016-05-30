@@ -165,6 +165,12 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
         //filter model data
         for (var i = model_keys.length - 1; i >= 0; i--) {
             let key = model_keys[i];
+            if(typeof self.model[key] === 'function'){
+                if(typeof model[key] === 'object' && !Ember.isArray(model[key])){
+                    record[key] = JSON.stringify(model[key]);
+                    continue;
+                }
+            }
             record[key] = model[key] !== undefined ? model[key] : self.model[key];
         }
 
