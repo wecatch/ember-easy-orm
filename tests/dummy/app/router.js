@@ -6,6 +6,10 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+    this.route('ember-easy-orm', function(){
+      this.route('form');
+      this.route('store');
+    });
 });
 
 export default Router;
