@@ -103,9 +103,10 @@ export default Ember.Route.extend({
 
 ## 0.0.7
 
-**2016-01-08**
+**2016-06-01**
 
-
+- add docs
+- add dummy app
 
 ## 0.0.5
 
