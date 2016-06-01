@@ -20,22 +20,22 @@ export default Ember.Route.extend({
         modelPut(){
             this.store.save('user', {'_id':1, name: 'name', gender: 'f'}).then(data=>{
                  this.controller.set('message', `model put call response ${JSON.stringify(data)}`);
-            })
+            });
         },  
         modelGet(){
             this.store.find('user').then(data=>{
                 this.controller.set('message', `model get call response ${JSON.stringify(data)}`);
-            })
+            });
         },
         modelDelete(){
             this.store.deleteRecord('user', 1).then(data=>{
                 this.controller.set('message', `model delete call response ${JSON.stringify(data)}`);
-            })
+            });
         },
         modelPost(){
             this.store.save('user', {name: 'name', gender: 'f'}).then(data=>{
                 this.controller.set('message', `model post call response ${JSON.stringify(data)}`);
-            })
+            });
         },
         modelAjaxFail(){
             this.store.modelFor('user').ajax('put', '/v1/user/1').then(data=>{

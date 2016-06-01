@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import model, {DS} from 'ember-easy-orm/mixins/model';
 
 const {attr} = DS;
