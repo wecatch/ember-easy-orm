@@ -11,45 +11,44 @@ export default Ember.Route.extend({
             console.log(this.store.request.parent == this.strore);
             console.log(user.request.parent == user);
 
-            this.store.request.put('/v1/user/1', {dataType: 'text'}).then(function(data){
-                console.log(`store put call response ${data}`);
+            this.store.request.put('/v1/user/1', {dataType: 'text'}).then(data=>{
+                this.controller.set('message', `store put call response ${JSON.stringify(data)}`);
             })
         },
         storeGet(){
             this.store.request.get('/v1/user').then(data=>{
-                console.log(`store get call response ${data}`);
-                this.controller.set('storeModel', data);
+                this.controller.set('message', `store get call response ${JSON.stringify(data)}`);
             })
         },
         storeDelete(){
-            this.store.request.delete('/v1/user/1', {dataType: 'text'}).then(function(data){
-                console.log(`store delete call response ${data}`);
+            this.store.request.delete('/v1/user/1', {dataType: 'text'}).then(data=>{
+                this.controller.set('message', `store delete call response ${JSON.stringify(data)}`);
             })
         },
         storePost(){
-            this.store.request.post('/v1/user', {data: {name: 'name', gender: 'f'}, dataType: 'text'}).then(function(data){
-                console.log(`store delete call response ${data}`);
+            this.store.request.post('/v1/user', {data: {name: 'name', gender: 'f'}, dataType: 'text'}).then(data=>{
+                this.controller.set('message', `store post call response ${JSON.stringify(data)}`);
             })
         },
         storeAjaxFail(){
-            this.store.ajax('put', '/v1/user/1').then(function(data){
-                console.log(`store ajax call response ${data}`);
-            }).catch(function(reason){
-                console.error(`store ajax call response ${reason}`);
+            this.store.ajax('put', '/v1/user/1').then(data=>{
+                this.controller.set('message', `store ajax call response ${JSON.stringify(data)}`);
+            }).catch(reason=>{
+                this.controller.set('message', `store ajax call response ${reason}`);
             });
         },
         errorRequest(){
-            this.store.ajax('put', '/v1/404/1').then(function(data){
-                console.log(`store ajax call response ${data}`);
-            }).catch(function(reason){
-                console.error(`store ajax call response ${reason}`);
+            this.store.ajax('put', '/v1/404/1').then(data=>{
+                this.controller.set('message', `store ajax call response ${JSON.stringify(data)}`);
+            }).catch(reason=>{
+                this.controller.set('message', `store ajax call response ${reason}`);
             });
         },
         storeAjaxSuccess(){
-            this.store.ajax('put', '/v1/user/1', {dataType: 'text'}).then(function(data){
-                console.log(`store ajax call response ${data}`);
-            }).catch(function(reason){
-                console.error(`store ajax call response ${reason}`);
+            this.store.ajax('put', '/v1/user/1', {dataType: 'text'}).then(data=>{
+                this.controller.set('message', `store ajax call response ${JSON.stringify(data)}`);
+            }).catch(reason=>{
+                this.controller.set('message', `store ajax call response ${reason}`);
             });
         },
     }

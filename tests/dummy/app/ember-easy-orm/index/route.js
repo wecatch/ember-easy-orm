@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
     model(){
-        return this.store.find('user');
+        return [];
     },
     actions: {
         save(model){
@@ -18,37 +18,37 @@ export default Ember.Route.extend({
         },
 
         modelPut(){
-            this.store.save('user', {'_id':1, name: 'name', gender: 'f'}).then(function(data){
-                console.log(`model put call response ${data.msg}`);
+            this.store.save('user', {'_id':1, name: 'name', gender: 'f'}).then(data=>{
+                 this.controller.set('message', `model put call response ${JSON.stringify(data)}`);
             })
         },  
         modelGet(){
-            this.store.find('user').then(function(data){
-                console.log(`model get call response ${data}`);
+            this.store.find('user').then(data=>{
+                this.controller.set('message', `model get call response ${JSON.stringify(data)}`);
             })
         },
         modelDelete(){
-            this.store.deleteRecord('user', 1).then(function(data){
-                console.log(`model delete call response ${data.msg}`);
+            this.store.deleteRecord('user', 1).then(data=>{
+                this.controller.set('message', `model delete call response ${JSON.stringify(data)}`);
             })
         },
         modelPost(){
-            this.store.save('user', {name: 'name', gender: 'f'}).then(function(data){
-                console.log(`model delete call response ${data.msg}`);
+            this.store.save('user', {name: 'name', gender: 'f'}).then(data=>{
+                this.controller.set('message', `model post call response ${JSON.stringify(data)}`);
             })
         },
         modelAjaxFail(){
-            this.store.modelFor('user').ajax('put', '/v1/user/1').then(function(data){
-                console.log(`model ajax call response ${data.msg}`);
-            }).catch(function(reason){
-                console.error(`model ajax call response ${reason}`);
+            this.store.modelFor('user').ajax('put', '/v1/user/1').then(data=>{
+                this.controller.set('message', `model ajax call response ${JSON.stringify(data)}`);
+            }).catch(reason=>{
+                this.controller.set('message', `model ajax call response ${reason}`);
             });
         },
         modelAjaxSuccess(){
-            this.store.modelFor('user').ajax('put', '/v1/user_json/1').then(function(data){
-                console.log(`model ajax call response ${data.msg}`);
-            }).catch(function(reason){
-                console.error(`model ajax call response ${reason}`);
+            this.store.modelFor('user').ajax('put', '/v1/user_json/1').then(data=>{
+                this.controller.set('message', `model ajax call response ${JSON.stringify(data)}`);
+            }).catch(reason=>{
+                this.controller.set('message', `model ajax call response ${reason}`);
             });
         },
     }

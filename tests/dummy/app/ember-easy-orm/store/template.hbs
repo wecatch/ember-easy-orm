@@ -1,8 +1,9 @@
 <div class="ui container">
     <div class="ui grid">
-        
+            <div class="row">
+                <h2 class="ui header" >store example</h2>
+            </div>
             <div class="row" >
-                <h4 class="ui header" >store example</h4>
                 <button class="ui button" {{action "storeGet" model}} >get</button>
                 <button class="ui button" {{action "storePost" model}} >post</button>
                 <button class="ui button" {{action "storePut" model}} >put</button>
@@ -11,23 +12,10 @@
                 <button class="ui button" {{action "storeAjaxFail" model}} >AjaxFail</button>
                 <button class="ui button" {{action "errorRequest"}} >errorRequest</button>
             </div>
-
             <div class="row">
-                 <div class="ui items" >
-                    {{#each model as |item| }}
-                        <div class="item" >
-                            <div class="content">
-                                <div class="header">
-                                    {{item.name}}
-                                </div>
-                                <div class="extra">
-                                    <button class="ui button" {{action "edit" item }} >edit</button>
-                                    <button class="ui button" {{action "remove" item }} >remove</button>
-                                </div>
-                            </div>
-                        </div>
-                    {{/each}}
-                </div>
+                {{#ui-message}}
+                    {{message}}
+                {{/ui-message}}
             </div>
     </div>
 </div>
