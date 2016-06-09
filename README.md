@@ -101,6 +101,10 @@ export default Ember.Route.extend({
 
 # Release notes
 
+## 0.0.8
+
+- fix [#19](https://github.com/wecatch/ember-easy-orm/issues/19)
+
 ## 0.0.7
 
 **2016-06-01**
