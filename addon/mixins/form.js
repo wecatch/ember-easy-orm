@@ -111,8 +111,8 @@ var godForm = Ember.Mixin.create({
         success(action, data, selectedItem) {
             Ember.Logger.info('subclass override this function for response data');
             this.set('modalShow', false);
-            if(this.sendAction) {
-                this.sendAction('success', action, data, selectedItem);
+            if(this.get('success')) {
+                this.get('success')(action, data, selectedItem);
             }
 
             if(!this.model.contains(selectedItem)){
@@ -133,8 +133,8 @@ var godForm = Ember.Mixin.create({
         fail(action, reason, selectedItem) {
             Ember.Logger.info('subclass override this function for fail request');
             this.set('reason', reason);
-            if(this.sendAction) {
-                this.sendAction('fail', action, reason, selectedItem);
+            if(this.get('fail')) {
+                this.get('fail')(action, reason, selectedItem);
             }
         },
     }
@@ -211,7 +211,9 @@ var formComponent = Ember.Mixin.create({
             if((action === 'create'|| action === 'update') && data){
                 Ember.setProperties(this.model, data);
             }
-            this.sendAction('success', action, data, this.get('model'));
+            if(this.get('success')){
+                this.get('success')(action, data, this.get('model'))
+            }
         },
         /**
         fail ajax request success callback
@@ -222,7 +224,9 @@ var formComponent = Ember.Mixin.create({
         fail(action, reason) {
             Ember.Logger.info('subclass override this function for fail request');
             this.set('reason', reason);
-            this.sendAction('fail', action, reason, this.get('model'));
+            if(this.get('fail')){
+                this.get('fail')(action, reason, this.get('model'))
+            }
         },
         /**
         cancel current operation
@@ -230,7 +234,9 @@ var formComponent = Ember.Mixin.create({
         */
         cancel() {
             Ember.Logger.info('subclass override this function for form modify cancel');
-            this.sendAction('cancel', this.get('model'));
+            if(this.get('cancel')){
+                this.get('cancel')(this.get('model'))
+            }
         },
     },
     /**
