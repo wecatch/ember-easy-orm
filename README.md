@@ -34,7 +34,7 @@ ember g model user
 modify model/user.js code like this
 
 
-```
+```javascript
 import Ember from 'ember';
 import model, {DS} from 'ember-easy-orm/mixins/model'
 
@@ -64,7 +64,7 @@ export default Ember.Object.extend(model, {
 
 then in any route, you can use store service to connect to your backend server api
 
-```
+```javascript
 
 import Ember from 'ember';
 
@@ -100,6 +100,11 @@ export default Ember.Route.extend({
 
 
 # Release notes
+
+## 0.0.9
+
+- Replace sendAction with normal function call.
+- Bump ember-cli to 2.3.0
 
 ## 0.0.8
 
