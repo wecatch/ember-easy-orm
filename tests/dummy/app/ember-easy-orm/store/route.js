@@ -1,5 +1,6 @@
 import Ember from 'ember';
 
+
 export default Ember.Route.extend({
     model(){
         return this.store.find('user');
@@ -7,9 +8,9 @@ export default Ember.Route.extend({
     actions: {
         storePut(){
             let user = this.store.modelFor('user');
-            console.log(this.store.request.parent === user.request.parent);
-            console.log(this.store.request.parent === this.strore);
-            console.log(user.request.parent === user);
+            this.store.request.parent === user.request.parent;
+            this.store.request.parent === this.strore;
+            user.request.parent === user;
 
             this.store.request.put('/v1/user/1', {dataType: 'text'}).then(data=>{
                 this.controller.set('message', `store put call response ${JSON.stringify(data)}`);

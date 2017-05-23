@@ -4,11 +4,9 @@ import startApp from '../../helpers/start-app';
 import { stubRequest, FakeServer } from '../../helpers/fake-server';
 import { module, test } from 'qunit';
 
-module('Unit | Mixin | ajax');
-
 let App;
 
-module('Unit: ajax', {
+module('Unit | Mixin | ajax', {
   beforeEach(){
     App = startApp();
   },

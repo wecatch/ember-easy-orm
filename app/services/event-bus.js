@@ -1,1 +1,0 @@
-export { default } from 'ember-easy-orm/services/event-bus';
