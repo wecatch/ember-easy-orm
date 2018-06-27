@@ -18,7 +18,7 @@ import {
 } from 'ember-cli-fake-server';
 
 
-module('Acceptance | Mixin | ajax', function(hooks) {
+module('Acceptance | Mixin | model', function(hooks) {
     setupApplicationTest(hooks);
     setupFakeServer(hooks);
 
@@ -233,7 +233,5 @@ module('Acceptance | Mixin | ajax', function(hooks) {
         })(), 11);
 
     });
-
-
 
 });
