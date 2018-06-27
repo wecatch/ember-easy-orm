@@ -107,7 +107,6 @@ export default Ember.Route.extend({
 ## 0.1.0
 
 - Bump ember-cli to 3.1.0
-- Not sure to be compatible with old Ember 
 
 ## 0.0.9
 
