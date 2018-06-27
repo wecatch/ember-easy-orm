@@ -22,59 +22,6 @@ module('Acceptance | Mixin | model', function(hooks) {
     setupApplicationTest(hooks);
     setupFakeServer(hooks);
 
-    stubRequest('get', '/v1/api', function() {
-        return this.success({
-            'data': [{
-                'a': 1
-            }, {
-                'a': 1
-            }],
-            'object': {
-                'a': 1
-            },
-            'number': 1,
-            'string': '1'
-        });
-    });
-
-    stubRequest('get', '/v2/api', function() {
-        return this.success([{
-            'a': 1
-        }, {
-            'a': 1
-        }]);
-    });
-
-    stubRequest('get', '/v2/api', function() {
-        return this.success([{
-            'a': 1
-        }, {
-            'a': 1
-        }]);
-    });
-
-    stubRequest('get', '/v2/api/1', function() {
-        return this.success({
-            'code': 0
-        });
-    });
-
-    stubRequest('post', '/v1/api', function() {
-        return this.success({
-            msg: 'success',
-            code: 0,
-            data: []
-        });
-    });
-
-    stubRequest('delete', '/v1/api', function() {
-        return this.success({
-            msg: 'success',
-            code: 0,
-            data: []
-        });
-    });
-
     // Replace this with your real tests.
     test('model mixin', function(assert) {
         let ModelClass = EmberObject.extend(ModelMixin);
@@ -133,6 +80,36 @@ module('Acceptance | Mixin | model', function(hooks) {
         let ModelClass = EmberObject.extend(ModelMixin);
         const done = assert.async();
         assert.expect(16);
+
+        stubRequest('get', '/v1/api', function() {
+            return this.success({
+                'data': [{
+                    'a': 1
+                }, {
+                    'a': 1
+                }],
+                'object': {
+                    'a': 1
+                },
+                'number': 1,
+                'string': '1'
+            });
+        });
+
+        stubRequest('get', '/v2/api', function() {
+            return this.success([{
+                'a': 1
+            }, {
+                'a': 1
+            }]);
+        });
+
+
+        stubRequest('get', '/v2/api/1', function() {
+            return this.success({
+                'code': 0
+            });
+        });
 
         let subject = ModelClass.create({
             namespace: '/v1',

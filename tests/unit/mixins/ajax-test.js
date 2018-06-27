@@ -17,38 +17,6 @@ import {
 module('Acceptance | Mixin | ajax', function(hooks) {
     setupApplicationTest(hooks);
     setupFakeServer(hooks);
-    
-    stubRequest('get', '/v1/api', function() {
-        return this.success({
-            msg: 'success',
-            code: 0,
-            data: []
-        });
-    });
-
-    stubRequest('put', '/v1/api', function() {
-        return this.success({
-            msg: 'success',
-            code: 0,
-            data: []
-        });
-    });
-
-    stubRequest('post', '/v1/api', function() {
-        return this.success({
-            msg: 'success',
-            code: 0,
-            data: []
-        });
-    });
-
-    stubRequest('delete', '/v1/api', function() {
-        return this.success({
-            msg: 'success',
-            code: 0,
-            data: []
-        });
-    });
 
     // Replace this with your real tests.
     test('ajaxMixin object init', function(assert) {
@@ -101,6 +69,38 @@ module('Acceptance | Mixin | ajax', function(hooks) {
         const AjaxObject = EmberObject.extend(AjaxMixin);
 
         assert.expect(8);
+
+        stubRequest('get', '/v1/api', function() {
+            return this.success({
+                msg: 'success',
+                code: 0,
+                data: []
+            });
+        });
+
+        stubRequest('put', '/v1/api', function() {
+            return this.success({
+                msg: 'success',
+                code: 0,
+                data: []
+            });
+        });
+
+        stubRequest('post', '/v1/api', function() {
+            return this.success({
+                msg: 'success',
+                code: 0,
+                data: []
+            });
+        });
+
+        stubRequest('delete', '/v1/api', function() {
+            return this.success({
+                msg: 'success',
+                code: 0,
+                data: []
+            });
+        });
 
         let ajax = AjaxObject.create({
             getSerializer(data) {
@@ -162,6 +162,38 @@ module('Acceptance | Mixin | ajax', function(hooks) {
 
         const AjaxObject = EmberObject.extend(AjaxMixin);
         let ajax = AjaxObject.create();
+
+        stubRequest('get', '/v1/api', function() {
+            return this.success({
+                msg: 'success',
+                code: 0,
+                data: []
+            });
+        });
+
+        stubRequest('put', '/v1/api', function() {
+            return this.success({
+                msg: 'success',
+                code: 0,
+                data: []
+            });
+        });
+
+        stubRequest('post', '/v1/api', function() {
+            return this.success({
+                msg: 'success',
+                code: 0,
+                data: []
+            });
+        });
+
+        stubRequest('delete', '/v1/api', function() {
+            return this.success({
+                msg: 'success',
+                code: 0,
+                data: []
+            });
+        });
 
         assert.expect(8);
         ajax.getSerializer = function(data) {
