@@ -38,7 +38,6 @@ matrix:
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
-  - yarn global add npm@4
   - yarn global add bower
 
 install:
