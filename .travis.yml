@@ -12,8 +12,7 @@ addons:
   chrome: stable
 
 cache:
-  directories:
-    - $HOME/.npm
+  yarn: true
 
 env:
   global:
@@ -29,6 +28,8 @@ env:
     - EMBER_TRY_SCENARIO=ember-beta
     - EMBER_TRY_SCENARIO=ember-canary
     - EMBER_TRY_SCENARIO=ember-default
+    - NODE_JOB=true
+    - LINT_JOB=true
 
 matrix:
   fast_finish: true
@@ -36,17 +37,15 @@ matrix:
     - env: EMBER_TRY_SCENARIO=ember-canary
 
 before_install:
-  - npm config set spin false
-  - npm install -g bower
-  - npm install -g phantomjs-prebuilt
-  - phantomjs --version
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+  - yarn global add npm@4
+  - yarn global add bower
 
 install:
-  - npm install -g npm@4
-  - npm --version
+  - yarn install --no-lockfile --non-interactive
 
 script:
-  - npm run lint:js
-  # Usually, it's ok to finish the test scenario without reverting
-  #  to the addon's original dependency state, skipping "cleanup".
-  - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO --skip-cleanup
+  - if [[ $LINT_JOB ]]; then yarn lint:js; fi
+  - if [[ $EMBER_TRY_SCENARIO ]]; then yarn run test:ember; fi
+  - if [[ $NODE_JOB ]]; then yarn run test:node; fi
