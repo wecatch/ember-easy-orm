@@ -18,7 +18,7 @@
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "",
+  "repository": "https://github.com/wecatch/ember-easy-orm",
   "scripts": {
     "build": "ember build",
     "lint:js": "eslint ./*.js addon addon-test-support app blueprints config lib server test-support tests",
@@ -26,7 +26,7 @@
     "test": "ember test",
     "test:all": "ember try:each",
     "test:ember": "ember try:one $EMBER_TRY_SCENARIO test --skip-cleanup",
-    "test:emberall": "ember try:each --skip-cleanup",
+    "test:emberall": "ember try:each --skip-cleanup"
   },
   "dependencies": {
     "ember-cli-babel": "^6.6.0"
