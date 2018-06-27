@@ -28,7 +28,6 @@ env:
     - EMBER_TRY_SCENARIO=ember-beta
     - EMBER_TRY_SCENARIO=ember-canary
     - EMBER_TRY_SCENARIO=ember-default
-    - NODE_JOB=true
     - LINT_JOB=true
 
 matrix:
@@ -48,4 +47,3 @@ install:
 script:
   - if [[ $LINT_JOB ]]; then yarn lint:js; fi
   - if [[ $EMBER_TRY_SCENARIO ]]; then yarn run test:ember; fi
-  - if [[ $NODE_JOB ]]; then yarn run test:node; fi
