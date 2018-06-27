@@ -4,6 +4,10 @@ This module has two mixins: godForm and formComponent, they are used to manage f
 @submodule form
 */
 import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import { inject } from '@ember/service';
+import { isNone } from '@ember/utils';
+import { get,setProperties } from '@ember/object';
 
 /** 
 delete object from backend server
@@ -30,7 +34,7 @@ godform mixin is used  for data list to create, update and delete children objec
 @public
 @class godForm
 **/
-var godForm = Ember.Mixin.create({
+var godForm = Mixin.create({
     /** 
     @property modelName
     @type String
@@ -65,7 +69,7 @@ var godForm = Ember.Mixin.create({
     @property store
     @type Object
     */
-    store: Ember.inject.service(),
+    store: inject(),
     actions: {
         /**
         create new record according to modelName
@@ -82,7 +86,7 @@ var godForm = Ember.Mixin.create({
         */
         edit(selectedItem) {
             this.set('modalShow', true);
-            if (!Ember.isNone(selectedItem)) {
+            if (!isNone(selectedItem)) {
                 this.set('selectedItem', selectedItem);
             }
         },
@@ -146,7 +150,7 @@ formComponent mixin is used for single object form
 @public
 @class formComponent
 **/
-var formComponent = Ember.Mixin.create({
+var formComponent = Mixin.create({
     /** 
     @property modelName 
     @type String
@@ -163,7 +167,7 @@ var formComponent = Ember.Mixin.create({
     @property store
     @type Object
     */
-    store: Ember.inject.service(),
+    store: inject(),
     /** 
     ajax fail reason
     @property reason
@@ -182,7 +186,7 @@ var formComponent = Ember.Mixin.create({
             this.set('loading', true);
             if (!this.validate()) {return;}
             let primaryKey = this.get('store').modelFor(this.modelName).primaryKey;
-            let actionName = Ember.get(this.model, primaryKey) ? 'update' : 'create';
+            let actionName = get(this.model, primaryKey) ? 'update' : 'create';
             this.get('store').save(this.get('modelName'), this.get('model')).then((data)=>{
                 this.set('loading', false);
                 this.send('success', actionName, data);
@@ -209,7 +213,7 @@ var formComponent = Ember.Mixin.create({
         success(action, data) {
             Ember.Logger.info('subclass override this function for response data');
             if((action === 'create'|| action === 'update') && data){
-                Ember.setProperties(this.model, data);
+                setProperties(this.model, data);
             }
             if(this.get('success')){
                 this.get('success')(action, data, this.get('model'))

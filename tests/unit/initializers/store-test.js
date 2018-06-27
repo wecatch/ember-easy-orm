@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import Application from '@ember/application';
+import { run } from '@ember/runloop';
 import { initialize } from '../../../initializers/store';
 import { module, test } from 'qunit';
 
@@ -6,8 +7,8 @@ var application;
 
 module('Unit | Initializer | store', {
   beforeEach: function() {
-    Ember.run(function() {
-      application = Ember.Application.create();
+    run(function() {
+      application = Application.create();
       application.deferReadiness();
     });
   }

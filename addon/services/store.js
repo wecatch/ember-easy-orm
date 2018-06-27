@@ -4,6 +4,12 @@ store servie mange all model
 @submodule store
 */
 import Ember from 'ember';
+import Service from '@ember/service';
+import EmberObject from '@ember/object';
+import { getOwner } from '@ember/application';
+import { keys } from '@ember/polyfills';
+import $ from 'jquery';
+import { isEmpty } from '@ember/utils';
 import ajax from '../mixins/ajax';
 
 /** 
@@ -11,15 +17,14 @@ store
 @public
 @class store
 **/
-export default Ember.Service.extend(ajax, {
+export default Service.extend(ajax, {
     modelFor(type) {
         var kclass; 
-        if(Ember.getOwner){
-            const {getOwner} = Ember;
+        if(getOwner){
             kclass = getOwner(this).lookup('model:'+type, { singleton: false });
             if (!kclass) {
                 Ember.Logger.warn('model:' + type + ' is not found');
-                return Ember.Object.create();
+                return EmberObject.create();
             }
             return kclass;
         }
@@ -27,7 +32,7 @@ export default Ember.Service.extend(ajax, {
         kclass = this.container.lookupFactory('model:' + type);
         if (!kclass) {
             Ember.Logger.warn('model:' + type + ' is not found');
-            return Ember.Object.create();
+            return EmberObject.create();
         }
         return kclass.create();
     },
@@ -85,16 +90,16 @@ export default Ember.Service.extend(ajax, {
     },
     emptyAttrs(type, model, filterKeys, unfilterKeys) {
         var emptyKeys = [];
-        var filtered = filterKeys || Ember.keys(this.modelFor(type).model);
+        var filtered = filterKeys || keys(this.modelFor(type).model);
         var unfiltered = unfilterKeys || [];
 
         var finallyfiltered = filtered.filter(function(item) {
             return unfiltered.indexOf(item) === -1;
         });
 
-        Ember.$.each(finallyfiltered, function(index, key) {
+        $.each(finallyfiltered, function(index, key) {
             if (typeof key === "string") {
-                if (Ember.isEmpty(model.get(key))) {
+                if (isEmpty(model.get(key))) {
                     emptyKeys.push(key);
                 }
             }

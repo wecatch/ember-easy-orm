@@ -3,9 +3,9 @@
 @submodule pagination
 */
 
-import Ember from "ember";
+import Mixin from '@ember/object/mixin';
 
-var paginationController = Ember.Mixin.create({
+var paginationController = Mixin.create({
     queryParams: ['skip'],
     skip: 0,
     limit: 20,
@@ -39,7 +39,7 @@ var paginationController = Ember.Mixin.create({
 });
 
 
-var paginationRoute = Ember.Mixin.create({
+var paginationRoute = Mixin.create({
     queryParams: {
         skip: {
             refreshModel: true

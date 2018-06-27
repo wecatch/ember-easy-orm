@@ -4,6 +4,12 @@ support ajax request in this module
 @submodule ajax
  */
 import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import Evented from '@ember/object/evented';
+import { merge } from '@ember/polyfills';
+import { isNone,isBlank } from '@ember/utils';
+import { Promise } from 'rsvp';
+import $ from 'jquery';
 
 /**
 get request function used in ajax.request property
@@ -80,7 +86,7 @@ wrap jquery ajax with Ember.RSVP.Promise
 @public
 @class ajax
 */
-export default Ember.Mixin.create(Ember.Evented, {
+export default Mixin.create(Evented, {
     /** 
     wrapper all request method into request object
     @property request
@@ -108,23 +114,23 @@ export default Ember.Mixin.create(Ember.Evented, {
     ajax: function(method, url, options) {
         let self = this,
             ajaxSettings = {};
-        Ember.merge(ajaxSettings, this.ajaxSettings);
-        if (typeof options === 'object' && !Ember.isNone(options)) {
-            Ember.merge(ajaxSettings, options);
+        merge(ajaxSettings, this.ajaxSettings);
+        if (typeof options === 'object' && !isNone(options)) {
+            merge(ajaxSettings, options);
         }
 
-        if(typeof method !== 'string' || Ember.isBlank(method)){
+        if(typeof method !== 'string' || isBlank(method)){
             throw new Error(`ajax request method is invalid: ${method}`);
         }
 
-        if(typeof url !== 'string' || Ember.isBlank(url)){
+        if(typeof url !== 'string' || isBlank(url)){
             throw new Error(`ajax request url is invalid: ${url}`);
         }
 
-        Ember.merge(ajaxSettings, {type: method, url: url});
+        merge(ajaxSettings, {type: method, url: url});
         self.trigger('ajaxStart');
-        return new Ember.RSVP.Promise(function(resolve, reject) {
-            Ember.$.ajax(ajaxSettings).done(function(data) {
+        return new Promise(function(resolve, reject) {
+            $.ajax(ajaxSettings).done(function(data) {
                 self.trigger('ajaxDone');
                 try{
                     resolve(self.RESTSerializer(data));

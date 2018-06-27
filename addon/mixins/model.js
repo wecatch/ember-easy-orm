@@ -12,7 +12,7 @@ orm model
     
     const {attr} = DS;
 
-    export default Ember.Object.extend(model, {
+    export default EmberObject.extend(model, {
         url: '/v1/pic',
         model: {
             'refer': attr('string'),
@@ -23,6 +23,14 @@ orm model
 */
 
 import Ember from 'ember';
+import { A,isArray } from '@ember/array';
+import Mixin from '@ember/object/mixin';
+import Evented from '@ember/object/evented';
+import  { computed } from '@ember/object';
+import  EmberObject from '@ember/object';
+import  { merge } from '@ember/polyfills';
+import  { isBlank,isNone, } from '@ember/utils';
+
 import ajax from './ajax';
 
 export const DS = {
@@ -46,7 +54,7 @@ export const DS = {
             case 'number':
                 return 0
             case 'array':
-                return Ember.A;
+                return A;
         }
         
         return null;
@@ -59,7 +67,7 @@ mixin in ORM model
 @public
 @class model
 **/
-export default Ember.Mixin.create(ajax, Ember.Evented, {
+export default Mixin.create(ajax, Evented, {
     /**
      The api host, default is current host
      @property {String} host
@@ -146,7 +154,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
      @property {String} api
      @return  {host}{namespace}{url}
      */
-    api: Ember.computed('host', 'namespace', 'url', function() {
+    api: computed('host', 'namespace', 'url', function() {
         return this.host + this.namespace + this.url;
     }),
     /**
@@ -166,13 +174,13 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
         for (var i = model_keys.length - 1; i >= 0; i--) {
             let key = model_keys[i];
             if(typeof self.model[key] === 'function'){
-                if(typeof model[key] === 'object' && !Ember.isArray(model[key])){
+                if(typeof model[key] === 'object' && !isArray(model[key])){
                     record[key] = JSON.stringify(model[key]);
                     continue;
                 }
             }
 
-            if(Ember.isArray(model[key])){
+            if(isArray(model[key])){
                 let content = model[key];
                 for (let i = 0; i < content.length; i++) {
                     if(typeof content[i] === 'object' && content[i]){
@@ -216,7 +224,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
      @return Object current model
      */
     createRecord: function(init) {
-        let record = Ember.Object.create();
+        let record = EmberObject.create();
         for(let property in this.model){
             if(this.model.hasOwnProperty(property)){
                 let v = this.model[property];
@@ -229,7 +237,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
         }
 
         if (typeof init === 'object') {
-            Ember.merge(record, init);
+            merge(record, init);
         }
 
         return record;
@@ -315,7 +323,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
             return;
         }
         for (let k in params) {
-            if (params.hasOwnProperty(k) && Ember.isBlank(params[k])) {
+            if (params.hasOwnProperty(k) && isBlank(params[k])) {
                 delete params[k];
             }
         }
@@ -348,7 +356,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
         }
 
         //data is null or undefined
-        if (Ember.isNone(data)) {
+        if (isNone(data)) {
             Ember.Logger.error('findSerializer response data is null');
             return this.to_array();
         }
@@ -359,7 +367,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
         }
 
         // response data must be array
-        if (!Ember.isArray(data[this.rootKey])) {
+        if (!isArray(data[this.rootKey])) {
             Ember.Logger.error('findSerializer parsedData is not array');
             Ember.Logger.warn(data);
             Ember.Logger.warn(this.rootKey);
@@ -376,7 +384,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
     */
     findOneSerializer: function(data) {
         //data is null or undefined
-        if (Ember.isNone(data)) {
+        if (isNone(data)) {
             Ember.Logger.error('findOneSerializer response data is null');
             return this.to_object();
         }
@@ -387,7 +395,7 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
         }
 
         // parsedObject must be object
-        if (Ember.isNone(data[this.rootKey])) {
+        if (isNone(data[this.rootKey])) {
             Ember.Logger.error('findOneSerializer parsedObject is null');
             return this.to_object();
         }
@@ -395,10 +403,10 @@ export default Ember.Mixin.create(ajax, Ember.Evented, {
         return this.to_object(data[this.rootKey]);
     },
     to_array: function(data){
-        return Ember.A(data || []);
+        return A(data || []);
     },
     to_object: function(data){
-        return Ember.Object.create(data || {});
+        return EmberObject.create(data || {});
     },
     /**
     save serializer

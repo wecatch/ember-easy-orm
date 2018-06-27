@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 import {godForm} from 'ember-easy-orm/mixins/form'; 
 
-export default Ember.Controller.extend(godForm, {
+export default Controller.extend(godForm, {
     modelName: 'user'
 });
