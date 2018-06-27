@@ -50,7 +50,6 @@ module.exports = function(app) {
     });
 
     app.put('/v1/user_json/*', function(req, res){
-        console.log(req.params);
         res.send({code: 0, res:{user: {name: 'world'}}, 'msg': 'put ok'});
     })
 
