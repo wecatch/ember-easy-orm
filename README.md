@@ -11,7 +11,7 @@ This Ember addon support some basic model layer for ajax request like find, crea
 In your ember-cli project, install this addon from npm 
 
 ```
-npm install ember-easy-orm --save-dev
+ember install ember-easy-orm --save-dev
 
 ```
 
@@ -35,12 +35,12 @@ modify model/user.js code like this
 
 
 ```javascript
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import model, {DS} from 'ember-easy-orm/mixins/model'
 
 const {attr} = DS;
 
-export default Ember.Object.extend(model, {
+export default EmberObject.extend(model, {
     url: '/v1/food',
     init(){
         this._super(...arguments);
@@ -69,9 +69,9 @@ then in any route, you can use store service to connect to your backend server a
 
 ```javascript
 
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
+export default Route.extend({
     model() {
         return this.store.find('user');
     }
