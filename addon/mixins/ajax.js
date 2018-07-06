@@ -200,7 +200,7 @@ export default Mixin.create(Evented, {
         return data;
     },
     init: function() {
-        this._super();
+        this._super(...arguments);
         let self = this;
         const request = {
             parent: self,
