@@ -92,12 +92,12 @@ export default Route.extend({
 
 # Store service  api
 
-- find
-- findOne
-- save
-- createRecord
-- deleteRecord
-- ajax
+- [find](http://wecatch.me/ember-easy-orm/docs/classes/store.html)
+- [findOne](http://wecatch.me/ember-easy-orm/docs/classes/store.html)
+- [save](http://wecatch.me/ember-easy-orm/docs/classes/store.html)
+- [createRecord](http://wecatch.me/ember-easy-orm/docs/classes/store.html)
+- [deleteRecord](http://wecatch.me/ember-easy-orm/docs/classes/store.html)
+- [ajax](http://wecatch.me/ember-easy-orm/docs/classes/ajax.html#method-ajax)
 - request.get
 - request.post
 - request.put
