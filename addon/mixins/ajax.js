@@ -5,6 +5,7 @@ support ajax request in this module
  */
 import Ember from 'ember';
 import Mixin from '@ember/object/mixin';
+import { A,isArray } from '@ember/array';
 import Evented from '@ember/object/evented';
 import { merge } from '@ember/polyfills';
 import { isNone,isBlank } from '@ember/utils';
@@ -103,6 +104,13 @@ export default Mixin.create(Evented, {
     ajaxSettings: {
         dataType: 'json'
     },
+    /**
+    if contentType is application/json which method request data need to be serialized with json
+    @property needSerializedMethod
+    @type Object
+    @default ['post', 'put']
+    */
+    needSerializedMethod: null,
     /** 
     jquery ajax method wrapper, return promise
     @method ajax
@@ -128,6 +136,10 @@ export default Mixin.create(Evented, {
         }
 
         merge(ajaxSettings, {type: method, url: url});
+        if (ajaxSettings.contentType === 'application/json' && ajaxSettings['data'] 
+                && isArray(this.needSerializedMethod) && this.needSerializedMethod.includes(method)){
+            ajaxSettings['data'] = JSON.stringify(ajaxSettings['data']);
+        }
         self.trigger('ajaxStart');
         return new Promise(function(resolve, reject) {
             $.ajax(ajaxSettings).done(function(data) {
@@ -150,7 +162,7 @@ export default Mixin.create(Evented, {
         });
     },
     /** 
-    all ajax request data serializer
+    all ajax response data serializer
     @method RESTSerializer
     @param {Object} data response data
     @return serializer data
@@ -160,7 +172,7 @@ export default Mixin.create(Evented, {
         return data;
     },
     /** 
-    get request data serializer
+    get method response data serializer
     @method getSerializer
     @param {Object} data response data
     @return serializer data
@@ -170,7 +182,7 @@ export default Mixin.create(Evented, {
         return data;
     },
     /** 
-    post request data serializer
+    post method response data serializer
     @method postSerializer
     @param {Object} data response data
     @return serializer data
@@ -180,7 +192,7 @@ export default Mixin.create(Evented, {
         return data;
     },
     /** 
-    put request data serializer
+    put method response data serializer
     @method putSerializer
     @param {Object} data response data
     @return serializer data
@@ -190,7 +202,7 @@ export default Mixin.create(Evented, {
         return data;
     },
     /** 
-    delete request data serializer
+    delete method response data serializer
     @method deleteSerializer
     @param {Object} data response data
     @return serializer data
@@ -209,6 +221,7 @@ export default Mixin.create(Evented, {
             put: _put,
             delete: _delete
         };
+        this.set('needSerializedMethod', A(['post', 'put']));
         this.set('request', request);
     }
 });
