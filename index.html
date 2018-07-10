@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/ember-easy-orm/icon/favicon.png">
+    <title>ember-easy-orm</title>
+    <link rel="stylesheet" href="/ember-easy-orm/css/pure.css">
+    <link rel="stylesheet" href="/ember-easy-orm/css/base.css">
+</head>
+<body>
+  <div id="container">
+    <div class="m-nav">
+    <div class="wrap">
+        <a class="home" href="/ember-easy-orm/">
+          ember-easy-orm
+        </a>
+        <ul class="nav external" >
+            <li>
+                <a href="https://github.com/wecatch/ember-easy-orm">Github</a>
+            </li>
+            <li>
+                <a href="http://wecatch.me">Wecatch</a>
+            </li>
+        </ul>
+        <ul class="nav internal" >
+            
+                <li><a href="/ember-easy-orm/docs/">Docs</a></li>
+            
+        </ul>
+    </div>
+</div>
+
+    <div class="m-hero">
+    <div class="wrap">
+        <div class="header">ember-easy-orm</div>
+        <p class="desc" >A easy ORM for ember app, simple and flexible</p>
+        <div class="units">
+        
+            <a class="pure-button pure-red button-large"  href="https://www.npmjs.com/package/ember-easy-orm">Download latest v0.0.7</a>
+        </div>
+    </div>
+</div>
+
+<div class="wrap">
+    <div class="m-article">
+        <header class="article-header">
+            <h1 class="article-title" itemprop="name">Getting started</h1>
+        </header>
+        <div class="content">
+            <p><a href="https://travis-ci.org/wecatch/ember-easy-orm" target="_blank" rel="noopener"><img src="https://travis-ci.org/wecatch/ember-easy-orm.svg?branch=master" alt="Build Status"></a></p>
+<p>This Ember addon support some basic model layer for ajax request like find, create, delete and so on. When you use this addon, please remove ember-data. It also support some mixin for component to easily manage form</p>
+<h1 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h1><h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><p>In your ember-cli project, install this addon from npm </p>
+<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line">npm <span class="keyword">install </span>ember-easy-<span class="keyword">orm </span>--save-dev</span><br></pre></td></tr></table></figure>
+<p>or install the latest version from github</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">npm install https:<span class="regexp">//gi</span>thub.com<span class="regexp">/wecatch/</span>ember-easy-orm --save-dev</span><br></pre></td></tr></table></figure>
+<h2 id="Use-this-addon-in-your-ember-application"><a href="#Use-this-addon-in-your-ember-application" class="headerlink" title="Use this addon in your ember application"></a>Use this addon in your ember application</h2><p>In ember-cli project, create one model</p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line">ember g model <span class="keyword">user</span></span><br></pre></td></tr></table></figure>
+<p>modify model/user.js code like this</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Ember <span class="keyword">from</span> <span class="string">'ember'</span>;</span><br><span class="line"><span class="keyword">import</span> model, &#123;DS&#125; <span class="keyword">from</span> <span class="string">'ember-easy-orm/mixins/model'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123;attr&#125; = DS;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Ember.Object.extend(model, &#123;</span><br><span class="line">    url: <span class="string">'/v1/food'</span>,</span><br><span class="line">    model: &#123;</span><br><span class="line">        <span class="string">'name'</span>: attr(<span class="string">'string'</span>),</span><br><span class="line">        <span class="string">'desc'</span>: attr(<span class="string">'string'</span>),</span><br><span class="line">        <span class="string">'pic'</span>: attr(<span class="string">'array'</span>),</span><br><span class="line">        <span class="string">'province_id'</span>: attr(<span class="string">'string'</span>),</span><br><span class="line">        <span class="string">'city_id'</span>: attr(<span class="string">'string'</span>),</span><br><span class="line">        <span class="string">'area_id'</span>: attr(<span class="string">'string'</span>),</span><br><span class="line">        <span class="string">'town_id'</span>: attr(<span class="string">'string'</span>),</span><br><span class="line">        <span class="string">'country_id'</span>: attr(<span class="string">'string'</span>),</span><br><span class="line">        <span class="string">'url'</span>: attr(<span class="string">'string'</span>),</span><br><span class="line">        <span class="string">'host'</span>: attr(<span class="string">'string'</span>),</span><br><span class="line">        <span class="string">'tag'</span>: attr(<span class="string">'array'</span>),</span><br><span class="line">        <span class="string">'user'</span>: attr(&#123;<span class="attr">defaultValue</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> &#123;<span class="attr">name</span>: <span class="string">''</span>, <span class="string">'gender'</span>: <span class="string">''</span>&#125;;</span><br><span class="line">        &#125;&#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>then in any route, you can use store service to connect to your backend server api</p>
+<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> Ember from <span class="string">'ember'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="built_in">default</span> Ember.Route.extend(&#123;</span><br><span class="line">    model() &#123;</span><br><span class="line">        <span class="built_in">return</span> <span class="keyword">this</span>.store.<span class="built_in">find</span>(<span class="string">'user'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="Running-Tests"><a href="#Running-Tests" class="headerlink" title="Running Tests"></a>Running Tests</h2><ul>
+<li><code>ember test</code></li>
+<li><code>ember test --server</code></li>
+</ul>
+<p><code>npm test</code> (Runs <code>ember try:testall</code> to test your addon against multiple Ember versions)</p>
+<h1 id="Store-service-api"><a href="#Store-service-api" class="headerlink" title="Store service  api"></a>Store service  api</h1><ul>
+<li>find</li>
+<li>findOne</li>
+<li>save</li>
+<li>createRecord</li>
+<li>deleteRecord</li>
+<li>ajax</li>
+<li>request.get</li>
+<li>request.post</li>
+<li>request.put</li>
+<li>request.delete</li>
+</ul>
+
+        </div>
+    </div>
+</div>
+
+  </div>
+    <div class="footer">
+    <p>
+        Powered by <a href="http://wecatch.me">wecatch</a>
+    </p>
+</div>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-79591400-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+</body>
+</html>
