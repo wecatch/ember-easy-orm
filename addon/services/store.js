@@ -88,6 +88,15 @@ export default Service.extend(ajax, {
     save(type, model) {
         return this.modelFor(type).save(model);
     },
+    /**
+    filter model empty attrs
+    @method emptyAttrs
+    @param type modelName
+    @param model object need to be filterd
+    @param filterKeys default is model keys
+    @param unfilterKeys not need to be filterd
+    @return {Array} all keys attribute value is empty
+    */
     emptyAttrs(type, model, filterKeys, unfilterKeys) {
         var emptyKeys = [];
         var filtered = filterKeys || keys(this.modelFor(type).model);

@@ -7,19 +7,33 @@ orm model
 /**
 
 @example
-    import Ember from 'ember';
+    import EmberObject from '@ember/object';
     import model, {DS} from 'ember-easy-orm/mixins/model'
-    
+
     const {attr} = DS;
 
     export default EmberObject.extend(model, {
-        url: '/v1/pic',
-        model: {
-            'refer': attr('string'),
-            'desc': attr('string'),
+        url: '/v1/food',
+        init(){
+            this._super(...arguments);
+            this.model = {
+                'name': attr('string'),
+                'desc': attr('string'),
+                'pic': attr('array'),
+                'province_id': attr('string'),
+                'city_id': attr('string'),
+                'area_id': attr('string'),
+                'town_id': attr('string'),
+                'country_id': attr('string'),
+                'url': attr('string'),
+                'host': attr('string'),
+                'tag': attr('array'),
+                'user': attr({defaultValue: function(){
+                    return {name: '', 'gender': ''};
+                }})
+            };
         }
-    });
-
+    })
 */
 
 import Ember from 'ember';
@@ -111,7 +125,7 @@ export default Mixin.create(ajax, Evented, {
     displayModel: null,
 
     /**
-     url for find request
+     url for find method request, use this method to custome find url
      @method urlForFind
      @default  /host/namespace/?key=params[key]
      @return String
@@ -121,7 +135,7 @@ export default Mixin.create(ajax, Evented, {
     },
 
     /**
-     url for findOne request
+     url for findOne method request, use this method to custome findOne url
      @method urlForFindOne
      @default  /{host}/{namespace}/{id}
      @return String 
@@ -130,8 +144,9 @@ export default Mixin.create(ajax, Evented, {
         return this.get('api') + '/' + id;
     },
     /**
-     url for save request
+     url for save method request, use this method to custome create and update url
      @method urlForSave
+     @param id object primary key
      @default  /{host}/{namespace}/{id}/
      @return String
      */
@@ -140,9 +155,10 @@ export default Mixin.create(ajax, Evented, {
     },
 
     /**
-     url for delete request
+     url for delete method request, use this method to custome delete url
      @method urlForDelete
      @default  /{host}/{namespace}/{id}
+     @param id object primary key
      @return String
      */
     urlForDelete: function(id) {
@@ -158,7 +174,7 @@ export default Mixin.create(ajax, Evented, {
         return this.host + this.namespace + this.url;
     }),
     /**
-     save the record to backend
+     save the record to backend when create or update object
      @method save 
      @param model model needed to save
      @return  {Promise}
@@ -292,8 +308,8 @@ export default Mixin.create(ajax, Evented, {
     /**
     find only one according to primary id
     @method findOne
-    @param {String} id
-    @param {Object} data
+    @param {String} id primary key
+    @param {Object} data query parameter append to url
     @return Promise
     */
     findOne: function(id, data) {
@@ -332,7 +348,7 @@ export default Mixin.create(ajax, Evented, {
     /**
     find serializer
     @method findSerializer 
-    @param {Object} data response data
+    @param {Object} data response data from backend
     @return serializer data
     */
     findSerializer: function(data) {
@@ -377,9 +393,9 @@ export default Mixin.create(ajax, Evented, {
         return this.to_array(data[this.rootKey]);
     },
     /**
-    find serializer
+    serializer for findOne method
     @method findOneSerializer 
-    @param {Object} data response data
+    @param {Object} data response data from backend
     @return serializer data
     */
     findOneSerializer: function(data) {
@@ -409,9 +425,9 @@ export default Mixin.create(ajax, Evented, {
         return EmberObject.create(data || {});
     },
     /**
-    save serializer
+    serializer for save method
     @method saveSerializer 
-    @param {Object} data response data
+    @param {Object} data response data from backend
     @return serializer data
     */
     saveSerializer: function(data) {
@@ -419,9 +435,9 @@ export default Mixin.create(ajax, Evented, {
         return data;
     },
     /**
-    delete serializer
+    serializer for delete
     @method deleteSerializer 
-    @param {Object} data response data
+    @param {Object} data response data from backend
     @return serializer data
     */
     deleteSerializer: function(data) {

@@ -83,16 +83,21 @@ const _put = function(url, options) {
 };
 
 /**
-wrap jquery ajax with Ember.RSVP.Promise
+wrap jquery ajax with Ember.RSVP.Promise, this mixin also has events like:
+- ajaxStart be trigged when ajax request start
+- ajaxDone  be trigged when ajax request finish (success or fails)
+- ajaxSuccess  be trigged when promise resovle success
+- ajaxError be trigged when ajax request fails
+- RESTSerializerError  be trigged error happen when response data serialize
 @public
 @class ajax
 */
 export default Mixin.create(Evented, {
     /** 
-    wrapper all request method into request object
+    wrapper all request method (get put post delete) into request object
     @property request
-    @type Object
-    @default null
+    @type Object 
+    @default {Object}
     */
     request: null,
     /** 
