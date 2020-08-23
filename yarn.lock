@@ -438,11 +438,25 @@ babel-plugin-debug-macros@^0.1.10, babel-plugin-debug-macros@^0.1.11:
   dependencies:
     semver "^5.3.0"
 
+babel-plugin-debug-macros@^0.2.0-beta.6:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-debug-macros/-/babel-plugin-debug-macros-0.2.0.tgz#0120ac20ce06ccc57bf493b667cf24b85c28da7a"
+  integrity sha512-Wpmw4TbhR3Eq2t3W51eBAQSdKlr+uAyF0GI4GtPfMCD12Y4cIdpKC9l0RjNTH/P9isFypSqqewMPm7//fnZlNA==
+  dependencies:
+    semver "^5.3.0"
+
 babel-plugin-ember-modules-api-polyfill@^2.3.0:
   version "2.3.2"
   resolved "http://registry.npm.taobao.org/babel-plugin-ember-modules-api-polyfill/download/babel-plugin-ember-modules-api-polyfill-2.3.2.tgz#56ea34bea963498d070a2b7dc2ce18a92c434093"
   dependencies:
     ember-rfc176-data "^0.3.0"
+
+babel-plugin-ember-modules-api-polyfill@^2.6.0:
+  version "2.13.4"
+  resolved "https://registry.yarnpkg.com/babel-plugin-ember-modules-api-polyfill/-/babel-plugin-ember-modules-api-polyfill-2.13.4.tgz#cf62bc9bfd808c48d810d5194f4329e9453bd603"
+  integrity sha512-uxQPkEQAzCYdwhZk16O9m1R4xtCRNy4oEUTBrccOPfzlIahRZJic/JeP/ZEL0BC6Mfq6r55eOg6gMF/zdFoCvA==
+  dependencies:
+    ember-rfc176-data "^0.3.13"
 
 babel-plugin-htmlbars-inline-precompile@^0.2.5:
   version "0.2.5"
@@ -910,6 +924,22 @@ broccoli-asset-rewrite@^1.1.0:
 broccoli-babel-transpiler@^6.0.0, broccoli-babel-transpiler@^6.4.2:
   version "6.4.3"
   resolved "http://registry.npm.taobao.org/broccoli-babel-transpiler/download/broccoli-babel-transpiler-6.4.3.tgz#06e399298d41700cdc10d675b1d808a89ef6b2d0"
+  dependencies:
+    babel-core "^6.26.0"
+    broccoli-funnel "^2.0.1"
+    broccoli-merge-trees "^2.0.0"
+    broccoli-persistent-filter "^1.4.3"
+    clone "^2.0.0"
+    hash-for-dep "^1.2.3"
+    heimdalljs-logger "^0.1.7"
+    json-stable-stringify "^1.0.0"
+    rsvp "^4.8.2"
+    workerpool "^2.3.0"
+
+broccoli-babel-transpiler@^6.5.0:
+  version "6.5.1"
+  resolved "https://registry.yarnpkg.com/broccoli-babel-transpiler/-/broccoli-babel-transpiler-6.5.1.tgz#a4afc8d3b59b441518eb9a07bd44149476e30738"
+  integrity sha512-w6GcnkxvHcNCte5FcLGEG1hUdQvlfvSN/6PtGWU/otg69Ugk8rUk51h41R0Ugoc+TNxyeFG1opRt2RlA87XzNw==
   dependencies:
     babel-core "^6.26.0"
     broccoli-funnel "^2.0.1"
@@ -1881,6 +1911,25 @@ ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.0.0-beta.7, ember-cli-babel@^6
     ember-cli-version-checker "^2.1.2"
     semver "^5.5.0"
 
+ember-cli-babel@^6.18.0:
+  version "6.18.0"
+  resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-6.18.0.tgz#3f6435fd275172edeff2b634ee7b29ce74318957"
+  integrity sha512-7ceC8joNYxY2wES16iIBlbPSxwKDBhYwC8drU3ZEvuPDMwVv1KzxCNu1fvxyFEBWhwaRNTUxSCsEVoTd9nosGA==
+  dependencies:
+    amd-name-resolver "1.2.0"
+    babel-plugin-debug-macros "^0.2.0-beta.6"
+    babel-plugin-ember-modules-api-polyfill "^2.6.0"
+    babel-plugin-transform-es2015-modules-amd "^6.24.0"
+    babel-polyfill "^6.26.0"
+    babel-preset-env "^1.7.0"
+    broccoli-babel-transpiler "^6.5.0"
+    broccoli-debug "^0.6.4"
+    broccoli-funnel "^2.0.0"
+    broccoli-source "^1.1.0"
+    clone "^2.0.0"
+    ember-cli-version-checker "^2.1.2"
+    semver "^5.5.0"
+
 ember-cli-broccoli-sane-watcher@^2.0.4:
   version "2.1.1"
   resolved "http://registry.npm.taobao.org/ember-cli-broccoli-sane-watcher/download/ember-cli-broccoli-sane-watcher-2.1.1.tgz#1687adada9022de26053fba833dc7dd10f03dd08"
@@ -1910,9 +1959,10 @@ ember-cli-eslint@^4.2.1:
     rsvp "^4.6.1"
     walk-sync "^0.3.0"
 
-ember-cli-fake-server@^0.5.0:
-  version "0.5.0"
-  resolved "http://registry.npm.taobao.org/ember-cli-fake-server/download/ember-cli-fake-server-0.5.0.tgz#860a0522e7cce8ad1ddb5fa5e9242987ee7b9c13"
+ember-cli-fake-server@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/ember-cli-fake-server/-/ember-cli-fake-server-0.6.0.tgz#13b5f84964f20fe67837aeec6685e4d73c5316bb"
+  integrity sha512-bMOdMZM+qPAz1LNBPXJ7SivxpYCDCcrxQ8Yd5TfnrEaVkYFvkgQS3mpw98UYcSGUDkZ4LNeZnDO1LJiMcOlJFA==
   dependencies:
     ember-cli-babel "^6.6.0"
     ember-cli-pretender "^1.0.1"
@@ -1930,16 +1980,6 @@ ember-cli-htmlbars-inline-precompile@^1.0.0:
     hash-for-dep "^1.2.3"
     heimdalljs-logger "^0.1.9"
     silent-error "^1.1.0"
-
-ember-cli-htmlbars@1.1.1:
-  version "1.1.1"
-  resolved "http://registry.npm.taobao.org/ember-cli-htmlbars/download/ember-cli-htmlbars-1.1.1.tgz#8776cf59796dac8f32e8625fc6d1ea45ffa55de1"
-  dependencies:
-    broccoli-persistent-filter "^1.0.3"
-    ember-cli-version-checker "^1.0.2"
-    hash-for-dep "^1.0.2"
-    json-stable-stringify "^1.0.0"
-    strip-bom "^2.0.0"
 
 ember-cli-htmlbars@^2.0.1:
   version "2.0.3"
@@ -2043,12 +2083,6 @@ ember-cli-valid-component-name@^1.0.0:
   resolved "http://registry.npm.taobao.org/ember-cli-valid-component-name/download/ember-cli-valid-component-name-1.0.0.tgz#71550ce387e0233065f30b30b1510aa2dfbe87ef"
   dependencies:
     silent-error "^1.0.0"
-
-ember-cli-version-checker@^1.0.2:
-  version "1.3.1"
-  resolved "http://registry.npm.taobao.org/ember-cli-version-checker/download/ember-cli-version-checker-1.3.1.tgz#0bc2d134c830142da64bf9627a0eded10b61ae72"
-  dependencies:
-    semver "^5.3.0"
 
 ember-cli-version-checker@^2.0.0, ember-cli-version-checker@^2.1.0, ember-cli-version-checker@^2.1.2:
   version "2.1.2"
@@ -2198,22 +2232,29 @@ ember-rfc176-data@^0.3.0, ember-rfc176-data@^0.3.1, ember-rfc176-data@^0.3.3:
   version "0.3.3"
   resolved "http://registry.npm.taobao.org/ember-rfc176-data/download/ember-rfc176-data-0.3.3.tgz#27fba08d540a7463a4366c48eaa19c5a44971a39"
 
+ember-rfc176-data@^0.3.13:
+  version "0.3.15"
+  resolved "https://registry.yarnpkg.com/ember-rfc176-data/-/ember-rfc176-data-0.3.15.tgz#af3f1da5a0339b6feda380edc2f7190e0f416c2d"
+  integrity sha512-GPKa7zRDBblRy0orxTXt5yrpp/Pf5CkuRFSIR8qMFDww0CqCKjCRwdZnWYzCM4kAEfZnXRIDDefe1tBaFw7v7w==
+
 ember-router-generator@^1.2.3:
   version "1.2.3"
   resolved "http://registry.npm.taobao.org/ember-router-generator/download/ember-router-generator-1.2.3.tgz#8ed2ca86ff323363120fc14278191e9e8f1315ee"
   dependencies:
     recast "^0.11.3"
 
-ember-semantic-ui@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/ember-semantic-ui/-/ember-semantic-ui-0.2.0.tgz#d4fc2773b94ab7b98e4b7b25a6edee8a8aa2fedf"
+ember-semantic-ui@^0.2.3:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/ember-semantic-ui/-/ember-semantic-ui-0.2.5.tgz#41bf2c51b6fb97fd16243aa01716c339f0942dc2"
+  integrity sha512-jtOUfHl/t8YptdXV1JXy9pj5NW4uQwWRhYJiR2h20hmeqMgONEPjYoN1S8iQb6X+OUvRgrBvMmi4fKU2dTfZ2A==
   dependencies:
     broccoli-funnel "^1.0.1"
     broccoli-merge-trees "^1.1.1"
-    ember-cli-babel "^6.6.0"
-    ember-cli-htmlbars "1.1.1"
+    ember-cli-babel "^6.18.0"
+    ember-cli-htmlbars "^2.0.1"
     moment "^2.22.2"
     pikaday "^1.7.0"
+    semantic-ui-css "^2.4.1"
 
 ember-source-channel-url@^1.0.1:
   version "1.1.0"
@@ -3614,6 +3655,11 @@ jquery@^3.3.1:
   version "3.3.1"
   resolved "http://registry.npm.taobao.org/jquery/download/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
+jquery@x.*:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.1.tgz#d7b4d08e1bfdb86ad2f1a3d039ea17304717abb5"
+  integrity sha512-XwIBPqcMn57FxfT+Go5pzySnm4KWkT1Tv7gjrpT1srtf8Weynl6R273VJ5GjkRb51IzMp5nbaPjJXMWeju2MKg==
+
 js-reporters@1.2.1:
   version "1.2.1"
   resolved "http://registry.npm.taobao.org/js-reporters/download/js-reporters-1.2.1.tgz#f88c608e324a3373a95bcc45ad305e5c979c459b"
@@ -4391,9 +4437,10 @@ mocha@^3.2.0:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
-moment@2.x, moment@^2.22.2:
-  version "2.22.2"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
+moment@^2.22.2:
+  version "2.27.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
+  integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
 
 morgan@^1.8.1:
   version "1.9.0"
@@ -4825,10 +4872,9 @@ pify@^3.0.0:
   resolved "http://registry.npm.taobao.org/pify/download/pify-3.0.0.tgz#e5a4acd2c101fdf3d9a4d07f0dbc4db49dd28176"
 
 pikaday@^1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/pikaday/-/pikaday-1.7.0.tgz#78bf26e709f7c135b674762bbab79d75ac589ab6"
-  optionalDependencies:
-    moment "2.x"
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/pikaday/-/pikaday-1.8.0.tgz#ce930e257042e852e6aadee1115e01554b2d71c5"
+  integrity sha512-SgGxMYX0NHj9oQnMaSyAipr2gOrbB4Lfs/TJTb6H6hRHs39/5c5VZi73Q8hr53+vWjdn6HzkWcj8Vtl3c9ziaA==
 
 pinkie-promise@^2.0.0:
   version "2.0.1"
@@ -5285,6 +5331,13 @@ sane@^2.2.0, sane@^2.4.1:
 sax@^1.2.4:
   version "1.2.4"
   resolved "http://registry.npm.taobao.org/sax/download/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
+
+semantic-ui-css@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/semantic-ui-css/-/semantic-ui-css-2.4.1.tgz#f5aea39fafb787cbd905ec724272a3f9cba9004a"
+  integrity sha512-Pkp0p9oWOxlH0kODx7qFpIRYpK1T4WJOO4lNnpNPOoWKCrYsfHqYSKgk5fHfQtnWnsAKy7nLJMW02bgDWWFZFg==
+  dependencies:
+    jquery x.*
 
 "semver@2 || 3 || 4 || 5", semver@^5.1.0, semver@^5.1.1, semver@^5.3.0, semver@^5.4.1, semver@^5.5.0:
   version "5.5.0"
