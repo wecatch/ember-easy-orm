@@ -106,6 +106,10 @@ export default Route.extend({
 
 # Release notes
 
+## 0.2.0
+
+- Bump ember-cli to 3.21.0
+
 ## 0.1.1
 
 - Serialize request data into json when use post and put method

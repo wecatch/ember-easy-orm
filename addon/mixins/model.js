@@ -1,18 +1,18 @@
 /**
-orm model
-@module mixins
-@submodule model
-*/
+ orm model
+ @module mixins
+ @submodule model
+ */
 
 /**
 
-@example
-    import EmberObject from '@ember/object';
-    import model, {DS} from 'ember-easy-orm/mixins/model'
+ @example
+ import EmberObject from '@ember/object';
+ import model, {DS} from 'ember-easy-orm/mixins/model'
 
-    const {attr} = DS;
+ const {attr} = DS;
 
-    export default EmberObject.extend(model, {
+ export default EmberObject.extend(model, {
         url: '/v1/food',
         init(){
             this._super(...arguments);
@@ -34,33 +34,32 @@ orm model
             };
         }
     })
-*/
+ */
 
 import Ember from 'ember';
-import { A,isArray } from '@ember/array';
+import {A, isArray} from '@ember/array';
 import Mixin from '@ember/object/mixin';
 import Evented from '@ember/object/evented';
-import  { computed } from '@ember/object';
-import  EmberObject from '@ember/object';
-import  { merge } from '@ember/polyfills';
-import  { isBlank,isNone, } from '@ember/utils';
+import EmberObject, {computed} from '@ember/object';
+import {merge} from '@ember/polyfills';
+import {isBlank, isNone,} from '@ember/utils';
 
 import ajax from './ajax';
 
 export const DS = {
-    attr(type, hash){
-        if(typeof type === 'object'){
+    attr(type, hash) {
+        if (typeof type === 'object') {
             hash = type;
             type = undefined;
         }
 
-        if(typeof hash === 'object'){
-            if(hash.hasOwnProperty('defaultValue')){
+        if (typeof hash === 'object') {
+            if (hash.hasOwnProperty('defaultValue')) {
                 return hash.defaultValue;
             }
         }
 
-        switch(type){
+        switch (type) {
             case 'string':
                 return ''
             case 'boolean':
@@ -70,17 +69,17 @@ export const DS = {
             case 'array':
                 return A;
         }
-        
+
         return null;
     }
 }
 
 
-/** 
-mixin in ORM model
-@public
-@class model
-**/
+/**
+ mixin in ORM model
+ @public
+ @class model
+ **/
 export default Mixin.create(ajax, Evented, {
     /**
      The api host, default is current host
@@ -104,7 +103,7 @@ export default Mixin.create(ajax, Evented, {
     rootKey: '',
 
     /**
-     The api url. If rootURL ends with slash , the url should not starts with slash 
+     The api url. If rootURL ends with slash , the url should not starts with slash
      @property {String} url
      @default  ""
      */
@@ -130,7 +129,7 @@ export default Mixin.create(ajax, Evented, {
      @default  /host/namespace/?key=params[key]
      @return String
      */
-    urlForFind: function() {
+    urlForFind: function () {
         return this.get('api');
     },
 
@@ -138,9 +137,9 @@ export default Mixin.create(ajax, Evented, {
      url for findOne method request, use this method to custome findOne url
      @method urlForFindOne
      @default  /{host}/{namespace}/{id}
-     @return String 
+     @return String
      */
-    urlForFindOne: function(id) {
+    urlForFindOne: function (id) {
         return this.get('api') + '/' + id;
     },
     /**
@@ -150,7 +149,7 @@ export default Mixin.create(ajax, Evented, {
      @default  /{host}/{namespace}/{id}/
      @return String
      */
-    urlForSave: function(id) {
+    urlForSave: function (id) {
         return id ? this.get('api') + '/' + id : this.get('api');
     },
 
@@ -161,25 +160,25 @@ export default Mixin.create(ajax, Evented, {
      @param id object primary key
      @return String
      */
-    urlForDelete: function(id) {
+    urlForDelete: function (id) {
         return id ? this.get('api') + '/' + id : this.get('api');
     },
     /**
      make api with host, namespace, url
-     @method api 
+     @method api
      @property {String} api
      @return  {host}{namespace}{url}
      */
-    api: computed('host', 'namespace', 'url', function() {
+    api: computed('host', 'namespace', 'url', function () {
         return this.host + this.namespace + this.url;
     }),
     /**
      save the record to backend when create or update object
-     @method save 
+     @method save
      @param model model needed to save
      @return  {Promise}
      */
-    save: function(model) {
+    save: function (model) {
         let self = this,
             primaryKey = this.primaryKey,
             url = this.urlForSave(model[primaryKey], model),
@@ -189,17 +188,17 @@ export default Mixin.create(ajax, Evented, {
         //filter model data
         for (var i = model_keys.length - 1; i >= 0; i--) {
             let key = model_keys[i];
-            if(typeof self.model[key] === 'function'){
-                if(typeof model[key] === 'object' && !isArray(model[key])){
+            if (typeof self.model[key] === 'function') {
+                if (typeof model[key] === 'object' && !isArray(model[key])) {
                     record[key] = JSON.stringify(model[key]);
                     continue;
                 }
             }
 
-            if(isArray(model[key])){
+            if (isArray(model[key])) {
                 let content = model[key];
                 for (let i = 0; i < content.length; i++) {
-                    if(typeof content[i] === 'object' && content[i]){
+                    if (typeof content[i] === 'object' && content[i]) {
                         model[key][i] = JSON.stringify(content[i]);
                     }
                 }
@@ -211,42 +210,42 @@ export default Mixin.create(ajax, Evented, {
         //check if is new data
         if (model[primaryKey]) {
             record[primaryKey] = model[primaryKey];
-            return this.request.put(url, {'data': record}).then(function(data) {
-                try{
+            return this.request.put(url, {'data': record}).then(function (data) {
+                try {
                     return self.saveSerializer(data);
-                }catch(e){
-                    throw(e);                    
+                } catch (e) {
+                    throw(e);
                 }
-            }, function(reason) {
+            }, function (reason) {
                 throw(reason);
             });
         }
 
-        return this.request.post(url, {'data': record}).then(function(data) {
-            try{
+        return this.request.post(url, {'data': record}).then(function (data) {
+            try {
                 return self.saveSerializer(data);
-            }catch(e){
+            } catch (e) {
                 throw(e);
             }
-        }, function(reason) {
+        }, function (reason) {
             throw(reason);
         });
     },
 
     /**
      create new model with init options and model property
-     @method createRecord 
+     @method createRecord
      @param {Object} init init data
      @return Object current model
      */
-    createRecord: function(init) {
+    createRecord: function (init) {
         let record = EmberObject.create();
-        for(let property in this.model){
-            if(this.model.hasOwnProperty(property)){
+        for (let property in this.model) {
+            if (this.model.hasOwnProperty(property)) {
                 let v = this.model[property];
-                if(typeof v === 'function'){
+                if (typeof v === 'function') {
                     record.set(property, v.apply());
-                }else {
+                } else {
                     record.set(property, v);
                 }
             }
@@ -260,81 +259,81 @@ export default Mixin.create(ajax, Evented, {
     },
 
     /**
-    delete the record from backend
-    @method deleteRecord 
-    @param {Object} model
-    @param {Object} data passed to backend server as extra params
-    @return  Promise
+     delete the record from backend
+     @method deleteRecord
+     @param {Object} model
+     @param {Object} data passed to backend server as extra params
+     @return  Promise
      */
-    deleteRecord: function(model, data) {
+    deleteRecord: function (model, data) {
         let self = this,
-            _id = typeof model ==='string' || typeof model ==='number' ? model : model[this.primaryKey],
+            _id = typeof model === 'string' || typeof model === 'number' ? model : model[this.primaryKey],
             url = this.urlForDelete(_id, data),
             options = data ? {data: data} : {};
 
-        return this.request.delete(url, options).then(function(data) {
-            try{
+        return this.request.delete(url, options).then(function (data) {
+            try {
                 return self.deleteSerializer(data);
-            }catch(e){
+            } catch (e) {
                 throw(e);
             }
-        }, function(reason) {
+        }, function (reason) {
             throw(reason);
         });
     },
     /**
      find the records from backend according to params
-     @method find 
+     @method find
      @param {Object} params query params
      @return  Promise
-    */
-    find: function(params) {
+     */
+    find: function (params) {
         let self = this,
             url = this.urlForFind(params),
             filterParams = this._filterParams(params),
             options = filterParams ? {data: filterParams} : {};
 
-        return this.request.get(url, options).then(function(data) {
-            try{
+        return this.request.get(url, options).then(function (data) {
+            try {
                 return self.findSerializer(data);
-            }catch(e){
-                throw(e);                
+            } catch (e) {
+                throw(e);
             }
-        }, function(reason) {
+        }, function (reason) {
             throw(reason);
         });
     },
 
     /**
-    find only one according to primary id
-    @method findOne
-    @param {String} id primary key
-    @param {Object} data query parameter append to url
-    @return Promise
-    */
-    findOne: function(id, data) {
+     find only one according to primary id
+     @method findOne
+     @param {String} id primary key
+     @param {Object} data query parameter append to url
+     @return Promise
+     */
+    findOne: function (id, data) {
         let url = this.urlForFindOne(id, data),
             self = this,
             options = data ? {data: data} : {};
 
-        return this.request.get(url, options).then(function(data) {
-            try{
+        return this.request.get(url, options).then(function (data) {
+            try {
                 return self.findOneSerializer(data);
-            }catch(e){
-                throw(e);                
+            } catch (e) {
+                throw(e);
             }
-        }, function(reason) {
+        }, function (reason) {
             throw(reason);
         });
     },
     /**
-    filter request params
-    @private
-    @method _filterParams 
-    @param {Object} params
-    @return Object filtered params
-    */
-    _filterParams: function(params) {
+     filter request params
+     @private
+     @method _filterParams
+     @param {Object} params
+     @return Object filtered params
+     */
+    _filterParams: function (params) {
         if (!params) {
             return;
         }
@@ -346,23 +345,23 @@ export default Mixin.create(ajax, Evented, {
         return params;
     },
     /**
-    find serializer
-    @method findSerializer 
-    @param {Object} data response data from backend
-    @return serializer data
-    */
-    findSerializer: function(data) {
+     find serializer
+     @method findSerializer
+     @param {Object} data response data from backend
+     @return serializer data
+     */
+    findSerializer: function (data) {
         let result = {};
-        if(this.displayModel){
+        if (this.displayModel) {
             let objectKeys = Object.keys(this.displayModel);
             for (let i = 0; i < objectKeys.length; i++) {
                 let key = objectKeys[i];
                 let keyAttr = this.displayModel[key];
-                if(keyAttr==='array'){
+                if (keyAttr === 'array') {
                     result[key] = this.to_array(data[key]);
                     continue;
                 }
-                if(keyAttr==='object'){
+                if (keyAttr === 'object') {
                     result[key] = this.to_object(data[key]);
                     continue;
                 }
@@ -373,7 +372,7 @@ export default Mixin.create(ajax, Evented, {
 
         //data is null or undefined
         if (isNone(data)) {
-            Ember.Logger.error('findSerializer response data is null');
+            console.log('findSerializer response data is null');
             return this.to_array();
         }
 
@@ -384,24 +383,24 @@ export default Mixin.create(ajax, Evented, {
 
         // response data must be array
         if (!isArray(data[this.rootKey])) {
-            Ember.Logger.error('findSerializer parsedData is not array');
-            Ember.Logger.warn(data);
-            Ember.Logger.warn(this.rootKey);
+            console.log('findSerializer parsedData is not array');
+            console.log(data);
+            console.log(this.rootKey);
             return this.to_array();
         }
 
         return this.to_array(data[this.rootKey]);
     },
     /**
-    serializer for findOne method
-    @method findOneSerializer 
-    @param {Object} data response data from backend
-    @return serializer data
-    */
-    findOneSerializer: function(data) {
+     serializer for findOne method
+     @method findOneSerializer
+     @param {Object} data response data from backend
+     @return serializer data
+     */
+    findOneSerializer: function (data) {
         //data is null or undefined
         if (isNone(data)) {
-            Ember.Logger.error('findOneSerializer response data is null');
+            console.log('findOneSerializer response data is null');
             return this.to_object();
         }
 
@@ -412,41 +411,41 @@ export default Mixin.create(ajax, Evented, {
 
         // parsedObject must be object
         if (isNone(data[this.rootKey])) {
-            Ember.Logger.error('findOneSerializer parsedObject is null');
+            console.log('findOneSerializer parsedObject is null');
             return this.to_object();
         }
 
         return this.to_object(data[this.rootKey]);
     },
-    to_array: function(data){
+    to_array: function (data) {
         return A(data || []);
     },
-    to_object: function(data){
+    to_object: function (data) {
         return EmberObject.create(data || {});
     },
     /**
-    serializer for save method
-    @method saveSerializer 
-    @param {Object} data response data from backend
-    @return serializer data
-    */
-    saveSerializer: function(data) {
-        Ember.Logger.info('subclass override saveSerializer for response data serializer');
+     serializer for save method
+     @method saveSerializer
+     @param {Object} data response data from backend
+     @return serializer data
+     */
+    saveSerializer: function (data) {
+        console.log('subclass override saveSerializer for response data serializer');
         return data;
     },
     /**
-    serializer for delete
-    @method deleteSerializer 
-    @param {Object} data response data from backend
-    @return serializer data
-    */
-    deleteSerializer: function(data) {
-        Ember.Logger.info('subclass override deleteSerializer for response data serializer');
+     serializer for delete
+     @method deleteSerializer
+     @param {Object} data response data from backend
+     @return serializer data
+     */
+    deleteSerializer: function (data) {
+        console.log('subclass override deleteSerializer for response data serializer');
         return data;
     },
-    init: function(){
+    init: function () {
         this._super(...arguments);
-        if(typeof this.rootKey !== 'string'){
+        if (typeof this.rootKey !== 'string') {
             throw new Error(`rootKey only allow string type, now is ${this.rootKey}`);
         }
     }

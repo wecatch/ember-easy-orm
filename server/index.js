@@ -13,7 +13,7 @@ module.exports = function(app) {
             _id:3,
             name: 'Line',
             gender: 'f'
-        }])
+        }]);
     });
 
     app.post('/v1/user', function(req, res) {
@@ -22,11 +22,11 @@ module.exports = function(app) {
 
     app.put('/v1/user/*', function(req, res){
         res.send('put ok');
-    })
+    });
 
     app.delete('/v1/user/*', function(req, res){
         res.send('delete ok');
-    })
+    });
 
 
     app.get('/v1/user_json', function(req, res) {
@@ -42,7 +42,7 @@ module.exports = function(app) {
             _id:3,
             name: 'react',
             gender: 'f'
-        }])
+        }]);
     });
 
     app.post('/v1/user_json', function(req, res) {
@@ -51,9 +51,9 @@ module.exports = function(app) {
 
     app.put('/v1/user_json/*', function(req, res){
         res.send({code: 0, res:{user: {name: 'world'}}, 'msg': 'put ok'});
-    })
+    });
 
     app.delete('/v1/user_json/*', function(req, res){
         res.send({code: 0, res:{}, 'msg': 'delete ok'});
-    })
+    });
 };
