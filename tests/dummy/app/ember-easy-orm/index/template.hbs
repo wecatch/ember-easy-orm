@@ -4,34 +4,32 @@
             <h2>model example</h2>
         </div>
         <div class="row" >
-            <button class="ui button" {{action "modelGet" model}} >get</button>
-            <button class="ui button" {{action "modelPost" model}} >post</button>
-            <button class="ui button" {{action "modelPut" model}} >put</button>
-            <button class="ui button" {{action "modelDelete" model}} >delete</button>
-            <button class="ui button" {{action "modelAjaxSuccess" model}} >AjaxSuccess</button>
-            <button class="ui button" {{action "modelAjaxFail" model}} >AjaxFail</button>
+            <button type="button" class="ui button" {{action "modelGet" model}} >get</button>
+            <button type="button" class="ui button" {{action "modelPost" model}} >post</button>
+            <button type="button" class="ui button" {{action "modelPut" model}} >put</button>
+            <button type="button" class="ui button" {{action "modelDelete" model}} >delete</button>
+            <button type="button" class="ui button" {{action "modelAjaxSuccess" model}} >AjaxSuccess</button>
+            <button type="button" class="ui button" {{action "modelAjaxFail" model}} >AjaxFail</button>
         </div>
         <div class="row">
-            {{#ui-message}}
-                {{message}}
-            {{/ui-message}}
+            <UiMessage>{{message}}</UiMessage>
         </div>
         <div class="row">
-            <div class="ui items" >
+            <div class="ui items">
                 {{#each model as |item| }}
-                    <div class="item" >
+                    <div class="item">
                         <div class="content">
                             <div class="header">
                                 {{item.name}}
                             </div>
                             <div class="extra">
-                                <button class="ui button" {{action "edit" item }} >edit</button>
-                                <button class="ui button" {{action "remove" item }} >remove</button>
+                                <button type="button" class="ui button" {{action "edit" item }} >edit</button>
+                                <button type="button" class="ui button" {{action "remove" item }} >remove</button>
                             </div>
                         </div>
                     </div>
                 {{/each}}
             </div>
         </div>
-    </div>    
+    </div>
 </div>

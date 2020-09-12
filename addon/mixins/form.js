@@ -18,7 +18,7 @@ let deleteObject = function (selectedItem) {
         throw new Error(`mixin component modelName is invalid: ${this.modelName}`);
     }
     this.set('loading', true);
-    this.get('store').deleteRecord(this.get('modelName'), selectedItem).then((data) => {
+    this.store.deleteRecord(this.modelName, selectedItem).then((data) => {
         this.set('loading', false);
         this.send('success', 'delete', data, selectedItem);
     }).catch((reason) => {
@@ -76,7 +76,7 @@ var godForm = Mixin.create({
          */
         add() {
             this.set('modalShow', true);
-            this.set('selectedItem', this.get('store').createRecord(this.get('modelName')));
+            this.set('selectedItem', this.store.createRecord(this.modelName));
         },
         /**
          edit current selected item
@@ -136,8 +136,8 @@ var godForm = Mixin.create({
         fail(action, reason, selectedItem) {
             console.log('subclass override this function for fail request');
             this.set('reason', reason);
-            if (this.get('fail')) {
-                this.get('fail')(action, reason, selectedItem);
+            if (this.fail) {
+                this.fail(action, reason, selectedItem);
             }
         },
     }
@@ -186,9 +186,9 @@ var formComponent = Mixin.create({
             if (!this.validate()) {
                 return;
             }
-            let primaryKey = this.get('store').modelFor(this.modelName).primaryKey;
+            let primaryKey = this.store.modelFor(this.modelName).primaryKey;
             let actionName = get(this.model, primaryKey) ? 'update' : 'create';
-            this.get('store').save(this.get('modelName'), this.get('model')).then((data) => {
+            this.store.save(this.modelName, this.model).then((data) => {
                 this.set('loading', false);
                 this.send('success', actionName, data);
             }).catch((reason) => {
@@ -202,7 +202,7 @@ var formComponent = Mixin.create({
          @event remove
          */
         remove() {
-            deleteObject.call(this, this.get('model'));
+            deleteObject.call(this, this.model);
         },
 
         /**
@@ -216,8 +216,8 @@ var formComponent = Mixin.create({
             if ((action === 'create' || action === 'update') && data) {
                 setProperties(this.model, data);
             }
-            if (this.get('success')) {
-                this.get('success')(action, data, this.get('model'));
+            if (this.success) {
+                this.success(action, data, this.model);
             }
         },
         /**
@@ -229,8 +229,9 @@ var formComponent = Mixin.create({
         fail(action, reason) {
             console.log('subclass override this function for fail request');
             this.set('reason', reason);
-            if (this.get('fail')) {
-                this.get('fail')(action, reason, this.get('model'));
+            // call object fail function from action
+            if (this.fail) {
+                this.fail(action, reason, this.model);
             }
         },
         /**
@@ -239,8 +240,8 @@ var formComponent = Mixin.create({
          */
         cancel() {
             console.log('subclass override this function for form modify cancel');
-            if (this.get('cancel')) {
-                this.get('cancel')(this.get('model'));
+            if (this.cancel) {
+                this.cancel(this.model);
             }
         },
     },

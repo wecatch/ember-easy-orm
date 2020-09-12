@@ -36,7 +36,7 @@
     })
  */
 
-import Ember from 'ember';
+
 import {A, isArray} from '@ember/array';
 import Mixin from '@ember/object/mixin';
 import Evented from '@ember/object/evented';
@@ -54,25 +54,25 @@ export const DS = {
         }
 
         if (typeof hash === 'object') {
-            if (hash.hasOwnProperty('defaultValue')) {
+            if (hash.defaultValue !== undefined) {
                 return hash.defaultValue;
             }
         }
 
         switch (type) {
             case 'string':
-                return ''
+                return '';
             case 'boolean':
                 return true;
             case 'number':
-                return 0
+                return 0;
             case 'array':
                 return A;
         }
 
         return null;
     }
-}
+};
 
 
 /**
@@ -130,7 +130,7 @@ export default Mixin.create(ajax, Evented, {
      @return String
      */
     urlForFind: function () {
-        return this.get('api');
+        return this.api;
     },
 
     /**
@@ -140,7 +140,7 @@ export default Mixin.create(ajax, Evented, {
      @return String
      */
     urlForFindOne: function (id) {
-        return this.get('api') + '/' + id;
+        return this.api + '/' + id;
     },
     /**
      url for save method request, use this method to custome create and update url
@@ -150,7 +150,7 @@ export default Mixin.create(ajax, Evented, {
      @return String
      */
     urlForSave: function (id) {
-        return id ? this.get('api') + '/' + id : this.get('api');
+        return id ? this.api + '/' + id : this.api;
     },
 
     /**
@@ -161,7 +161,7 @@ export default Mixin.create(ajax, Evented, {
      @return String
      */
     urlForDelete: function (id) {
-        return id ? this.get('api') + '/' + id : this.get('api');
+        return id ? this.api + '/' + id : this.api;
     },
     /**
      make api with host, namespace, url
@@ -211,6 +211,7 @@ export default Mixin.create(ajax, Evented, {
         if (model[primaryKey]) {
             record[primaryKey] = model[primaryKey];
             return this.request.put(url, {'data': record}).then(function (data) {
+                // eslint-disable-next-line no-useless-catch
                 try {
                     return self.saveSerializer(data);
                 } catch (e) {
@@ -222,6 +223,7 @@ export default Mixin.create(ajax, Evented, {
         }
 
         return this.request.post(url, {'data': record}).then(function (data) {
+            // eslint-disable-next-line no-useless-catch
             try {
                 return self.saveSerializer(data);
             } catch (e) {
