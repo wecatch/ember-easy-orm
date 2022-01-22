@@ -5,10 +5,10 @@
  */
 import Service from '@ember/service';
 import EmberObject from '@ember/object';
-import {getOwner} from '@ember/application';
-import {keys} from '@ember/polyfills';
+import { getOwner } from '@ember/application';
+import { keys } from '@ember/polyfills';
 import $ from 'jquery';
-import {isEmpty} from '@ember/utils';
+import { isEmpty } from '@ember/utils';
 import ajax from '../mixins/ajax';
 
 /**
@@ -18,19 +18,22 @@ import ajax from '../mixins/ajax';
  **/
 export default Service.extend(ajax, {
     modelFor(type) {
-        var kclass;
         if (getOwner) {
-            kclass = getOwner(this).lookup('model:' + type, {singleton: false});
-            if (!kclass) {
-                console.log('model:' + type + ' is not found');
+            // https://api.emberjs.com/ember/release/classes/ApplicationInstance/methods/lookup?anchor=lookup
+            // 直接对 type 进行实例化
+            let modelInstance = getOwner(this).lookup('model:' + type, {
+                singleton: false,
+            });
+
+            if (!modelInstance) {
+                console.error('model:' + type + ' is not found');
                 return EmberObject.create();
             }
-            return kclass;
+            return modelInstance;
         }
-
-        kclass = this.container.lookupFactory('model:' + type);
+        let kclass = this.container.lookupFactory('model:' + type);
         if (!kclass) {
-            console.log('model:' + type + ' is not found');
+            console.error('model:' + type + ' is not found');
             return EmberObject.create();
         }
         return kclass.create();
@@ -106,12 +109,12 @@ export default Service.extend(ajax, {
         });
 
         $.each(finallyfiltered, function (index, key) {
-            if (typeof key === "string") {
+            if (typeof key === 'string') {
                 if (isEmpty(model.get(key))) {
                     emptyKeys.push(key);
                 }
             }
         });
         return emptyKeys;
-    }
+    },
 });
