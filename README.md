@@ -106,6 +106,11 @@ export default Route.extend({
 
 # Release notes
 
+## 1.0.0
+
+- Bump ember-cli to 3.28.0
+- Refactor code into native JavaScript
+
 ## 0.2.0
 
 - Bump ember-cli to 3.21.0
