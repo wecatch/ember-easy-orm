@@ -3,9 +3,9 @@
     {{ui-form-input label="id" class="inline" value=model._id}}
     {{ui-form-input label="name" class="inline" value=model.name}}
     {{ui-form-input label="gender" class="inline" value=model.gender}}
-    <button class="ui green button"  {{ action "save"}} >save</button>
-    <button class="ui button" {{action "cancel"}} >cancel</button>
+    <button class="ui green button" type="submit" {{ action "save"}} >save</button>
+    <button class="ui button" type="submit" {{action "cancel"}} >cancel</button>
     {{#if model._id}}
-        <button class="ui red button" {{action "remove"}} >delete</button>
+        <button class="ui red button" type="submit" {{action "remove"}} >delete</button>
     {{/if}}
 </form>

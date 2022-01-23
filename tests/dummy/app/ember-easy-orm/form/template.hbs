@@ -1,11 +1,11 @@
 <div class="ui container">
     <div class="ui grid">
         <div class="row">
-            <button class="ui green button" {{action "add"}} >create</button>
+            <button class="ui green button" type="button" {{action "add"}} >create</button>
         </div>
         <div class="row">
             {{#if modalShow}}
-                {{#user-item model=selectedItem cancel=(action "cancel") success=(action "success") fail=(action "fail") }}{{/user-item}}
+                <UserItem @model={{selectedItem}} @cancel={{action "cancel"}} @success={{action "success"}} @fail={{action "fail"}}></UserItem>
             {{/if}}
         </div>
         <div class="row">
@@ -17,8 +17,8 @@
                                 {{item.name}}
                             </div>
                             <div class="extra">
-                                <button class="ui button" {{action "edit" item }} >edit</button>
-                                <button class="ui button" {{action "remove" item }} >remove</button>
+                                <button class="ui button" type="button" {{action "edit" item }} >edit</button>
+                                <button class="ui button" type="button" {{action "remove" item }} >remove</button>
                             </div>
                         </div>
                     </div>

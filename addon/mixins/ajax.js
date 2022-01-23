@@ -4,11 +4,11 @@
  @submodule ajax
  */
 import Mixin from '@ember/object/mixin';
-import {A, isArray} from '@ember/array';
+import { A, isArray } from '@ember/array';
 import Evented from '@ember/object/evented';
-import {assign} from '@ember/polyfills';
-import {isBlank, isNone} from '@ember/utils';
-import {Promise} from 'rsvp';
+import { assign } from '@ember/polyfills';
+import { isBlank, isNone } from '@ember/utils';
+import { Promise } from 'rsvp';
 import $ from 'jquery';
 
 /**
@@ -17,15 +17,18 @@ import $ from 'jquery';
  */
 const _get = function (url, options) {
     let self = this.parent;
-    return self.ajax('get', url, options).then(function (data) {
-        try {
-            return self.getSerializer(data);
-        } catch (e) {
-            throw(e);
+    return self.ajax('get', url, options).then(
+        function (data) {
+            try {
+                return self.getSerializer(data);
+            } catch (e) {
+                throw e;
+            }
+        },
+        function (reason) {
+            throw reason;
         }
-    }, function (reason) {
-        throw(reason);
-    });
+    );
 };
 
 /**
@@ -34,17 +37,19 @@ const _get = function (url, options) {
  */
 const _post = function (url, options) {
     let self = this.parent;
-    return self.ajax('post', url, options).then(function (data) {
-        try {
-            return self.postSerializer(data);
-        } catch (e) {
-            throw(e);
+    return self.ajax('post', url, options).then(
+        function (data) {
+            try {
+                return self.postSerializer(data);
+            } catch (e) {
+                throw e;
+            }
+        },
+        function (reason) {
+            throw reason;
         }
-    }, function (reason) {
-        throw(reason);
-    });
+    );
 };
-
 
 /**
  delete request function used in ajax.request property
@@ -52,17 +57,19 @@ const _post = function (url, options) {
  */
 const _delete = function (url, options) {
     let self = this.parent;
-    return self.ajax('delete', url, options).then(function (data) {
-        try {
-            return self.deleteSerializer(data);
-        } catch (e) {
-            throw(e);
+    return self.ajax('delete', url, options).then(
+        function (data) {
+            try {
+                return self.deleteSerializer(data);
+            } catch (e) {
+                throw e;
+            }
+        },
+        function (reason) {
+            throw reason;
         }
-    }, function (reason) {
-        throw(reason);
-    });
+    );
 };
-
 
 /**
  put request function used in ajax.request property
@@ -70,15 +77,18 @@ const _delete = function (url, options) {
  */
 const _put = function (url, options) {
     let self = this.parent;
-    return self.ajax('put', url, options).then(function (data) {
-        try {
-            return self.putSerializer(data);
-        } catch (e) {
-            throw(e);
+    return self.ajax('put', url, options).then(
+        function (data) {
+            try {
+                return self.putSerializer(data);
+            } catch (e) {
+                throw e;
+            }
+        },
+        function (reason) {
+            throw reason;
         }
-    }, function (reason) {
-        throw(reason);
-    });
+    );
 };
 
 /**
@@ -106,7 +116,7 @@ export default Mixin.create(Evented, {
      @default {dataType: 'json'}
      */
     ajaxSettings: {
-        dataType: 'json'
+        dataType: 'json',
     },
     /**
      if contentType is application/json which method request data need to be serialized with json
@@ -139,30 +149,36 @@ export default Mixin.create(Evented, {
             throw new Error(`ajax request url is invalid: ${url}`);
         }
 
-        assign(ajaxSettings, {type: method, url: url});
-        if (ajaxSettings.contentType === 'application/json' && ajaxSettings['data']
-            && isArray(this.needSerializedMethod) && this.needSerializedMethod.includes(method)) {
+        assign(ajaxSettings, { type: method, url: url });
+        if (
+            ajaxSettings.contentType === 'application/json' &&
+            ajaxSettings['data'] &&
+            isArray(this.needSerializedMethod) &&
+            this.needSerializedMethod.includes(method)
+        ) {
             ajaxSettings['data'] = JSON.stringify(ajaxSettings['data']);
         }
         self.trigger('ajaxStart');
         return new Promise(function (resolve, reject) {
-            $.ajax(ajaxSettings).done(function (data) {
-                self.trigger('ajaxDone');
-                try {
-                    resolve(self.RESTSerializer(data));
-                    self.trigger('ajaxSuccess');
-                } catch (e) {
-                    self.trigger('RESTSerializerError', e);
-                    reject(e);
-                }
-            }).fail(function (jqXHR, responseText, errorThrown) {
-                self.trigger('ajaxDone');
-                console.log(jqXHR);
-                console.log(ajaxSettings);
-                let error = `${responseText} ${errorThrown}`;
-                self.trigger('ajaxError', error, ajaxSettings, jqXHR);
-                reject(new Error(error));
-            });
+            $.ajax(ajaxSettings)
+                .done(function (data) {
+                    self.trigger('ajaxDone');
+                    try {
+                        resolve(self.RESTSerializer(data));
+                        self.trigger('ajaxSuccess');
+                    } catch (e) {
+                        self.trigger('RESTSerializerError', e);
+                        reject(e);
+                    }
+                })
+                .fail(function (jqXHR, responseText, errorThrown) {
+                    self.trigger('ajaxDone');
+                    console.log(jqXHR);
+                    console.log(ajaxSettings);
+                    let error = `${responseText} ${errorThrown}`;
+                    self.trigger('ajaxError', error, ajaxSettings, jqXHR);
+                    reject(new Error(error));
+                });
         });
     },
     /**
@@ -172,7 +188,9 @@ export default Mixin.create(Evented, {
      @return serializer data
      */
     RESTSerializer: function (data) {
-        console.log('subclass override RESTSerializer for response data serializer');
+        console.log(
+            'subclass override RESTSerializer for response data serializer'
+        );
         return data;
     },
     /**
@@ -182,7 +200,9 @@ export default Mixin.create(Evented, {
      @return serializer data
      */
     getSerializer: function (data) {
-        console.log('subclass override getSerializer for get response data serializer');
+        console.log(
+            'subclass override getSerializer for get response data serializer'
+        );
         return data;
     },
     /**
@@ -192,7 +212,9 @@ export default Mixin.create(Evented, {
      @return serializer data
      */
     postSerializer: function (data) {
-        console.log('subclass override postSerializer for post response data serializer');
+        console.log(
+            'subclass override postSerializer for post response data serializer'
+        );
         return data;
     },
     /**
@@ -202,7 +224,9 @@ export default Mixin.create(Evented, {
      @return serializer data
      */
     putSerializer: function (data) {
-        console.log('subclass override putSerializer for put response data serializer');
+        console.log(
+            'subclass override putSerializer for put response data serializer'
+        );
         return data;
     },
     /**
@@ -212,7 +236,9 @@ export default Mixin.create(Evented, {
      @return serializer data
      */
     deleteSerializer: function (data) {
-        console.log('subclass override deleteSerializer for delete response data serializer');
+        console.log(
+            'subclass override deleteSerializer for delete response data serializer'
+        );
         return data;
     },
     init: function () {
@@ -223,9 +249,9 @@ export default Mixin.create(Evented, {
             get: _get,
             post: _post,
             put: _put,
-            delete: _delete
+            delete: _delete,
         };
         this.set('needSerializedMethod', A(['post', 'put']));
         this.set('request', request);
-    }
+    },
 });

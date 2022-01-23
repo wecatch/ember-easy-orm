@@ -4,9 +4,9 @@
  @submodule form
  */
 import Mixin from '@ember/object/mixin';
-import {inject} from '@ember/service';
-import {isNone} from '@ember/utils';
-import {get, setProperties} from '@ember/object';
+import { inject } from '@ember/service';
+import { isNone } from '@ember/utils';
+import { get, setProperties } from '@ember/object';
 
 /**
  delete object from backend server
@@ -15,18 +15,22 @@ import {get, setProperties} from '@ember/object';
  */
 let deleteObject = function (selectedItem) {
     if (!this.modelName) {
-        throw new Error(`mixin component modelName is invalid: ${this.modelName}`);
+        throw new Error(
+            `mixin component modelName is invalid: ${this.modelName}`
+        );
     }
     this.set('loading', true);
-    this.store.deleteRecord(this.modelName, selectedItem).then((data) => {
-        this.set('loading', false);
-        this.send('success', 'delete', data, selectedItem);
-    }).catch((reason) => {
-        this.set('loading', false);
-        this.send('fail', 'delete', reason, selectedItem);
-    });
+    this.store
+        .deleteRecord(this.modelName, selectedItem)
+        .then((data) => {
+            this.set('loading', false);
+            this.send('success', 'delete', data, selectedItem);
+        })
+        .catch((reason) => {
+            this.set('loading', false);
+            this.send('fail', 'delete', reason, selectedItem);
+        });
 };
-
 
 /**
  godform mixin is used  for data list to create, update and delete children object
@@ -114,8 +118,8 @@ var godForm = Mixin.create({
         success(action, data, selectedItem) {
             console.log('subclass override this function for response data');
             this.set('modalShow', false);
-            if (this.get('success')) {
-                this.get('success')(action, data, selectedItem);
+            if (this.success) {
+                this.success(action, data, selectedItem);
             }
 
             if (!this.model.contains(selectedItem)) {
@@ -140,9 +144,8 @@ var godForm = Mixin.create({
                 this.fail(action, reason, selectedItem);
             }
         },
-    }
+    },
 });
-
 
 /**
  formComponent mixin is used for single object form
@@ -180,7 +183,9 @@ var formComponent = Mixin.create({
          */
         save() {
             if (!this.modelName) {
-                throw new Error(`mixin formComponent modelName is invalid: ${this.modelName}`);
+                throw new Error(
+                    `mixin formComponent modelName is invalid: ${this.modelName}`
+                );
             }
             this.set('loading', true);
             if (!this.validate()) {
@@ -188,13 +193,16 @@ var formComponent = Mixin.create({
             }
             let primaryKey = this.store.modelFor(this.modelName).primaryKey;
             let actionName = get(this.model, primaryKey) ? 'update' : 'create';
-            this.store.save(this.modelName, this.model).then((data) => {
-                this.set('loading', false);
-                this.send('success', actionName, data);
-            }).catch((reason) => {
-                this.set('loading', false);
-                this.send('fail', actionName, reason);
-            });
+            this.store
+                .save(this.modelName, this.model)
+                .then((data) => {
+                    this.set('loading', false);
+                    this.send('success', actionName, data);
+                })
+                .catch((reason) => {
+                    this.set('loading', false);
+                    this.send('fail', actionName, reason);
+                });
         },
 
         /**
@@ -239,7 +247,9 @@ var formComponent = Mixin.create({
          @event cancel
          */
         cancel() {
-            console.log('subclass override this function for form modify cancel');
+            console.log(
+                'subclass override this function for form modify cancel'
+            );
             if (this.cancel) {
                 this.cancel(this.model);
             }
@@ -253,11 +263,7 @@ var formComponent = Mixin.create({
     validate() {
         console.log('subclass override this function for model validate');
         return true;
-    }
+    },
 });
 
-
-export {
-    formComponent,
-    godForm
-};
+export { formComponent, godForm };

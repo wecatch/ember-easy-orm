@@ -7,5 +7,5 @@ export function initialize() {
 
 export default {
     name: 'store',
-    initialize: initialize
+    initialize: initialize,
 };

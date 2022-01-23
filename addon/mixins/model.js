@@ -36,13 +36,12 @@
     })
  */
 
-
-import {A, isArray} from '@ember/array';
+import { A, isArray } from '@ember/array';
 import Mixin from '@ember/object/mixin';
 import Evented from '@ember/object/evented';
-import EmberObject, {computed} from '@ember/object';
-import {merge} from '@ember/polyfills';
-import {isBlank, isNone,} from '@ember/utils';
+import EmberObject, { computed } from '@ember/object';
+import { merge } from '@ember/polyfills';
+import { isBlank, isNone } from '@ember/utils';
 
 import ajax from './ajax';
 
@@ -71,9 +70,8 @@ export const DS = {
         }
 
         return null;
-    }
+    },
 };
-
 
 /**
  mixin in ORM model
@@ -204,34 +202,41 @@ export default Mixin.create(ajax, Evented, {
                 }
             }
 
-            record[key] = model[key] !== undefined ? model[key] : self.model[key];
+            record[key] =
+                model[key] !== undefined ? model[key] : self.model[key];
         }
 
         //check if is new data
         if (model[primaryKey]) {
             record[primaryKey] = model[primaryKey];
-            return this.request.put(url, {'data': record}).then(function (data) {
+            return this.request.put(url, { data: record }).then(
+                function (data) {
+                    // eslint-disable-next-line no-useless-catch
+                    try {
+                        return self.saveSerializer(data);
+                    } catch (e) {
+                        throw e;
+                    }
+                },
+                function (reason) {
+                    throw reason;
+                }
+            );
+        }
+
+        return this.request.post(url, { data: record }).then(
+            function (data) {
                 // eslint-disable-next-line no-useless-catch
                 try {
                     return self.saveSerializer(data);
                 } catch (e) {
-                    throw(e);
+                    throw e;
                 }
-            }, function (reason) {
-                throw(reason);
-            });
-        }
-
-        return this.request.post(url, {'data': record}).then(function (data) {
-            // eslint-disable-next-line no-useless-catch
-            try {
-                return self.saveSerializer(data);
-            } catch (e) {
-                throw(e);
+            },
+            function (reason) {
+                throw reason;
             }
-        }, function (reason) {
-            throw(reason);
-        });
+        );
     },
 
     /**
@@ -269,19 +274,25 @@ export default Mixin.create(ajax, Evented, {
      */
     deleteRecord: function (model, data) {
         let self = this,
-            _id = typeof model === 'string' || typeof model === 'number' ? model : model[this.primaryKey],
+            _id =
+                typeof model === 'string' || typeof model === 'number'
+                    ? model
+                    : model[this.primaryKey],
             url = this.urlForDelete(_id, data),
-            options = data ? {data: data} : {};
+            options = data ? { data: data } : {};
 
-        return this.request.delete(url, options).then(function (data) {
-            try {
-                return self.deleteSerializer(data);
-            } catch (e) {
-                throw(e);
+        return this.request.delete(url, options).then(
+            function (data) {
+                try {
+                    return self.deleteSerializer(data);
+                } catch (e) {
+                    throw e;
+                }
+            },
+            function (reason) {
+                throw reason;
             }
-        }, function (reason) {
-            throw(reason);
-        });
+        );
     },
     /**
      find the records from backend according to params
@@ -293,17 +304,20 @@ export default Mixin.create(ajax, Evented, {
         let self = this,
             url = this.urlForFind(params),
             filterParams = this._filterParams(params),
-            options = filterParams ? {data: filterParams} : {};
+            options = filterParams ? { data: filterParams } : {};
 
-        return this.request.get(url, options).then(function (data) {
-            try {
-                return self.findSerializer(data);
-            } catch (e) {
-                throw(e);
+        return this.request.get(url, options).then(
+            function (data) {
+                try {
+                    return self.findSerializer(data);
+                } catch (e) {
+                    throw e;
+                }
+            },
+            function (reason) {
+                throw reason;
             }
-        }, function (reason) {
-            throw(reason);
-        });
+        );
     },
 
     /**
@@ -316,17 +330,20 @@ export default Mixin.create(ajax, Evented, {
     findOne: function (id, data) {
         let url = this.urlForFindOne(id, data),
             self = this,
-            options = data ? {data: data} : {};
+            options = data ? { data: data } : {};
 
-        return this.request.get(url, options).then(function (data) {
-            try {
-                return self.findOneSerializer(data);
-            } catch (e) {
-                throw(e);
+        return this.request.get(url, options).then(
+            function (data) {
+                try {
+                    return self.findOneSerializer(data);
+                } catch (e) {
+                    throw e;
+                }
+            },
+            function (reason) {
+                throw reason;
             }
-        }, function (reason) {
-            throw(reason);
-        });
+        );
     },
     /**
      filter request params
@@ -432,7 +449,9 @@ export default Mixin.create(ajax, Evented, {
      @return serializer data
      */
     saveSerializer: function (data) {
-        console.log('subclass override saveSerializer for response data serializer');
+        console.log(
+            'subclass override saveSerializer for response data serializer'
+        );
         return data;
     },
     /**
@@ -442,13 +461,17 @@ export default Mixin.create(ajax, Evented, {
      @return serializer data
      */
     deleteSerializer: function (data) {
-        console.log('subclass override deleteSerializer for response data serializer');
+        console.log(
+            'subclass override deleteSerializer for response data serializer'
+        );
         return data;
     },
     init: function () {
         this._super(...arguments);
         if (typeof this.rootKey !== 'string') {
-            throw new Error(`rootKey only allow string type, now is ${this.rootKey}`);
+            throw new Error(
+                `rootKey only allow string type, now is ${this.rootKey}`
+            );
         }
-    }
+    },
 });

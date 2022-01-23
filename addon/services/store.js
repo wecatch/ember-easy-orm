@@ -4,7 +4,7 @@
  @submodule store
  */
 import Service from '@ember/service';
-import EmberObject from '@ember/object';
+import {get} from '@ember/object';
 import { getOwner } from '@ember/application';
 import { keys } from '@ember/polyfills';
 import $ from 'jquery';
@@ -18,25 +18,9 @@ import ajax from '../mixins/ajax';
  **/
 export default Service.extend(ajax, {
     modelFor(type) {
-        if (getOwner) {
-            // https://api.emberjs.com/ember/release/classes/ApplicationInstance/methods/lookup?anchor=lookup
-            // 直接对 type 进行实例化
-            let modelInstance = getOwner(this).lookup('model:' + type, {
-                singleton: false,
-            });
-
-            if (!modelInstance) {
-                console.error('model:' + type + ' is not found');
-                return EmberObject.create();
-            }
-            return modelInstance;
-        }
-        let kclass = this.container.lookupFactory('model:' + type);
-        if (!kclass) {
-            console.error('model:' + type + ' is not found');
-            return EmberObject.create();
-        }
-        return kclass.create();
+        // https://api.emberjs.com/ember/release/classes/ApplicationInstance/methods/lookup?anchor=lookup
+        // 直接对 type 进行实例化
+        return getOwner(this).lookup('model:' + type, { singleton: false });
     },
     /**
      find the record according to modelName
@@ -91,30 +75,22 @@ export default Service.extend(ajax, {
         return this.modelFor(type).save(model);
     },
     /**
-     filter model empty attrs
+     filter model empty attrs [null, undefined, ""]
      @method emptyAttrs
-     @param type modelName
      @param model object need to be filterd
-     @param filterKeys default is model keys
-     @param unfilterKeys not need to be filterd
+     @param {Array} filterKeys 
+     @param {Array} unfilterKeys not need to be filterd
      @return {Array} all keys attribute value is empty
      */
-    emptyAttrs(type, model, filterKeys, unfilterKeys) {
-        var emptyKeys = [];
-        var filtered = filterKeys || keys(this.modelFor(type).model);
-        var unfiltered = unfilterKeys || [];
-
-        var finallyfiltered = filtered.filter(function (item) {
-            return unfiltered.indexOf(item) === -1;
-        });
-
-        $.each(finallyfiltered, function (index, key) {
-            if (typeof key === 'string') {
-                if (isEmpty(model.get(key))) {
-                    emptyKeys.push(key);
+    emptyAttrs(model, filterKeys, unfilterKeys) {
+        return filterKeys
+            .filter(function (item) {
+                return unfilterKeys.indexOf(item) === -1;
+            })
+            .filter(function (item) {
+                if (typeof item === 'string') {
+                    return isEmpty(get(model, item));
                 }
-            }
-        });
-        return emptyKeys;
+            });
     },
 });
