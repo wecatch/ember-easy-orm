@@ -5,15 +5,14 @@
 [Docs](http://wecatch.me/ember-easy-orm/docs/)
 
 This Ember addon support some basic model layer for ajax request like find, create, delete and so on. When you use this addon, please remove ember-data. It also support some mixin for component to easily manage form
-
 # Getting Started
 
 ## Install
 
-In your ember-cli project, install this addon from npm 
+In your ember-cli project, install this addon from npm
 
 ```
-ember install ember-easy-orm --save-dev
+ember install ember-easy-orm
 
 ```
 
@@ -105,6 +104,11 @@ export default Route.extend({
 
 
 # Release notes
+
+## 1.0.0
+
+- Rewrite to native class
+- Bump to 4.3
 
 ## 0.2.0
 

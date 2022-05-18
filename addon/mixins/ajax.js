@@ -6,7 +6,6 @@
 import Mixin from '@ember/object/mixin';
 import {A, isArray} from '@ember/array';
 import Evented from '@ember/object/evented';
-import {assign} from '@ember/polyfills';
 import {isBlank, isNone} from '@ember/utils';
 import {Promise} from 'rsvp';
 import $ from 'jquery';
@@ -126,9 +125,9 @@ export default Mixin.create(Evented, {
     ajax: function (method, url, options) {
         let self = this,
             ajaxSettings = {};
-        assign(ajaxSettings, this.ajaxSettings);
+        Object.assign(ajaxSettings, this.ajaxSettings);
         if (typeof options === 'object' && !isNone(options)) {
-            assign(ajaxSettings, options);
+            Object.assign(ajaxSettings, options);
         }
 
         if (typeof method !== 'string' || isBlank(method)) {
@@ -139,7 +138,7 @@ export default Mixin.create(Evented, {
             throw new Error(`ajax request url is invalid: ${url}`);
         }
 
-        assign(ajaxSettings, {type: method, url: url});
+        Object.assign(ajaxSettings, {type: method, url: url});
         if (ajaxSettings.contentType === 'application/json' && ajaxSettings['data']
             && isArray(this.needSerializedMethod) && this.needSerializedMethod.includes(method)) {
             ajaxSettings['data'] = JSON.stringify(ajaxSettings['data']);

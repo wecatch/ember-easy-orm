@@ -12,3 +12,4 @@ Router.map(function() {
       this.route('store');
     });
 });
+Router.map(function () {});

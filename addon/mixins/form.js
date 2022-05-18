@@ -4,9 +4,11 @@
  @submodule form
  */
 import Mixin from '@ember/object/mixin';
-import {inject} from '@ember/service';
-import {isNone} from '@ember/utils';
-import {get, setProperties} from '@ember/object';
+import { inject } from '@ember/service';
+import { isNone } from '@ember/utils';
+import { get, setProperties, action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+
 
 /**
  delete object from backend server
@@ -27,9 +29,151 @@ let deleteObject = function (selectedItem) {
     });
 };
 
+/**
+ GodForm mixin is used  for data list to create, update and delete children object
+ only support native style class
+ @public
+ @class godForm
+ **/
+class GodForm {
+    /**
+     @property modelName
+     @type String
+     */
+    modelName = '';
+
+    /**
+     for loading
+     @property loading
+     @type boolean
+     */
+     @tracked loading = false;
+
+    /**
+     data set, normally array
+     @property model
+     @type Object
+     */
+    model = null;
+    /**
+     current selected item
+     @property selectedItem
+     @type Object
+     */
+    selectedItem = null;
+    /**
+     for modal dialog
+     @property modalShow
+     @type boolean
+     */
+    @tracked modalShow = false;
+    /**
+     ajax fail reason
+     @property reason
+     @type String
+     */
+    reason = null;
+    /**
+     orm store service
+     @property store
+     @type Object
+     */
+    @inject store;
+
+    /**
+     create new record according to modelName
+     @event add
+     */
+    @action
+    add() {
+        this.modalShow = true;
+        this.selectedItem = this.store.createRecord(this.modelName);
+    }
+
+    /**
+     edit current selected item
+     @event edit
+     @param {Object} selectedItem
+     */
+    @action
+    edit(selectedItem) {
+        this.modalShow = true;
+        if (!isNone(selectedItem)) {
+            this.selectedItem = selectedItem;
+        }
+    }
+
+    /**
+     cancel current operation
+     @event cancel
+     */
+    @action
+    cancel() {
+        this.modalShow = false;
+    }
+
+    /**
+     remove current selected item
+     @event remove
+     @param {Object} selectedItem
+     */
+    @action
+    remove(selectedItem) {
+        if (!this.modelName) {
+            throw new Error(`mixin component modelName is invalid: ${this.modelName}`);
+        }
+        this.loading = true;
+        this.store.deleteRecord(this.modelName, selectedItem).then((data) => {
+            this.loading = false;
+            this.success('delete', data, selectedItem);
+        }).catch((reason) => {
+            this.loading = false;
+            this.fail('delete', reason, selectedItem);
+        });
+    }
+
+    /**
+     success ajax request success callback
+     @event success
+     @params {String} action The current operation: create, update, delete
+     @params {Object} data The response data from backend server
+     @params {Object} selectedItem Thc current selected item
+     */
+    success(action, data, selectedItem) {
+        this.modalShow = false;
+        if (this.args?.success) {
+            this.args.success(action, data, selectedItem);
+        }
+
+        if (!this.model.contains(selectedItem)) {
+            this.model.insertAt(0, selectedItem);
+        }
+
+        if (action === 'delete') {
+            this.model.removeObject(selectedItem);
+        }
+    }
+
+    /**
+     fail ajax request success callback
+     @event fail
+     @params {string} action The current operation: create, update, delete
+     @params {Object} reason The ajax request response
+     @params {Object} selectedItem Thc current selected item
+     */
+    fail(action, reason, selectedItem) {
+        this.reason = reason;
+        // check parent callback
+        if (this.args?.fail) {
+            this.args.fail(action, reason, selectedItem);
+        }
+    }
+}
+
 
 /**
  godform mixin is used  for data list to create, update and delete children object
+ only support EmberObject style class
  @public
  @class godForm
  **/
@@ -259,5 +403,6 @@ var formComponent = Mixin.create({
 
 export {
     formComponent,
-    godForm
+    godForm,
+    GodForm
 };
