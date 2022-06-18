@@ -4,19 +4,21 @@
             <h2>model example</h2>
         </div>
         <div class="row" >
-            <button type="button" class="ui button" {{action "modelGet" model}} >get</button>
-            <button type="button" class="ui button" {{action "modelPost" model}} >post</button>
-            <button type="button" class="ui button" {{action "modelPut" model}} >put</button>
-            <button type="button" class="ui button" {{action "modelDelete" model}} >delete</button>
-            <button type="button" class="ui button" {{action "modelAjaxSuccess" model}} >AjaxSuccess</button>
-            <button type="button" class="ui button" {{action "modelAjaxFail" model}} >AjaxFail</button>
+            <button type="button" class="ui button" {{action "modelGet" @model}} >get</button>
+            <button type="button" class="ui button" {{action "modelPost" @model}} >post</button>
+            <button type="button" class="ui button" {{action "modelPut" @model}} >put</button>
+            <button type="button" class="ui button" {{action "modelDelete" @model}} >delete</button>
+            <button type="button" class="ui button" {{action "modelAjaxSuccess" @model}} >AjaxSuccess</button>
+            <button type="button" class="ui button" {{action "modelAjaxFail" @model}} >AjaxFail</button>
         </div>
         <div class="row">
-            <UiMessage>{{message}}</UiMessage>
+            <div class="ui message" >
+                {{message}}
+            </div>
         </div>
         <div class="row">
             <div class="ui items">
-                {{#each model as |item| }}
+                {{#each @model as |item| }}
                     <div class="item">
                         <div class="content">
                             <div class="header">

@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
-import {godForm} from 'ember-easy-orm/mixins/form'; 
-
-export default Controller.extend(godForm, {
-    modelName: 'user'
-});
+import { godForm, GodForm } from 'ember-easy-orm/mixins/form';
+import { service } from '@ember/service';
+export default class FormController extends Controller.extend(godForm) {
+    modelName = 'user';
+    store = service('store');
+}

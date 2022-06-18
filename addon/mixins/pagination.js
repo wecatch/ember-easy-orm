@@ -10,7 +10,7 @@ var paginationController = Mixin.create({
     skip: 0,
     limit: 20,
     actions: {
-        prevPage: function() {
+        prevPage: function () {
             var prevSkip = this.skip - this.limit;
             if (prevSkip < 0) {
                 prevSkip = 0;
@@ -18,34 +18,32 @@ var paginationController = Mixin.create({
             this.set('skip', prevSkip);
             this.transitionToRoute({
                 queryParams: {
-                    skip: prevSkip
-                }
+                    skip: prevSkip,
+                },
             });
         },
-        nextPage: function() {
+        nextPage: function () {
             var nextSkip = this.skip + this.limit;
             // if have next page
-            if (this.get('model').length % this.limit !== 0) {
+            if (this.model.length % this.limit !== 0) {
                 return;
             }
 
             this.transitionToRoute({
                 queryParams: {
-                    skip: nextSkip
-                }
+                    skip: nextSkip,
+                },
             });
-        }
-    }
+        },
+    },
 });
-
 
 var paginationRoute = Mixin.create({
     queryParams: {
         skip: {
-            refreshModel: true
-        }
-    }
+            refreshModel: true,
+        },
+    },
 });
 
-
-export { paginationRoute, paginationController};
+export { paginationRoute, paginationController };

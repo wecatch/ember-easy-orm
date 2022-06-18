@@ -4,16 +4,19 @@
                 <h2 class="ui header" >store example</h2>
             </div>
             <div class="row" >
-                <button type="button" class="ui button" {{action "storeGet" model}} >get</button>
-                <button type="button" class="ui button" {{action "storePost" model}} >post</button>
-                <button type="button" class="ui button" {{action "storePut" model}} >put</button>
-                <button type="button" class="ui button" {{action "storeDelete" model}} >delete</button>
-                <button type="button" class="ui button" {{action "storeAjaxSuccess" model}} >AjaxSuccess</button>
-                <button type="button" class="ui button" {{action "storeAjaxFail" model}} >AjaxFail</button>
+                <button type="button" class="ui button" {{action "storeGet" @model}} >get</button>
+                <button type="button" class="ui button" {{action "storePost" @model}} >post</button>
+                <button type="button" class="ui button" {{action "storePut" @model}} >put</button>
+                <button type="button" class="ui button" {{action "storeDelete" @model}} >delete</button>
+                <button type="button" class="ui button" {{action "storeAjaxSuccess" @model}} >AjaxSuccess</button>
+                <button type="button" class="ui button" {{action "storeAjaxFail" @model}} >AjaxFail</button>
                 <button type="button" class="ui button" {{action "errorRequest"}} >errorRequest</button>
             </div>
             <div class="row">
-                <UiMessage>{{message}}</UiMessage>
+                <div class="ui message" >
+                    {{message}}
+                </div>
+                
             </div>
     </div>
 </div>

@@ -1,3 +1,4 @@
+/* eslint-disable ember/no-jquery */
 /**
  store servie mange all model
  @module services
@@ -5,10 +6,10 @@
  */
 import Service from '@ember/service';
 import EmberObject from '@ember/object';
-import {getOwner} from '@ember/application';
-import {keys} from '@ember/polyfills';
+import { getOwner } from '@ember/application';
+import { keys } from '@ember/polyfills';
 import $ from 'jquery';
-import {isEmpty} from '@ember/utils';
+import { isEmpty } from '@ember/utils';
 import ajax from '../mixins/ajax';
 
 /**
@@ -16,11 +17,13 @@ import ajax from '../mixins/ajax';
  @public
  @class store
  **/
-export default Service.extend(ajax, {
+export default class Store extends Service.extend(ajax) {
     modelFor(type) {
         var kclass;
         if (getOwner) {
-            kclass = getOwner(this).lookup('model:' + type, {singleton: false});
+            kclass = getOwner(this).lookup('model:' + type, {
+                singleton: false,
+            });
             if (!kclass) {
                 console.log('model:' + type + ' is not found');
                 return EmberObject.create();
@@ -29,12 +32,15 @@ export default Service.extend(ajax, {
         }
 
         kclass = this.container.lookupFactory('model:' + type);
+        console.log(kclass);
         if (!kclass) {
             console.log('model:' + type + ' is not found');
             return EmberObject.create();
         }
+
         return kclass.create();
-    },
+    }
+
     /**
      find the record according to modelName
      @method find
@@ -44,7 +50,8 @@ export default Service.extend(ajax, {
      */
     find(type, params) {
         return this.modelFor(type).find(params);
-    },
+    }
+
     /**
      findOne the record according to modelName
      @method findOne
@@ -55,7 +62,8 @@ export default Service.extend(ajax, {
      */
     findOne(type, _id, data) {
         return this.modelFor(type).findOne(_id, data);
-    },
+    }
+
     /**
      create the record according to modelName
      @method createRecord
@@ -65,7 +73,8 @@ export default Service.extend(ajax, {
      */
     createRecord(type, init) {
         return this.modelFor(type).createRecord(init);
-    },
+    }
+
     /**
      delete the record according to modelName
      @method deleteRecord
@@ -76,7 +85,8 @@ export default Service.extend(ajax, {
      */
     deleteRecord(type, model, data) {
         return this.modelFor(type).deleteRecord(model, data);
-    },
+    }
+
     /**
      save the record according to modelName
      @method save
@@ -86,7 +96,8 @@ export default Service.extend(ajax, {
      */
     save(type, model) {
         return this.modelFor(type).save(model);
-    },
+    }
+
     /**
      filter model empty attrs
      @method emptyAttrs
@@ -106,7 +117,7 @@ export default Service.extend(ajax, {
         });
 
         $.each(finallyfiltered, function (index, key) {
-            if (typeof key === "string") {
+            if (typeof key === 'string') {
                 if (isEmpty(model.get(key))) {
                     emptyKeys.push(key);
                 }
@@ -114,4 +125,4 @@ export default Service.extend(ajax, {
         });
         return emptyKeys;
     }
-});
+}

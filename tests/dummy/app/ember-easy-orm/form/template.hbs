@@ -4,13 +4,13 @@
             <button class="ui green button" {{action "add"}} >create</button>
         </div>
         <div class="row">
-            {{#if modalShow}}
-                {{#user-item model=selectedItem cancel=(action "cancel") success=(action "success") fail=(action "fail") }}{{/user-item}}
+            {{#if this.modalShow}}
+                {{#user-item model=this.selectedItem cancel=(action "cancel") success=(action "success") fail=(action "fail") }}{{/user-item}}
             {{/if}}
         </div>
         <div class="row">
             <div class="ui items" >
-                {{#each model as |item| }}
+                {{#each @model as |item| }}
                     <div class="item" >
                         <div class="content">
                             <div class="header">

@@ -1,23 +1,34 @@
 import Application from '@ember/application';
-import { run } from '@ember/runloop';
-import { initialize } from '../../../initializers/store';
+
+import config from 'dummy/config/environment';
+import { initialize } from 'dummy/initializers/store';
 import { module, test } from 'qunit';
+import Resolver from 'ember-resolver';
+import { run } from '@ember/runloop';
 
-var application;
+module('Unit | Initializer | store', function (hooks) {
+    hooks.beforeEach(function () {
+        this.TestApplication = class TestApplication extends Application {
+            modulePrefix = config.modulePrefix;
+            podModulePrefix = config.podModulePrefix;
+            Resolver = Resolver;
+        };
+        this.TestApplication.initializer({
+            name: 'initializer under test',
+            initialize,
+        });
 
-module('Unit | Initializer | store', {
-  beforeEach: function() {
-    run(function() {
-      application = Application.create();
-      application.deferReadiness();
+        this.application = this.TestApplication.create({ autoboot: false });
     });
-  }
-});
 
-// Replace this with your real tests.
-test('it works', function(assert) {
-  initialize(application);
+    hooks.afterEach(function () {
+        run(this.application, 'destroy');
+    });
 
-  // you would normally confirm the results of the initializer here
-  assert.ok(true);
+    // TODO: Replace this with your real tests.
+    test('it works', async function (assert) {
+        await this.application.boot();
+
+        assert.ok(true);
+    });
 });
