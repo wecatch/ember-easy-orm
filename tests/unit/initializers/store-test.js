@@ -7,28 +7,28 @@ import Resolver from 'ember-resolver';
 import { run } from '@ember/runloop';
 
 module('Unit | Initializer | store', function (hooks) {
-    hooks.beforeEach(function () {
-        this.TestApplication = class TestApplication extends Application {
-            modulePrefix = config.modulePrefix;
-            podModulePrefix = config.podModulePrefix;
-            Resolver = Resolver;
-        };
-        this.TestApplication.initializer({
-            name: 'initializer under test',
-            initialize,
-        });
-
-        this.application = this.TestApplication.create({ autoboot: false });
+  hooks.beforeEach(function () {
+    this.TestApplication = class TestApplication extends Application {
+      modulePrefix = config.modulePrefix;
+      podModulePrefix = config.podModulePrefix;
+      Resolver = Resolver;
+    };
+    this.TestApplication.initializer({
+      name: 'initializer under test',
+      initialize,
     });
 
-    hooks.afterEach(function () {
-        run(this.application, 'destroy');
-    });
+    this.application = this.TestApplication.create({ autoboot: false });
+  });
 
-    // TODO: Replace this with your real tests.
-    test('it works', async function (assert) {
-        await this.application.boot();
+  hooks.afterEach(function () {
+    run(this.application, 'destroy');
+  });
 
-        assert.ok(true);
-    });
+  // TODO: Replace this with your real tests.
+  test('it works', async function (assert) {
+    await this.application.boot();
+
+    assert.ok(true);
+  });
 });

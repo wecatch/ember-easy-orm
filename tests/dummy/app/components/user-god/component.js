@@ -1,7 +1,7 @@
 // eslint-disable-next-line ember/no-mixins
-import { Form } from 'ember-easy-orm/mixins/form';
+import { GodForm } from 'ember-easy-orm/mixins/form';
 
-export default class UserItemComponent extends Form {
+export default class UserGodComponent extends GodForm {
   constructor() {
     super(...arguments);
     super.modelName = 'user';
