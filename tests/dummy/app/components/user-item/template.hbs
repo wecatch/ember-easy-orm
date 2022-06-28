@@ -1,11 +1,11 @@
 <form class="ui form" action="">
     {{reason}}
-    {{ui-form-input label="id" class="inline" value=model._id}}
-    {{ui-form-input label="name" class="inline" value=model.name}}
-    {{ui-form-input label="gender" class="inline" value=model.gender}}
+    <Input id="user-question" @type="text" @value={{@model._id}}/>
+    <Input id="user-name" @type="text" @value={{@model.name}}/>
+    <Input id="user-gender" @type="text" @value={{@model.gener}}/>
     <button class="ui green button"  {{ action "save"}} >save</button>
     <button class="ui button" {{action "cancel"}} >cancel</button>
-    {{#if model._id}}
+    {{#if @model._id}}
         <button class="ui red button" {{action "remove"}} >delete</button>
     {{/if}}
 </form>

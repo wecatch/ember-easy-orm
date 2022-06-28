@@ -10,6 +10,7 @@ import { getOwner } from '@ember/application';
 import { keys } from '@ember/polyfills';
 import $ from 'jquery';
 import { isEmpty } from '@ember/utils';
+// eslint-disable-next-line ember/no-mixins
 import ajax from '../mixins/ajax';
 
 /**

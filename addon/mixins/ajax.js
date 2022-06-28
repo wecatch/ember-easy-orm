@@ -18,6 +18,7 @@ const _get = function (url, options) {
     let self = this.parent;
     return self.ajax('get', url, options).then(
         function (data) {
+            // eslint-disable-next-line no-useless-catch
             try {
                 return self.getSerializer(data);
             } catch (e) {
@@ -38,6 +39,7 @@ const _post = function (url, options) {
     let self = this.parent;
     return self.ajax('post', url, options).then(
         function (data) {
+            // eslint-disable-next-line no-useless-catch
             try {
                 return self.postSerializer(data);
             } catch (e) {
@@ -58,6 +60,7 @@ const _delete = function (url, options) {
     let self = this.parent;
     return self.ajax('delete', url, options).then(
         function (data) {
+            // eslint-disable-next-line no-useless-catch
             try {
                 return self.deleteSerializer(data);
             } catch (e) {
@@ -78,6 +81,7 @@ const _put = function (url, options) {
     let self = this.parent;
     return self.ajax('put', url, options).then(
         function (data) {
+            // eslint-disable-next-line no-useless-catch
             try {
                 return self.putSerializer(data);
             } catch (e) {
@@ -114,6 +118,7 @@ export default Mixin.create(Evented, {
      @type Object
      @default {dataType: 'json'}
      */
+    // eslint-disable-next-line ember/avoid-leaking-state-in-ember-objects
     ajaxSettings: {
         dataType: 'json',
     },
@@ -159,6 +164,7 @@ export default Mixin.create(Evented, {
         }
         self.trigger('ajaxStart');
         return new Promise(function (resolve, reject) {
+            // eslint-disable-next-line ember/no-jquery
             $.ajax(ajaxSettings)
                 .done(function (data) {
                     self.trigger('ajaxDone');

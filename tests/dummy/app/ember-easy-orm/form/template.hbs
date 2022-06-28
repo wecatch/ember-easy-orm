@@ -5,7 +5,7 @@
         </div>
         <div class="row">
             {{#if this.modalShow}}
-                {{#user-item model=this.selectedItem cancel=(action "cancel") success=(action "success") fail=(action "fail") }}{{/user-item}}
+                <UserItem @model={{this.selectedItem}} @cancel={{this.cancel}} @success={{this.success}} @fail={{this.fail}} ></UserItem>
             {{/if}}
         </div>
         <div class="row">
