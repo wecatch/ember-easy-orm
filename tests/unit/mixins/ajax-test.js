@@ -1,3 +1,4 @@
+/* eslint-disable ember/no-mixins */
 import EmberObject from '@ember/object';
 import AjaxMixin from 'ember-easy-orm/mixins/ajax';
 import { module, test } from 'qunit';
@@ -13,7 +14,7 @@ module('Acceptance | Mixin | ajax', function (hooks) {
     const AjaxObject = EmberObject.extend(AjaxMixin);
     let subject = AjaxObject.create();
     assert.ok(subject);
-    assert.equal(subject, subject.request.parent);
+    assert.strictEqual(subject, subject.request.parent);
     assert.expect(2);
   });
 
@@ -38,7 +39,7 @@ module('Acceptance | Mixin | ajax', function (hooks) {
     });
 
     subjectError.ajax('get', '/v1/api').catch(function (data) {
-      assert.equal(data.msg, 'error');
+      assert.strictEqual(data.msg, 'error');
       done();
     });
 
@@ -50,8 +51,8 @@ module('Acceptance | Mixin | ajax', function (hooks) {
         return data;
       })
       .then(function (data) {
-        assert.equal(data.code, 0);
-        assert.equal(data.msg, 'success');
+        assert.strictEqual(data.code, 0);
+        assert.strictEqual(data.msg, 'success');
         done2();
       });
   });
@@ -121,29 +122,29 @@ module('Acceptance | Mixin | ajax', function (hooks) {
     });
     const doneGet = assert.async();
     ajax.request.get('/v1/api').then(function (data) {
-      assert.equal(data.code, 0);
-      assert.equal(data.method, 'get');
+      assert.strictEqual(data.code, 0);
+      assert.strictEqual(data.method, 'get');
       doneGet();
     });
 
     const donePut = assert.async();
     ajax.request.put('/v1/api').then(function (data) {
-      assert.equal(data.code, 0);
-      assert.equal(data.method, 'put');
+      assert.strictEqual(data.code, 0);
+      assert.strictEqual(data.method, 'put');
       donePut();
     });
 
     const donePost = assert.async();
     ajax.request.post('/v1/api').then(function (data) {
-      assert.equal(data.code, 0);
-      assert.equal(data.method, 'post');
+      assert.strictEqual(data.code, 0);
+      assert.strictEqual(data.method, 'post');
       donePost();
     });
 
     const doneDelete = assert.async();
     ajax.request.delete('/v1/api').then(function (data) {
-      assert.equal(data.code, 0);
-      assert.equal(data.method, 'delete');
+      assert.strictEqual(data.code, 0);
+      assert.strictEqual(data.method, 'delete');
       doneDelete();
     });
   });
@@ -215,29 +216,29 @@ module('Acceptance | Mixin | ajax', function (hooks) {
 
     const doneErrorGet = assert.async();
     ajax.request.get('/v1/api').catch(function (data) {
-      assert.equal(data.code, 1);
-      assert.equal(data.msg, 'error');
+      assert.strictEqual(data.code, 1);
+      assert.strictEqual(data.msg, 'error');
       doneErrorGet();
     });
 
     const doneErrorPut = assert.async();
     ajax.request.put('/v1/api').catch(function (data) {
-      assert.equal(data.code, 1);
-      assert.equal(data.msg, 'error');
+      assert.strictEqual(data.code, 1);
+      assert.strictEqual(data.msg, 'error');
       doneErrorPut();
     });
 
     const doneErrorPost = assert.async();
     ajax.request.post('/v1/api').catch(function (data) {
-      assert.equal(data.code, 1);
-      assert.equal(data.msg, 'error');
+      assert.strictEqual(data.code, 1);
+      assert.strictEqual(data.msg, 'error');
       doneErrorPost();
     });
 
     const doneErrorDelete = assert.async();
     ajax.request.delete('/v1/api').catch(function (data) {
-      assert.equal(data.code, 1);
-      assert.equal(data.msg, 'error');
+      assert.strictEqual(data.code, 1);
+      assert.strictEqual(data.msg, 'error');
       doneErrorDelete();
     });
   });

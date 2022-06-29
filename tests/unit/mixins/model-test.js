@@ -1,3 +1,6 @@
+/* eslint-disable ember/use-ember-data-rfc-395-imports */
+/* eslint-disable ember/no-mixins */
+/* eslint-disable ember/no-classic-classes */
 import EmberObject from '@ember/object';
 import { isArray } from '@ember/array';
 import ModelMixin, { DS } from 'ember-easy-orm/mixins/model';
@@ -57,7 +60,7 @@ module('Acceptance | Mixin | model', function (hooks) {
       f: ' ',
       g: {},
     });
-    assert.equal(Object.keys(subject).length, 2);
+    assert.strictEqual(Object.keys(subject).length, 2);
   });
 
   test('model mixin find', function (assert) {
@@ -113,17 +116,17 @@ module('Acceptance | Mixin | model', function (hooks) {
 
     subject.find().then(function (resp) {
       assert.ok(isArray(resp.data));
-      assert.equal(resp.data.length, 2);
+      assert.strictEqual(resp.data.length, 2);
       assert.strictEqual(typeof resp.data.popObject, 'function');
 
       assert.strictEqual(typeof resp.object, 'object');
-      assert.equal(resp.object.a, 1);
+      assert.strictEqual(resp.object.a, 1);
 
       assert.strictEqual(typeof resp.string, 'string');
       assert.strictEqual(typeof resp.number, 'number');
 
-      assert.equal(resp.string, '1');
-      assert.equal(resp.number, 1);
+      assert.strictEqual(resp.string, '1');
+      assert.strictEqual(resp.number, 1);
 
       done();
     });
@@ -137,7 +140,7 @@ module('Acceptance | Mixin | model', function (hooks) {
     const done2 = assert.async();
     subject2.find().then(function (resp) {
       assert.ok(isArray(resp));
-      assert.equal(resp.length, 2);
+      assert.strictEqual(resp.length, 2);
       assert.strictEqual(typeof resp.popObject, 'function');
 
       done2();
@@ -151,7 +154,7 @@ module('Acceptance | Mixin | model', function (hooks) {
     const done3 = assert.async();
     subject3.find().then(function (resp) {
       assert.ok(isArray(resp));
-      assert.equal(resp.length, 2);
+      assert.strictEqual(resp.length, 2);
       assert.strictEqual(typeof resp.popObject, 'function');
 
       done3();
@@ -159,7 +162,7 @@ module('Acceptance | Mixin | model', function (hooks) {
 
     const done4 = assert.async();
     subject3.findOne('1').then(function (resp) {
-      assert.equal(resp.code, 0);
+      assert.strictEqual(resp.code, 0);
       done4();
     });
   });
@@ -167,10 +170,10 @@ module('Acceptance | Mixin | model', function (hooks) {
   test('model DS', function (assert) {
     assert.expect(9);
 
-    assert.equal(DS.attr('string'), '');
-    assert.equal(DS.attr('number'), 0);
-    assert.true(DS.attr('boolean'));
-    assert.equal(
+    assert.strictEqual(DS.attr('string'), '');
+    assert.strictEqual(DS.attr('number'), 0);
+    assert.strictEqual(DS.attr('boolean'), true);
+    assert.strictEqual(
       DS.attr('number', {
         defaultValue: 20,
       }),
@@ -181,15 +184,15 @@ module('Acceptance | Mixin | model', function (hooks) {
         defaultValue: false,
       })
     );
-    assert.equal(DS.attr('array')().length, 0);
+    assert.strictEqual(DS.attr('array')().length, 0);
 
-    assert.equal(
+    assert.strictEqual(
       DS.attr({
         defaultValue: 10,
       }),
       10
     );
-    assert.equal(
+    assert.strictEqual(
       DS.attr({
         defaultValue: function () {
           return {
@@ -200,7 +203,7 @@ module('Acceptance | Mixin | model', function (hooks) {
       'ok'
     );
 
-    assert.equal(
+    assert.strictEqual(
       DS.attr('number', {
         defaultValue: function () {
           return 11;
