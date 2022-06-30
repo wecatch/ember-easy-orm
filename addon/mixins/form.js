@@ -33,8 +33,8 @@ let deleteObject = function (selectedItem) {
 };
 
 /**
- GodForm mixin is used  for data list to create, update and delete children object
- only support native style class
+ GodForm is used  for data list to create, update and delete children object
+ only support native style class component
  @public
  @class godForm
  **/
@@ -191,8 +191,8 @@ class GodForm extends Component {
 }
 
 /**
- Form is used  for data list to create, update and delete children object
- only support native style class
+ Form is used for one record to create, update and delete
+ only support native style class component
  @public
  @class Form
  **/

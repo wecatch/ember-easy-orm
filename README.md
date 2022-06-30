@@ -1,6 +1,6 @@
 # Ember-easy-orm
 
-[![Build Status](https://travis-ci.org/wecatch/ember-easy-orm.svg?branch=master)](https://travis-ci.org/wecatch/ember-easy-orm)
+[![Build Status](https://github.com/wecatch/ember-easy-orm/actions/workflows/ci.yml/badge.svg)](https://github.com/wecatch/ember-easy-orm/actions)
 
 [Docs](http://wecatch.me/ember-easy-orm/docs/)
 
@@ -72,11 +72,16 @@ then in any route, you can use store service to connect to your backend server a
 
 import Route from '@ember/routing/route';
 
-export default Route.extend({
-    model() {
-        return this.store.find('user');
-    }
-});
+import { inject as service } from '@ember/service';
+
+export default class IndexRoute extends Route {
+  @service store;
+
+  model() {
+    return this.store.find('user');
+  }
+}
+
 
 ```
 
