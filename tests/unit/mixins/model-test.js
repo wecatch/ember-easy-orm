@@ -41,11 +41,11 @@ module('Acceptance | Mixin | model', function (hooks) {
     let subject = ModelClass.create();
     assert.ok(subject);
     let record = subject.createRecord();
-    assert.equal(record.name, '');
-    assert.equal(record.gender, 'f');
+    assert.strictEqual(record.name, '');
+    assert.strictEqual(record.gender, 'f');
     let record2 = subject.createRecord();
     assert.notEqual(record.address.c, record2.address.c);
-    assert.equal(record.gender, record2.gender);
+    assert.strictEqual(record.gender, record2.gender);
   });
 
   test('model mixin filterParams', function (assert) {
@@ -60,6 +60,7 @@ module('Acceptance | Mixin | model', function (hooks) {
       f: ' ',
       g: {},
     });
+    console.log(JSON.stringify(subject));
     assert.strictEqual(Object.keys(subject).length, 2);
   });
 
@@ -172,7 +173,7 @@ module('Acceptance | Mixin | model', function (hooks) {
 
     assert.strictEqual(DS.attr('string'), '');
     assert.strictEqual(DS.attr('number'), 0);
-    assert.strictEqual(DS.attr('boolean'), true);
+    assert.true(DS.attr('boolean'));
     assert.strictEqual(
       DS.attr('number', {
         defaultValue: 20,

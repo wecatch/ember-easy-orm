@@ -1,4 +1,5 @@
 import EmberObject from '@ember/object';
+// eslint-disable-next-line ember/no-mixins
 import model, { DS } from 'ember-easy-orm/mixins/model';
 
 const { attr } = DS;

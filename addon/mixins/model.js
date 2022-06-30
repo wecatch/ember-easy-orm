@@ -1,3 +1,4 @@
+// eslint-disable-next-line ember/no-mixins
 /**
  orm model
  @module mixins
@@ -246,16 +247,13 @@ export default Mixin.create(ajax, Evented, {
    */
   createRecord: function (init) {
     let record = EmberObject.create();
-    for (let property in this.model) {
-      if (this.model.hasOwnProperty(property)) {
-        let v = this.model[property];
-        if (typeof v === 'function') {
-          record.set(property, v.apply());
-        } else {
-          record.set(property, v);
-        }
+    Object.keys(this.model).map((key) => {
+      if (typeof this.model[key] === 'function') {
+        record.set(key, this.model[key].apply());
+      } else {
+        record.set(key, this.model[key]);
       }
-    }
+    });
 
     if (typeof init === 'object') {
       merge(record, init);
@@ -282,6 +280,7 @@ export default Mixin.create(ajax, Evented, {
 
     return this.request.delete(url, options).then(
       function (data) {
+        // eslint-disable-next-line no-useless-catch
         try {
           return self.deleteSerializer(data);
         } catch (e) {
@@ -307,6 +306,7 @@ export default Mixin.create(ajax, Evented, {
 
     return this.request.get(url, options).then(
       function (data) {
+        // eslint-disable-next-line no-useless-catch
         try {
           return self.findSerializer(data);
         } catch (e) {
@@ -333,6 +333,7 @@ export default Mixin.create(ajax, Evented, {
 
     return this.request.get(url, options).then(
       function (data) {
+        // eslint-disable-next-line no-useless-catch
         try {
           return self.findOneSerializer(data);
         } catch (e) {
@@ -355,11 +356,11 @@ export default Mixin.create(ajax, Evented, {
     if (!params) {
       return;
     }
-    for (let k in params) {
-      if (params.hasOwnProperty(k) && isBlank(params[k])) {
+    Object.keys(params).map((k) => {
+      if (isBlank(params[k])) {
         delete params[k];
       }
-    }
+    });
     return params;
   },
   /**
@@ -390,7 +391,7 @@ export default Mixin.create(ajax, Evented, {
 
     //data is null or undefined
     if (isNone(data)) {
-      console.log('findSerializer response data is null');
+      console.warn('findSerializer response data is null');
       return this.to_array();
     }
 
@@ -401,9 +402,11 @@ export default Mixin.create(ajax, Evented, {
 
     // response data must be array
     if (!isArray(data[this.rootKey])) {
-      console.log('findSerializer parsedData is not array');
-      console.log(data);
-      console.log(this.rootKey);
+      console.warn(
+        'findSerializer parsedData is not array',
+        data,
+        this.rootKey
+      );
       return this.to_array();
     }
 
@@ -418,7 +421,7 @@ export default Mixin.create(ajax, Evented, {
   findOneSerializer: function (data) {
     //data is null or undefined
     if (isNone(data)) {
-      console.log('findOneSerializer response data is null');
+      console.warn('findOneSerializer response data is null');
       return this.to_object();
     }
 
@@ -429,7 +432,7 @@ export default Mixin.create(ajax, Evented, {
 
     // parsedObject must be object
     if (isNone(data[this.rootKey])) {
-      console.log('findOneSerializer parsedObject is null');
+      console.warn('findOneSerializer parsedObject is null');
       return this.to_object();
     }
 
@@ -448,9 +451,6 @@ export default Mixin.create(ajax, Evented, {
    @return serializer data
    */
   saveSerializer: function (data) {
-    console.log(
-      'subclass override saveSerializer for response data serializer'
-    );
     return data;
   },
   /**
@@ -460,9 +460,6 @@ export default Mixin.create(ajax, Evented, {
    @return serializer data
    */
   deleteSerializer: function (data) {
-    console.log(
-      'subclass override deleteSerializer for response data serializer'
-    );
     return data;
   },
   init: function () {

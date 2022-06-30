@@ -1,7 +1,10 @@
 import Route from '@ember/routing/route';
+import { service } from '@ember/service';
 
-export default Route.extend({
+export default class ApplicationRoute extends Route {
+  @service router;
+
   redirect() {
-    this.transitionTo('ember-easy-orm.index');
-  },
-});
+    this.router.transitionTo('ember-easy-orm.index');
+  }
+}
