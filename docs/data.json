@@ -1,0 +1,1410 @@
+{
+    "project": {
+        "name": "ember-easy-orm",
+        "description": "A easy ORM library for ember app",
+        "version": "1.0.0"
+    },
+    "files": {
+        "addon/mixins/ajax.js": {
+            "name": "addon/mixins/ajax.js",
+            "modules": {
+                "ajax": 1
+            },
+            "classes": {
+                "ajax": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/form.js": {
+            "name": "addon/mixins/form.js",
+            "modules": {
+                "form": 1
+            },
+            "classes": {
+                "godForm": 1,
+                "Form": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/model.js": {
+            "name": "addon/mixins/model.js",
+            "modules": {
+                "model": 1
+            },
+            "classes": {
+                "model": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/pagination.js": {
+            "name": "addon/mixins/pagination.js",
+            "modules": {
+                "pagination": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/services/store.js": {
+            "name": "addon/services/store.js",
+            "modules": {
+                "store": 1
+            },
+            "classes": {
+                "store": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "mixins": {
+            "name": "mixins",
+            "submodules": {
+                "ajax": 1,
+                "form": 1,
+                "model": 1,
+                "pagination": 1
+            },
+            "elements": {},
+            "classes": {
+                "ajax": 1,
+                "godForm": 1,
+                "Form": 1,
+                "model": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "file": "addon/mixins/model.js",
+            "line": 77
+        },
+        "ajax": {
+            "name": "ajax",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "ajax": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/ajax.js",
+            "line": 97,
+            "description": "support ajax request in this module"
+        },
+        "form": {
+            "name": "form",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "godForm": 1,
+                "Form": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/form.js",
+            "line": 193,
+            "description": "This module has two mixins: godForm and formComponent, they are used to manage form handler"
+        },
+        "model": {
+            "name": "model",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "model": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/model.js",
+            "line": 77,
+            "description": "orm model"
+        },
+        "pagination": {
+            "name": "pagination",
+            "submodules": {},
+            "elements": {},
+            "classes": {},
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/pagination.js",
+            "line": 1
+        },
+        "services": {
+            "name": "services",
+            "submodules": {
+                "store": 1
+            },
+            "elements": {},
+            "classes": {
+                "store": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "file": "addon/services/store.js",
+            "line": 16
+        },
+        "store": {
+            "name": "store",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "store": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "services",
+            "namespace": "",
+            "file": "addon/services/store.js",
+            "line": 16,
+            "description": "store servie mange all model"
+        }
+    },
+    "classes": {
+        "ajax": {
+            "name": "ajax",
+            "shortname": "ajax",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mixins",
+            "submodule": "ajax",
+            "namespace": "",
+            "file": "addon/mixins/ajax.js",
+            "line": 97,
+            "description": "wrap jquery ajax with Ember.RSVP.Promise, this mixin also has events like:\n- ajaxStart be trigged when ajax request start\n- ajaxDone  be trigged when ajax request finish (success or fails)\n- ajaxSuccess  be trigged when promise resovle success\n- ajaxError be trigged when ajax request fails\n- RESTSerializerError  be trigged error happen when response data serialize",
+            "access": "public",
+            "tagname": ""
+        },
+        "godForm": {
+            "name": "godForm",
+            "shortname": "godForm",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mixins",
+            "submodule": "form",
+            "namespace": "",
+            "file": "addon/mixins/form.js",
+            "line": 35,
+            "description": "GodForm is used  for data list to create, update and delete children object\nonly support native style class component",
+            "access": "public",
+            "tagname": ""
+        },
+        "Form": {
+            "name": "Form",
+            "shortname": "Form",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mixins",
+            "submodule": "form",
+            "namespace": "",
+            "file": "addon/mixins/form.js",
+            "line": 193,
+            "description": "Form is used for one record to create, update and delete\nonly support native style class component",
+            "access": "public",
+            "tagname": ""
+        },
+        "model": {
+            "name": "model",
+            "shortname": "model",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mixins",
+            "submodule": "model",
+            "namespace": "",
+            "file": "addon/mixins/model.js",
+            "line": 77,
+            "description": "mixin in ORM model",
+            "access": "public",
+            "tagname": ""
+        },
+        "store": {
+            "name": "store",
+            "shortname": "store",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "services",
+            "submodule": "store",
+            "namespace": "",
+            "file": "addon/services/store.js",
+            "line": 16,
+            "description": "store",
+            "access": "public",
+            "tagname": ""
+        }
+    },
+    "elements": {},
+    "classitems": [
+        {
+            "file": "addon/mixins/ajax.js",
+            "line": 13,
+            "description": "get request function used in ajax.request property",
+            "access": "private",
+            "tagname": "",
+            "class": "ajax",
+            "module": "mixins",
+            "submodule": "ajax"
+        },
+        {
+            "file": "addon/mixins/ajax.js",
+            "line": 34,
+            "description": "post request function used in ajax.request property",
+            "access": "private",
+            "tagname": "",
+            "class": "ajax",
+            "module": "mixins",
+            "submodule": "ajax"
+        },
+        {
+            "file": "addon/mixins/ajax.js",
+            "line": 55,
+            "description": "delete request function used in ajax.request property",
+            "access": "private",
+            "tagname": "",
+            "class": "ajax",
+            "module": "mixins",
+            "submodule": "ajax"
+        },
+        {
+            "file": "addon/mixins/ajax.js",
+            "line": 76,
+            "description": "put request function used in ajax.request property",
+            "access": "private",
+            "tagname": "",
+            "class": "ajax",
+            "module": "mixins",
+            "submodule": "ajax"
+        },
+        {
+            "file": "addon/mixins/ajax.js",
+            "line": 108,
+            "description": "wrapper all request method (get put post delete) into request object",
+            "itemtype": "property",
+            "name": "request",
+            "type": "Object",
+            "default": "{Object}",
+            "class": "ajax",
+            "module": "mixins",
+            "submodule": "ajax"
+        },
+        {
+            "file": "addon/mixins/ajax.js",
+            "line": 115,
+            "description": "ajax request setting See http://devdocs.io/jquery/jquery.ajax",
+            "itemtype": "property",
+            "name": "ajaxSettings",
+            "type": "Object",
+            "default": "{dataType: 'json'}",
+            "class": "ajax",
+            "module": "mixins",
+            "submodule": "ajax"
+        },
+        {
+            "file": "addon/mixins/ajax.js",
+            "line": 125,
+            "description": "if contentType is application/json which method request data need to be serialized with json",
+            "itemtype": "property",
+            "name": "needSerializedMethod",
+            "type": "Object",
+            "default": "['post', 'put']",
+            "class": "ajax",
+            "module": "mixins",
+            "submodule": "ajax"
+        },
+        {
+            "file": "addon/mixins/ajax.js",
+            "line": 132,
+            "description": "jquery ajax method wrapper, return promise",
+            "itemtype": "method",
+            "name": "ajax",
+            "params": [
+                {
+                    "name": "method",
+                    "description": "request method",
+                    "type": "String"
+                },
+                {
+                    "name": "url",
+                    "description": "request url",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "ajax jquery ajax settings, see http://devdocs.io/jquery/jquery.ajax",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "ajax",
+            "module": "mixins",
+            "submodule": "ajax"
+        },
+        {
+            "file": "addon/mixins/ajax.js",
+            "line": 189,
+            "description": "all ajax response data serializer",
+            "itemtype": "method",
+            "name": "RESTSerializer",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "response data",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "serializer data"
+            },
+            "class": "ajax",
+            "module": "mixins",
+            "submodule": "ajax"
+        },
+        {
+            "file": "addon/mixins/ajax.js",
+            "line": 201,
+            "description": "get method response data serializer",
+            "itemtype": "method",
+            "name": "getSerializer",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "response data",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "serializer data"
+            },
+            "class": "ajax",
+            "module": "mixins",
+            "submodule": "ajax"
+        },
+        {
+            "file": "addon/mixins/ajax.js",
+            "line": 213,
+            "description": "post method response data serializer",
+            "itemtype": "method",
+            "name": "postSerializer",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "response data",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "serializer data"
+            },
+            "class": "ajax",
+            "module": "mixins",
+            "submodule": "ajax"
+        },
+        {
+            "file": "addon/mixins/ajax.js",
+            "line": 225,
+            "description": "put method response data serializer",
+            "itemtype": "method",
+            "name": "putSerializer",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "response data",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "serializer data"
+            },
+            "class": "ajax",
+            "module": "mixins",
+            "submodule": "ajax"
+        },
+        {
+            "file": "addon/mixins/ajax.js",
+            "line": 237,
+            "description": "delete method response data serializer",
+            "itemtype": "method",
+            "name": "deleteSerializer",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "response data",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "serializer data"
+            },
+            "class": "ajax",
+            "module": "mixins",
+            "submodule": "ajax"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 13,
+            "description": "delete object from backend server",
+            "itemtype": "event",
+            "name": "deleteObject",
+            "params": [
+                {
+                    "name": "selectedItem",
+                    "description": "The current selected item",
+                    "type": "Object"
+                }
+            ],
+            "class": "godForm",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 49,
+            "itemtype": "property",
+            "name": "modelName",
+            "type": "String",
+            "class": "godForm",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 55,
+            "description": "for loading",
+            "itemtype": "property",
+            "name": "loading",
+            "type": "boolean",
+            "class": "godForm",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 62,
+            "description": "data set, normally array",
+            "itemtype": "property",
+            "name": "model",
+            "type": "Object",
+            "class": "godForm",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 68,
+            "description": "current selected item",
+            "itemtype": "property",
+            "name": "selectedItem",
+            "type": "Object",
+            "class": "godForm",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 74,
+            "description": "for modal dialog",
+            "itemtype": "property",
+            "name": "modalShow",
+            "type": "boolean",
+            "class": "godForm",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 80,
+            "description": "ajax fail reason",
+            "itemtype": "property",
+            "name": "reason",
+            "type": "String",
+            "class": "godForm",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 86,
+            "description": "orm store service",
+            "itemtype": "property",
+            "name": "store",
+            "type": "Object",
+            "class": "godForm",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 93,
+            "description": "create new record according to modelName",
+            "itemtype": "event",
+            "name": "add",
+            "class": "godForm",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 103,
+            "description": "edit current selected item",
+            "itemtype": "event",
+            "name": "edit",
+            "params": [
+                {
+                    "name": "selectedItem",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "godForm",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 116,
+            "description": "cancel current operation",
+            "itemtype": "event",
+            "name": "cancel",
+            "class": "godForm",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 125,
+            "description": "remove current selected item",
+            "itemtype": "event",
+            "name": "remove",
+            "params": [
+                {
+                    "name": "selectedItem",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "godForm",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 151,
+            "description": "success ajax request success callback",
+            "itemtype": "event",
+            "name": "success",
+            "params": [
+                {
+                    "name": "action",
+                    "description": "The current operation: create, update, delete",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "The response data from backend server",
+                    "type": "Object"
+                },
+                {
+                    "name": "selectedItem",
+                    "description": "Thc current selected item",
+                    "type": "Object"
+                }
+            ],
+            "class": "godForm",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 176,
+            "description": "fail ajax request success callback",
+            "itemtype": "event",
+            "name": "fail",
+            "params": [
+                {
+                    "name": "action",
+                    "description": "The current operation: create, update, delete",
+                    "type": "String"
+                },
+                {
+                    "name": "reason",
+                    "description": "The ajax request response",
+                    "type": "Object"
+                },
+                {
+                    "name": "selectedItem",
+                    "description": "Thc current selected item",
+                    "type": "Object"
+                }
+            ],
+            "class": "godForm",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 205,
+            "itemtype": "property",
+            "name": "modelName",
+            "type": "String",
+            "class": "Form",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 210,
+            "description": "single object, normally for form",
+            "itemtype": "property",
+            "name": "model",
+            "type": "Object",
+            "class": "Form",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 216,
+            "description": "orm store service",
+            "itemtype": "property",
+            "name": "store",
+            "type": "Object",
+            "class": "Form",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 222,
+            "description": "ajax fail reason",
+            "itemtype": "property",
+            "name": "reason",
+            "type": "String",
+            "class": "Form",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 230,
+            "description": "save triggle when user click save action",
+            "itemtype": "event",
+            "name": "save",
+            "class": "Form",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 257,
+            "description": "delete triggle when user click save action",
+            "itemtype": "event",
+            "name": "remove",
+            "class": "Form",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 266,
+            "description": "success ajax request success callback",
+            "itemtype": "event",
+            "name": "succuess",
+            "params": [
+                {
+                    "name": "action",
+                    "description": "The current operation: create, update, delete",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "The response data from backend server",
+                    "type": "Object"
+                }
+            ],
+            "class": "Form",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 282,
+            "description": "fail ajax request success callback",
+            "itemtype": "event",
+            "name": "fail",
+            "params": [
+                {
+                    "name": "action",
+                    "description": "The current operation: create, update, delete",
+                    "type": "String"
+                },
+                {
+                    "name": "reason",
+                    "description": "The ajax request response",
+                    "type": "Object"
+                }
+            ],
+            "class": "Form",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 297,
+            "description": "cancel current operation",
+            "itemtype": "event",
+            "name": "cancel",
+            "class": "Form",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/form.js",
+            "line": 307,
+            "description": "validate current model",
+            "itemtype": "method",
+            "name": "validate",
+            "return": {
+                "description": "Returns true when success, false when fails",
+                "type": "Boolean"
+            },
+            "class": "Form",
+            "module": "mixins",
+            "submodule": "form"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 8,
+            "example": [
+                "\n import EmberObject from '@ember/object';\n import model, {DS} from 'ember-easy-orm/mixins/model'\nconst {attr} = DS;\nexport default EmberObject.extend(model, {\n        url: '/v1/food',\n        init(){\n            this._super(...arguments);\n            this.model = {\n                'name': attr('string'),\n                'desc': attr('string'),\n                'pic': attr('array'),\n                'province_id': attr('string'),\n                'city_id': attr('string'),\n                'area_id': attr('string'),\n                'town_id': attr('string'),\n                'country_id': attr('string'),\n                'url': attr('string'),\n                'host': attr('string'),\n                'tag': attr('array'),\n                'user': attr({defaultValue: function(){\n                    return {name: '', 'gender': ''};\n                }})\n            };\n        }\n    })"
+            ],
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 83,
+            "description": "The api host, default is current host",
+            "itemtype": "property",
+            "name": "host",
+            "type": "String",
+            "default": "\"\"",
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 90,
+            "description": "The api namespace  like /v1  /v2",
+            "itemtype": "property",
+            "name": "namespace",
+            "type": "String",
+            "default": "\"\"",
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 97,
+            "description": "The response data business logic root key like: {'code': 0, 'resp':{'user':[]}, 'msg':''}, the resp is is the rootKey",
+            "itemtype": "property",
+            "name": "rootKey",
+            "type": "String",
+            "default": "\"\"",
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 104,
+            "description": "The api url. If rootURL ends with slash , the url should not starts with slash",
+            "itemtype": "property",
+            "name": "url",
+            "type": "String",
+            "default": "\"\"",
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 111,
+            "description": "The model object primary key",
+            "itemtype": "property",
+            "name": "primaryKey",
+            "type": "String",
+            "default": "\"_id\"",
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 118,
+            "description": "The object is for extract response data {user: [], comment:[], avatar: {}}",
+            "itemtype": "property",
+            "name": "displayModel",
+            "type": "Object",
+            "default": "null",
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 125,
+            "description": "url for find method request, use this method to custome find url",
+            "itemtype": "method",
+            "name": "urlForFind",
+            "default": "/host/namespace/?key=params[key]",
+            "return": {
+                "description": "String"
+            },
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 135,
+            "description": "url for findOne method request, use this method to custome findOne url",
+            "itemtype": "method",
+            "name": "urlForFindOne",
+            "default": "/{host}/{namespace}/{id}",
+            "return": {
+                "description": "String"
+            },
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 144,
+            "description": "url for save method request, use this method to custome create and update url",
+            "itemtype": "method",
+            "name": "urlForSave",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "object primary key"
+                }
+            ],
+            "default": "/{host}/{namespace}/{id}/",
+            "return": {
+                "description": "String"
+            },
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 155,
+            "description": "url for delete method request, use this method to custome delete url",
+            "itemtype": "method",
+            "name": "urlForDelete",
+            "default": "/{host}/{namespace}/{id}",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "object primary key"
+                }
+            ],
+            "return": {
+                "description": "String"
+            },
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 165,
+            "description": "make api with host, namespace, url",
+            "itemtype": "property",
+            "name": "api",
+            "type": "String",
+            "return": {
+                "description": "{namespace}{url}",
+                "type": "Host"
+            },
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 174,
+            "description": "save the record to backend when create or update object",
+            "itemtype": "method",
+            "name": "save",
+            "params": [
+                {
+                    "name": "model",
+                    "description": "model needed to save"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 242,
+            "description": "create new model with init options and model property",
+            "itemtype": "method",
+            "name": "createRecord",
+            "params": [
+                {
+                    "name": "init",
+                    "description": "init data",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Object current model"
+            },
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 265,
+            "description": "delete the record from backend",
+            "itemtype": "method",
+            "name": "deleteRecord",
+            "params": [
+                {
+                    "name": "model",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "data",
+                    "description": "passed to backend server as extra params",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Promise"
+            },
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 295,
+            "description": "find the records from backend according to params",
+            "itemtype": "method",
+            "name": "find",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "query params",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Promise"
+            },
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 322,
+            "description": "find only one according to primary id",
+            "itemtype": "method",
+            "name": "findOne",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "primary key",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "query parameter append to url",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Promise"
+            },
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 348,
+            "description": "filter request params",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_filterParams",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Object filtered params"
+            },
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 366,
+            "description": "find serializer",
+            "itemtype": "method",
+            "name": "findSerializer",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "response data from backend",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "serializer data"
+            },
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 415,
+            "description": "serializer for findOne method",
+            "itemtype": "method",
+            "name": "findOneSerializer",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "response data from backend",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "serializer data"
+            },
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 447,
+            "description": "serializer for save method",
+            "itemtype": "method",
+            "name": "saveSerializer",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "response data from backend",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "serializer data"
+            },
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/mixins/model.js",
+            "line": 456,
+            "description": "serializer for delete",
+            "itemtype": "method",
+            "name": "deleteSerializer",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "response data from backend",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "serializer data"
+            },
+            "class": "model",
+            "module": "mixins",
+            "submodule": "model"
+        },
+        {
+            "file": "addon/services/store.js",
+            "line": 45,
+            "description": "find the record according to modelName",
+            "itemtype": "method",
+            "name": "find",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "modelName"
+                },
+                {
+                    "name": "params",
+                    "description": "query params"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "store",
+            "module": "services",
+            "submodule": "store"
+        },
+        {
+            "file": "addon/services/store.js",
+            "line": 56,
+            "description": "findOne the record according to modelName",
+            "itemtype": "method",
+            "name": "findOne",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "modelName"
+                },
+                {
+                    "name": "_id",
+                    "description": "primaryKey"
+                },
+                {
+                    "name": "data",
+                    "description": "query params"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "store",
+            "module": "services",
+            "submodule": "store"
+        },
+        {
+            "file": "addon/services/store.js",
+            "line": 68,
+            "description": "create the record according to modelName",
+            "itemtype": "method",
+            "name": "createRecord",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "modelName",
+                    "type": "String"
+                },
+                {
+                    "name": "init",
+                    "description": "init data",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "store",
+            "module": "services",
+            "submodule": "store"
+        },
+        {
+            "file": "addon/services/store.js",
+            "line": 79,
+            "description": "delete the record according to modelName",
+            "itemtype": "method",
+            "name": "deleteRecord",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "modelName",
+                    "type": "String"
+                },
+                {
+                    "name": "model",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "data",
+                    "description": "query params",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "store",
+            "module": "services",
+            "submodule": "store"
+        },
+        {
+            "file": "addon/services/store.js",
+            "line": 91,
+            "description": "save the record according to modelName",
+            "itemtype": "method",
+            "name": "save",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "modelName"
+                },
+                {
+                    "name": "model",
+                    "description": "model"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "store",
+            "module": "services",
+            "submodule": "store"
+        },
+        {
+            "file": "addon/services/store.js",
+            "line": 102,
+            "description": "filter model empty attrs",
+            "itemtype": "method",
+            "name": "emptyAttrs",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "modelName"
+                },
+                {
+                    "name": "model",
+                    "description": "object need to be filterd"
+                },
+                {
+                    "name": "filterKeys",
+                    "description": "default is model keys"
+                },
+                {
+                    "name": "unfilterKeys",
+                    "description": "not need to be filterd"
+                }
+            ],
+            "return": {
+                "description": "all keys attribute value is empty",
+                "type": "Array"
+            },
+            "class": "store",
+            "module": "services",
+            "submodule": "store"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " addon/mixins/form.js:151"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " addon/mixins/form.js:151"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " addon/mixins/form.js:151"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " addon/mixins/form.js:176"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " addon/mixins/form.js:176"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " addon/mixins/form.js:176"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " addon/mixins/form.js:266"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " addon/mixins/form.js:266"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " addon/mixins/form.js:282"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " addon/mixins/form.js:282"
+        },
+        {
+            "message": "Missing item type\nget request function used in ajax.request property",
+            "line": " addon/mixins/ajax.js:13"
+        },
+        {
+            "message": "Missing item type\npost request function used in ajax.request property",
+            "line": " addon/mixins/ajax.js:34"
+        },
+        {
+            "message": "Missing item type\ndelete request function used in ajax.request property",
+            "line": " addon/mixins/ajax.js:55"
+        },
+        {
+            "message": "Missing item type\nput request function used in ajax.request property",
+            "line": " addon/mixins/ajax.js:76"
+        },
+        {
+            "message": "Missing item type",
+            "line": " addon/mixins/model.js:8"
+        }
+    ]
+}

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>addon/mixins/form.js - ember-easy-orm</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/lucid.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="yui3-skin-sam">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+            ember-easy-orm
+        </h1>
+	<div class="nav">
+            <li class="divider-vertical"></li>
+            <li>
+                <p class="navbar-text">
+                    API Docs for Version: <b>1.0.0</b>
+                </p>
+            </li>
+        </div>
+        <form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/ajax", "classes/Form", "classes/godForm", "classes/model", "classes/store", "modules/ajax", "modules/form", "modules/mixins", "modules/model", "modules/pagination", "modules/services", "modules/store"]'>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="span3">
+<div>
+    <div id="sidebar">
+    <div id="classes">
+        <ul id="api-classes" class="nav nav-list">
+                <li><a href="../classes/ajax.html">ajax</a></li>
+                <li><a href="../classes/Form.html">Form</a></li>
+                <li><a href="../classes/godForm.html">godForm</a></li>
+                <li><a href="../classes/model.html">model</a></li>
+                <li><a href="../classes/store.html">store</a></li>
+        </ul>
+    </div>
+    </div>
+</div>
+        </div>
+        <div class="span9">
+    <form id="options-form" class="form-inline pull-right">
+        Show:
+        <label for="api-show-inherited" class="checkbox">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected" class="checkbox">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private" class="checkbox">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated" class="checkbox">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </form>
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<div class="page-header">
+    <h1>addon/mixins/form.js <small>File</small></h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+/**
+ This module has two mixins: godForm and formComponent, they are used to manage form handler
+ @module mixins
+ @submodule form
+ */
+import { action, get, setProperties } from &#x27;@ember/object&#x27;;
+import { inject, inject as service } from &#x27;@ember/service&#x27;;
+import { isNone } from &#x27;@ember/utils&#x27;;
+import Component from &#x27;@glimmer/component&#x27;;
+import { tracked } from &#x27;@glimmer/tracking&#x27;;
+import { A } from &#x27;@ember/array&#x27;;
+
+/**
+ delete object from backend server
+ @event deleteObject
+ @param {Object} selectedItem The current selected item
+ */
+let deleteObject = function (selectedItem) {
+  if (!this.modelName) {
+    throw new Error(&#x60;mixin component modelName is invalid: ${this.modelName}&#x60;);
+  }
+  this.loading = true;
+  this.store
+    .deleteRecord(this.modelName, selectedItem)
+    .then((data) =&gt; {
+      this.loading = false;
+      this.success(&#x27;delete&#x27;, data, selectedItem);
+    })
+    .catch((reason) =&gt; {
+      this.loading = false;
+      this.fail(&#x27;delete&#x27;, reason, selectedItem);
+    });
+};
+
+/**
+ GodForm is used  for data list to create, update and delete children object
+ only support native style class component
+ @public
+ @class godForm
+ **/
+class GodForm extends Component {
+  constructor() {
+    super(...arguments);
+    this.model = this.args.model ? this.args.model : A();
+  }
+
+  @service store;
+
+  /**
+   @property modelName
+   @type String
+   */
+  modelName = &#x27;&#x27;;
+
+  /**
+   for loading
+   @property loading
+   @type boolean
+   */
+  @tracked loading = false;
+
+  /**
+   data set, normally array
+   @property model
+   @type Object
+   */
+  @tracked model = null;
+  /**
+   current selected item
+   @property selectedItem
+   @type Object
+   */
+  @tracked selectedItem = null;
+  /**
+   for modal dialog
+   @property modalShow
+   @type boolean
+   */
+  @tracked modalShow = false;
+  /**
+   ajax fail reason
+   @property reason
+   @type String
+   */
+  @tracked reason = null;
+  /**
+   orm store service
+   @property store
+   @type Object
+   */
+  @inject store;
+
+  /**
+   create new record according to modelName
+   @event add
+   */
+  @action
+  add() {
+    this.modalShow = true;
+    this.selectedItem = this.store.createRecord(this.modelName);
+  }
+
+  /**
+   edit current selected item
+   @event edit
+   @param {Object} selectedItem
+   */
+  @action
+  edit(selectedItem) {
+    this.modalShow = true;
+    if (!isNone(selectedItem)) {
+      this.selectedItem = selectedItem;
+    }
+  }
+
+  /**
+   cancel current operation
+   @event cancel
+   */
+  @action
+  cancel() {
+    this.modalShow = false;
+  }
+
+  /**
+   remove current selected item
+   @event remove
+   @param {Object} selectedItem
+   */
+  @action
+  remove(selectedItem) {
+    if (!this.modelName) {
+      throw new Error(
+        &#x60;mixin component modelName is invalid: ${this.modelName}&#x60;
+      );
+    }
+    this.loading = true;
+    this.store
+      .deleteRecord(this.modelName, selectedItem)
+      .then((data) =&gt; {
+        console.log(data, selectedItem);
+        this.loading = false;
+        this.success(&#x27;delete&#x27;, data, selectedItem);
+      })
+      .catch((reason) =&gt; {
+        this.loading = false;
+        this.fail(&#x27;delete&#x27;, reason, selectedItem);
+      });
+  }
+
+  /**
+   success ajax request success callback
+   @event success
+   @params {String} action The current operation: create, update, delete
+   @params {Object} data The response data from backend server
+   @params {Object} selectedItem Thc current selected item
+   */
+  @action
+  success(action, data, selectedItem) {
+    this.modalShow = false;
+    if (this.args?.success) {
+      this.args.success(action, data, selectedItem);
+    }
+
+    // child component send action to parent
+    if (action === &#x27;delete&#x27;) {
+      this.model.removeObject(selectedItem);
+      return;
+    }
+
+    if (!this.model.includes(selectedItem)) {
+      this.model.insertAt(0, selectedItem);
+    }
+  }
+
+  /**
+   fail ajax request success callback
+   @event fail
+   @params {string} action The current operation: create, update, delete
+   @params {Object} reason The ajax request response
+   @params {Object} selectedItem Thc current selected item
+   */
+  @action
+  fail(action, reason, selectedItem) {
+    this.reason = reason;
+    // check parent callback
+    if (this.args?.fail) {
+      this.args.fail(action, reason, selectedItem);
+    }
+  }
+}
+
+/**
+ Form is used for one record to create, update and delete
+ only support native style class component
+ @public
+ @class Form
+ **/
+class Form extends Component {
+  constructor() {
+    super(...arguments);
+    this.model = this.args.model ? this.args.model : null;
+  }
+
+  /**
+   @property modelName
+   @type String
+   */
+  modelName = &#x27;&#x27;;
+  /**
+   single object, normally for form
+   @property model
+   @type Object
+   */
+  @tracked model = null;
+  /**
+   orm store service
+   @property store
+   @type Object
+   */
+  @inject store;
+  /**
+   ajax fail reason
+   @property reason
+   @type String
+   */
+  @tracked reason = null;
+  @tracked loading = false;
+
+  /**
+   save triggle when user click save action
+   @event save
+   */
+  @action
+  save() {
+    if (!this.modelName) {
+      throw new Error(&#x60;FormComponent modelName is invalid: ${this.modelName}&#x60;);
+    }
+    this.loading = true;
+    if (!this.validate()) {
+      return;
+    }
+    let primaryKey = this.store.modelFor(this.modelName).primaryKey;
+    let actionName = get(this.model, primaryKey) ? &#x27;update&#x27; : &#x27;create&#x27;;
+    this.store
+      .save(this.modelName, this.model)
+      .then((data) =&gt; {
+        this.loading = false;
+        this.success(actionName, data);
+      })
+      .catch((reason) =&gt; {
+        this.loading = false;
+        this.fail(actionName, reason);
+      });
+  }
+
+  /**
+   delete triggle when user click save action
+   @event remove
+   */
+  @action
+  remove() {
+    deleteObject.call(this, this.model);
+  }
+
+  /**
+   success ajax request success callback
+   @event succuess
+   @params {String} action The current operation: create, update, delete
+   @params {Object} data The response data from backend server
+   */
+  @action
+  success(action, data) {
+    if ((action === &#x27;create&#x27; || action === &#x27;update&#x27;) &amp;&amp; data) {
+      setProperties(this.model, data);
+    }
+    if (this.args.success) {
+      this.args.success(action, data, this.model);
+    }
+  }
+
+  /**
+   fail ajax request success callback
+   @event fail
+   @params {string} action The current operation: create, update, delete
+   @params {Object} reason The ajax request response
+   */
+  @action
+  fail(action, reason) {
+    this.reason = reason;
+    // call object fail function from action
+    if (this.args.fail) {
+      this.args.fail(action, reason, this.model);
+    }
+  }
+
+  /**
+   cancel current operation
+   @event cancel
+   */
+  @action
+  cancel() {
+    if (this.args.cancel) {
+      this.args.cancel(this.model);
+    }
+  }
+  /**
+   validate current model
+   @method validate
+   @return {Boolean} Returns true when success, false when fails
+   */
+  validate() {
+    console.log(&#x27;subclass override this function for model validate&#x27;);
+    return true;
+  }
+}
+
+export { GodForm, Form };
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<script>prettyPrint();</script>
+</body>
+</html>

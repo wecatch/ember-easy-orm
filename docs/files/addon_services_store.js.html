@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>addon/services/store.js - ember-easy-orm</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/lucid.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="yui3-skin-sam">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+            ember-easy-orm
+        </h1>
+	<div class="nav">
+            <li class="divider-vertical"></li>
+            <li>
+                <p class="navbar-text">
+                    API Docs for Version: <b>1.0.0</b>
+                </p>
+            </li>
+        </div>
+        <form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/ajax", "classes/Form", "classes/godForm", "classes/model", "classes/store", "modules/ajax", "modules/form", "modules/mixins", "modules/model", "modules/pagination", "modules/services", "modules/store"]'>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="span3">
+<div>
+    <div id="sidebar">
+    <div id="classes">
+        <ul id="api-classes" class="nav nav-list">
+                <li><a href="../classes/ajax.html">ajax</a></li>
+                <li><a href="../classes/Form.html">Form</a></li>
+                <li><a href="../classes/godForm.html">godForm</a></li>
+                <li><a href="../classes/model.html">model</a></li>
+                <li><a href="../classes/store.html">store</a></li>
+        </ul>
+    </div>
+    </div>
+</div>
+        </div>
+        <div class="span9">
+    <form id="options-form" class="form-inline pull-right">
+        Show:
+        <label for="api-show-inherited" class="checkbox">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected" class="checkbox">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private" class="checkbox">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated" class="checkbox">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </form>
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<div class="page-header">
+    <h1>addon/services/store.js <small>File</small></h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+/* eslint-disable ember/no-jquery */
+/**
+ store servie mange all model
+ @module services
+ @submodule store
+ */
+import Service from &#x27;@ember/service&#x27;;
+import EmberObject from &#x27;@ember/object&#x27;;
+import { getOwner } from &#x27;@ember/application&#x27;;
+import { keys } from &#x27;@ember/polyfills&#x27;;
+import $ from &#x27;jquery&#x27;;
+import { isEmpty } from &#x27;@ember/utils&#x27;;
+// eslint-disable-next-line ember/no-mixins
+import ajax from &#x27;../mixins/ajax&#x27;;
+
+/**
+ store
+ @public
+ @class store
+ **/
+export default class Store extends Service.extend(ajax) {
+  modelFor(type) {
+    var kclass;
+    if (getOwner) {
+      kclass = getOwner(this).lookup(&#x27;model:&#x27; + type, {
+        singleton: false,
+      });
+      if (!kclass) {
+        console.log(&#x27;model:&#x27; + type + &#x27; is not found&#x27;);
+        return EmberObject.create();
+      }
+      return kclass;
+    }
+
+    kclass = this.container.lookupFactory(&#x27;model:&#x27; + type);
+    console.log(kclass);
+    if (!kclass) {
+      console.log(&#x27;model:&#x27; + type + &#x27; is not found&#x27;);
+      return EmberObject.create();
+    }
+
+    return kclass.create();
+  }
+
+  /**
+     find the record according to modelName
+     @method find
+     @param type modelName
+     @param params query params
+     @return  {Promise}
+     */
+  find(type, params) {
+    return this.modelFor(type).find(params);
+  }
+
+  /**
+     findOne the record according to modelName
+     @method findOne
+     @param type modelName
+     @param _id primaryKey
+     @param data query params
+     @return  {Promise}
+     */
+  findOne(type, _id, data) {
+    return this.modelFor(type).findOne(_id, data);
+  }
+
+  /**
+     create the record according to modelName
+     @method createRecord
+     @param {String} type modelName
+     @param {Object} init init data
+     @return  {Promise}
+     */
+  createRecord(type, init) {
+    return this.modelFor(type).createRecord(init);
+  }
+
+  /**
+     delete the record according to modelName
+     @method deleteRecord
+     @param {String} type modelName
+     @param {Object} model
+     @param {Object} data query params
+     @return  {Promise}
+     */
+  deleteRecord(type, model, data) {
+    return this.modelFor(type).deleteRecord(model, data);
+  }
+
+  /**
+     save the record according to modelName
+     @method save
+     @param type modelName
+     @param model model
+     @return  {Promise}
+     */
+  save(type, model) {
+    return this.modelFor(type).save(model);
+  }
+
+  /**
+     filter model empty attrs
+     @method emptyAttrs
+     @param type modelName
+     @param model object need to be filterd
+     @param filterKeys default is model keys
+     @param unfilterKeys not need to be filterd
+     @return {Array} all keys attribute value is empty
+     */
+  emptyAttrs(type, model, filterKeys, unfilterKeys) {
+    var emptyKeys = [];
+    var filtered = filterKeys || keys(this.modelFor(type).model);
+    var unfiltered = unfilterKeys || [];
+
+    var finallyfiltered = filtered.filter(function (item) {
+      return unfiltered.indexOf(item) === -1;
+    });
+
+    $.each(finallyfiltered, function (index, key) {
+      if (typeof key === &#x27;string&#x27;) {
+        if (isEmpty(model.get(key))) {
+          emptyKeys.push(key);
+        }
+      }
+    });
+    return emptyKeys;
+  }
+}
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<script>prettyPrint();</script>
+</body>
+</html>

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>addon/mixins/model.js - ember-easy-orm</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/lucid.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="yui3-skin-sam">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+            ember-easy-orm
+        </h1>
+	<div class="nav">
+            <li class="divider-vertical"></li>
+            <li>
+                <p class="navbar-text">
+                    API Docs for Version: <b>1.0.0</b>
+                </p>
+            </li>
+        </div>
+        <form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/ajax", "classes/Form", "classes/godForm", "classes/model", "classes/store", "modules/ajax", "modules/form", "modules/mixins", "modules/model", "modules/pagination", "modules/services", "modules/store"]'>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="span3">
+<div>
+    <div id="sidebar">
+    <div id="classes">
+        <ul id="api-classes" class="nav nav-list">
+                <li><a href="../classes/ajax.html">ajax</a></li>
+                <li><a href="../classes/Form.html">Form</a></li>
+                <li><a href="../classes/godForm.html">godForm</a></li>
+                <li><a href="../classes/model.html">model</a></li>
+                <li><a href="../classes/store.html">store</a></li>
+        </ul>
+    </div>
+    </div>
+</div>
+        </div>
+        <div class="span9">
+    <form id="options-form" class="form-inline pull-right">
+        Show:
+        <label for="api-show-inherited" class="checkbox">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected" class="checkbox">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private" class="checkbox">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated" class="checkbox">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </form>
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<div class="page-header">
+    <h1>addon/mixins/model.js <small>File</small></h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+// eslint-disable-next-line ember/no-mixins
+/**
+ orm model
+ @module mixins
+ @submodule model
+ */
+
+/**
+
+ @example
+ import EmberObject from &#x27;@ember/object&#x27;;
+ import model, {DS} from &#x27;ember-easy-orm/mixins/model&#x27;
+
+ const {attr} = DS;
+
+ export default EmberObject.extend(model, {
+        url: &#x27;/v1/food&#x27;,
+        init(){
+            this._super(...arguments);
+            this.model = {
+                &#x27;name&#x27;: attr(&#x27;string&#x27;),
+                &#x27;desc&#x27;: attr(&#x27;string&#x27;),
+                &#x27;pic&#x27;: attr(&#x27;array&#x27;),
+                &#x27;province_id&#x27;: attr(&#x27;string&#x27;),
+                &#x27;city_id&#x27;: attr(&#x27;string&#x27;),
+                &#x27;area_id&#x27;: attr(&#x27;string&#x27;),
+                &#x27;town_id&#x27;: attr(&#x27;string&#x27;),
+                &#x27;country_id&#x27;: attr(&#x27;string&#x27;),
+                &#x27;url&#x27;: attr(&#x27;string&#x27;),
+                &#x27;host&#x27;: attr(&#x27;string&#x27;),
+                &#x27;tag&#x27;: attr(&#x27;array&#x27;),
+                &#x27;user&#x27;: attr({defaultValue: function(){
+                    return {name: &#x27;&#x27;, &#x27;gender&#x27;: &#x27;&#x27;};
+                }})
+            };
+        }
+    })
+ */
+
+import { A, isArray } from &#x27;@ember/array&#x27;;
+import Mixin from &#x27;@ember/object/mixin&#x27;;
+import Evented from &#x27;@ember/object/evented&#x27;;
+import EmberObject, { computed } from &#x27;@ember/object&#x27;;
+import { merge } from &#x27;@ember/polyfills&#x27;;
+import { isBlank, isNone } from &#x27;@ember/utils&#x27;;
+
+import ajax from &#x27;./ajax&#x27;;
+
+export const DS = {
+  attr(type, hash) {
+    if (typeof type === &#x27;object&#x27;) {
+      hash = type;
+      type = undefined;
+    }
+
+    if (typeof hash === &#x27;object&#x27;) {
+      if (hash.defaultValue !== undefined) {
+        return hash.defaultValue;
+      }
+    }
+
+    switch (type) {
+      case &#x27;string&#x27;:
+        return &#x27;&#x27;;
+      case &#x27;boolean&#x27;:
+        return true;
+      case &#x27;number&#x27;:
+        return 0;
+      case &#x27;array&#x27;:
+        return A;
+    }
+
+    return null;
+  },
+};
+
+/**
+ mixin in ORM model
+ @public
+ @class model
+ **/
+export default Mixin.create(ajax, Evented, {
+  /**
+   The api host, default is current host
+   @property {String} host
+   @default  &quot;&quot;
+   */
+  host: &#x27;&#x27;,
+
+  /**
+   The api namespace  like /v1  /v2
+   @property {String} namespace
+   @default  &quot;&quot;
+   */
+  namespace: &#x27;&#x27;,
+
+  /**
+   The response data business logic root key like: {&#x27;code&#x27;: 0, &#x27;resp&#x27;:{&#x27;user&#x27;:[]}, &#x27;msg&#x27;:&#x27;&#x27;}, the resp is is the rootKey
+   @property {String} rootKey
+   @default  &quot;&quot;
+   */
+  rootKey: &#x27;&#x27;,
+
+  /**
+   The api url. If rootURL ends with slash , the url should not starts with slash
+   @property {String} url
+   @default  &quot;&quot;
+   */
+  url: &#x27;&#x27;,
+
+  /**
+   The model object primary key
+   @property {String} primaryKey
+   @default  &quot;_id&quot;
+   */
+  primaryKey: &#x27;_id&#x27;,
+
+  /**
+   The object is for extract response data {user: [], comment:[], avatar: {}}
+   @property {Object} displayModel
+   @default  null
+   */
+  displayModel: null,
+
+  /**
+   url for find method request, use this method to custome find url
+   @method urlForFind
+   @default  /host/namespace/?key=params[key]
+   @return String
+   */
+  urlForFind: function () {
+    return this.api;
+  },
+
+  /**
+   url for findOne method request, use this method to custome findOne url
+   @method urlForFindOne
+   @default  /{host}/{namespace}/{id}
+   @return String
+   */
+  urlForFindOne: function (id) {
+    return this.api + &#x27;/&#x27; + id;
+  },
+  /**
+   url for save method request, use this method to custome create and update url
+   @method urlForSave
+   @param id object primary key
+   @default  /{host}/{namespace}/{id}/
+   @return String
+   */
+  urlForSave: function (id) {
+    return id ? this.api + &#x27;/&#x27; + id : this.api;
+  },
+
+  /**
+   url for delete method request, use this method to custome delete url
+   @method urlForDelete
+   @default  /{host}/{namespace}/{id}
+   @param id object primary key
+   @return String
+   */
+  urlForDelete: function (id) {
+    return id ? this.api + &#x27;/&#x27; + id : this.api;
+  },
+  /**
+   make api with host, namespace, url
+   @method api
+   @property {String} api
+   @return  {host}{namespace}{url}
+   */
+  api: computed(&#x27;host&#x27;, &#x27;namespace&#x27;, &#x27;url&#x27;, function () {
+    return this.host + this.namespace + this.url;
+  }),
+  /**
+   save the record to backend when create or update object
+   @method save
+   @param model model needed to save
+   @return  {Promise}
+   */
+  save: function (model) {
+    let self = this,
+      primaryKey = this.primaryKey,
+      url = this.urlForSave(model[primaryKey], model),
+      record = {},
+      model_keys = Object.keys(this.model);
+
+    //filter model data
+    for (var i = model_keys.length - 1; i &gt;= 0; i--) {
+      let key = model_keys[i];
+      if (typeof self.model[key] === &#x27;function&#x27;) {
+        if (typeof model[key] === &#x27;object&#x27; &amp;&amp; !isArray(model[key])) {
+          record[key] = JSON.stringify(model[key]);
+          continue;
+        }
+      }
+
+      if (isArray(model[key])) {
+        let content = model[key];
+        for (let i = 0; i &lt; content.length; i++) {
+          if (typeof content[i] === &#x27;object&#x27; &amp;&amp; content[i]) {
+            model[key][i] = JSON.stringify(content[i]);
+          }
+        }
+      }
+
+      record[key] = model[key] !== undefined ? model[key] : self.model[key];
+    }
+
+    //check if is new data
+    if (model[primaryKey]) {
+      record[primaryKey] = model[primaryKey];
+      return this.request.put(url, { data: record }).then(
+        function (data) {
+          // eslint-disable-next-line no-useless-catch
+          try {
+            return self.saveSerializer(data);
+          } catch (e) {
+            throw e;
+          }
+        },
+        function (reason) {
+          throw reason;
+        }
+      );
+    }
+
+    return this.request.post(url, { data: record }).then(
+      function (data) {
+        // eslint-disable-next-line no-useless-catch
+        try {
+          return self.saveSerializer(data);
+        } catch (e) {
+          throw e;
+        }
+      },
+      function (reason) {
+        throw reason;
+      }
+    );
+  },
+
+  /**
+   create new model with init options and model property
+   @method createRecord
+   @param {Object} init init data
+   @return Object current model
+   */
+  createRecord: function (init) {
+    let record = EmberObject.create();
+    Object.keys(this.model).map((key) =&gt; {
+      if (typeof this.model[key] === &#x27;function&#x27;) {
+        record.set(key, this.model[key].apply());
+      } else {
+        record.set(key, this.model[key]);
+      }
+    });
+
+    if (typeof init === &#x27;object&#x27;) {
+      merge(record, init);
+    }
+
+    return record;
+  },
+
+  /**
+   delete the record from backend
+   @method deleteRecord
+   @param {Object} model
+   @param {Object} data passed to backend server as extra params
+   @return  Promise
+   */
+  deleteRecord: function (model, data) {
+    let self = this,
+      _id =
+        typeof model === &#x27;string&#x27; || typeof model === &#x27;number&#x27;
+          ? model
+          : model[this.primaryKey],
+      url = this.urlForDelete(_id, data),
+      options = data ? { data: data } : {};
+
+    return this.request.delete(url, options).then(
+      function (data) {
+        // eslint-disable-next-line no-useless-catch
+        try {
+          return self.deleteSerializer(data);
+        } catch (e) {
+          throw e;
+        }
+      },
+      function (reason) {
+        throw reason;
+      }
+    );
+  },
+  /**
+   find the records from backend according to params
+   @method find
+   @param {Object} params query params
+   @return  Promise
+   */
+  find: function (params) {
+    let self = this,
+      url = this.urlForFind(params),
+      filterParams = this._filterParams(params),
+      options = filterParams ? { data: filterParams } : {};
+
+    return this.request.get(url, options).then(
+      function (data) {
+        // eslint-disable-next-line no-useless-catch
+        try {
+          return self.findSerializer(data);
+        } catch (e) {
+          throw e;
+        }
+      },
+      function (reason) {
+        throw reason;
+      }
+    );
+  },
+
+  /**
+   find only one according to primary id
+   @method findOne
+   @param {String} id primary key
+   @param {Object} data query parameter append to url
+   @return Promise
+   */
+  findOne: function (id, data) {
+    let url = this.urlForFindOne(id, data),
+      self = this,
+      options = data ? { data: data } : {};
+
+    return this.request.get(url, options).then(
+      function (data) {
+        // eslint-disable-next-line no-useless-catch
+        try {
+          return self.findOneSerializer(data);
+        } catch (e) {
+          throw e;
+        }
+      },
+      function (reason) {
+        throw reason;
+      }
+    );
+  },
+  /**
+   filter request params
+   @private
+   @method _filterParams
+   @param {Object} params
+   @return Object filtered params
+   */
+  _filterParams: function (params) {
+    if (!params) {
+      return;
+    }
+    Object.keys(params).map((k) =&gt; {
+      if (isBlank(params[k])) {
+        delete params[k];
+      }
+    });
+    return params;
+  },
+  /**
+   find serializer
+   @method findSerializer
+   @param {Object} data response data from backend
+   @return serializer data
+   */
+  findSerializer: function (data) {
+    let result = {};
+    if (this.displayModel) {
+      let objectKeys = Object.keys(this.displayModel);
+      for (let i = 0; i &lt; objectKeys.length; i++) {
+        let key = objectKeys[i];
+        let keyAttr = this.displayModel[key];
+        if (keyAttr === &#x27;array&#x27;) {
+          result[key] = this.to_array(data[key]);
+          continue;
+        }
+        if (keyAttr === &#x27;object&#x27;) {
+          result[key] = this.to_object(data[key]);
+          continue;
+        }
+        result[key] = data[key];
+      }
+      return result;
+    }
+
+    //data is null or undefined
+    if (isNone(data)) {
+      console.warn(&#x27;findSerializer response data is null&#x27;);
+      return this.to_array();
+    }
+
+    // rootKey is empty
+    if (!this.rootKey) {
+      return this.to_array(data);
+    }
+
+    // response data must be array
+    if (!isArray(data[this.rootKey])) {
+      console.warn(
+        &#x27;findSerializer parsedData is not array&#x27;,
+        data,
+        this.rootKey
+      );
+      return this.to_array();
+    }
+
+    return this.to_array(data[this.rootKey]);
+  },
+  /**
+   serializer for findOne method
+   @method findOneSerializer
+   @param {Object} data response data from backend
+   @return serializer data
+   */
+  findOneSerializer: function (data) {
+    //data is null or undefined
+    if (isNone(data)) {
+      console.warn(&#x27;findOneSerializer response data is null&#x27;);
+      return this.to_object();
+    }
+
+    // rootKey is empty
+    if (!this.rootKey) {
+      return data;
+    }
+
+    // parsedObject must be object
+    if (isNone(data[this.rootKey])) {
+      console.warn(&#x27;findOneSerializer parsedObject is null&#x27;);
+      return this.to_object();
+    }
+
+    return this.to_object(data[this.rootKey]);
+  },
+  to_array: function (data) {
+    return A(data || []);
+  },
+  to_object: function (data) {
+    return EmberObject.create(data || {});
+  },
+  /**
+   serializer for save method
+   @method saveSerializer
+   @param {Object} data response data from backend
+   @return serializer data
+   */
+  saveSerializer: function (data) {
+    return data;
+  },
+  /**
+   serializer for delete
+   @method deleteSerializer
+   @param {Object} data response data from backend
+   @return serializer data
+   */
+  deleteSerializer: function (data) {
+    return data;
+  },
+  init: function () {
+    this._super(...arguments);
+    if (typeof this.rootKey !== &#x27;string&#x27;) {
+      throw new Error(&#x60;rootKey only allow string type, now is ${this.rootKey}&#x60;);
+    }
+  },
+});
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<script>prettyPrint();</script>
+</body>
+</html>

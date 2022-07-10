@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>ajax - ember-easy-orm</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/lucid.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="yui3-skin-sam">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+            ember-easy-orm
+        </h1>
+	<div class="nav">
+            <li class="divider-vertical"></li>
+            <li>
+                <p class="navbar-text">
+                    API Docs for Version: <b>1.0.0</b>
+                </p>
+            </li>
+        </div>
+        <form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/ajax", "classes/Form", "classes/godForm", "classes/model", "classes/store", "modules/ajax", "modules/form", "modules/mixins", "modules/model", "modules/pagination", "modules/services", "modules/store"]'>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="span3">
+<div>
+    <div id="sidebar">
+    <div id="classes">
+        <ul id="api-classes" class="nav nav-list">
+                <li><a href="../classes/ajax.html">ajax</a></li>
+                <li><a href="../classes/Form.html">Form</a></li>
+                <li><a href="../classes/godForm.html">godForm</a></li>
+                <li><a href="../classes/model.html">model</a></li>
+                <li><a href="../classes/store.html">store</a></li>
+        </ul>
+    </div>
+    </div>
+</div>
+        </div>
+        <div class="span9">
+    <form id="options-form" class="form-inline pull-right">
+        Show:
+        <label for="api-show-inherited" class="checkbox">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected" class="checkbox">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private" class="checkbox">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated" class="checkbox">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </form>
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<div class="page-header">
+    <h1>ajax</h1>
+</div>
+
+
+
+	<div class="well well-small">
+            Module: <a href="../modules/ajax.html">ajax</a><br>
+            Parent Module: <a href="../modules/mixins.html">mixins</a>
+    </div>
+
+
+
+<div class="yuidoc-class-description">
+<p>wrap jquery ajax with Ember.RSVP.Promise, this mixin also has events like:</p>
+<ul>
+<li>ajaxStart be trigged when ajax request start</li>
+<li>ajaxDone  be trigged when ajax request finish (success or fails)</li>
+<li>ajaxSuccess  be trigged when promise resovle success</li>
+<li>ajaxError be trigged when ajax request fails</li>
+<li>RESTSerializerError  be trigged error happen when response data serialize</li>
+</ul>
+
+</div>
+
+<!-- table of contents -->
+
+<div id="class-toc" class="page-section">
+	<h2>Table of Contents</h2>
+    <ul>
+		<li>
+			<strong>Methods</strong>
+			<ul>
+				<li><a href="#method-ajax"><span class="im">ajax</span>(<span class="ia">method</span><span class="ia">url</span><span class="ia">options</span>)</a></li>
+				<li><a href="#method-deleteSerializer"><span class="im">deleteSerializer</span>(<span class="ia">data</span>)</a></li>
+				<li><a href="#method-getSerializer"><span class="im">getSerializer</span>(<span class="ia">data</span>)</a></li>
+				<li><a href="#method-postSerializer"><span class="im">postSerializer</span>(<span class="ia">data</span>)</a></li>
+				<li><a href="#method-putSerializer"><span class="im">putSerializer</span>(<span class="ia">data</span>)</a></li>
+				<li><a href="#method-RESTSerializer"><span class="im">RESTSerializer</span>(<span class="ia">data</span>)</a></li>
+			</ul>
+		</li>
+
+		<li>
+			<strong>Properties</strong>
+			<ul>
+				<li><a href="#prop-ajaxSettings"><span class="ip">ajaxSettings</span></a></li>
+				<li><a href="#prop-needSerializedMethod"><span class="ip">needSerializedMethod</span></a></li>
+				<li><a href="#prop-request"><span class="ip">request</span></a></li>
+			</ul>
+		</li>
+
+
+	</ul>
+</div>
+
+<!-- details -->
+
+
+    <div id="methods" class="page-section">
+        <h2 class="off-left">Methods</h2>
+        <div class="item-list">
+<div id="method-ajax" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>ajax</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>method</code>
+				</li>
+				<li class="arg">
+						<code>url</code>
+				</li>
+				<li class="arg">
+						<code>options</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="crosslink external" target="_blank">Promise</a></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_ajax.js.html#l132"><code>addon&#x2F;mixins&#x2F;ajax.js:132</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>jquery ajax method wrapper, return promise</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">method</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+					<div class="param-description"><p>request method</p>
+</div>
+
+				</li>
+				<li class="param">
+						<code class="param-name">url</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+					<div class="param-description"><p>request url</p>
+</div>
+
+				</li>
+				<li class="param">
+						<code class="param-name">options</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><p>ajax jquery ajax settings, see <a href="http://devdocs.io/jquery/jquery.ajax">http://devdocs.io/jquery/jquery.ajax</a></p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="crosslink external" target="_blank">Promise</a></span>
+			</div>
+		</div>
+
+</div>
+<div id="method-deleteSerializer" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>deleteSerializer</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>data</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_ajax.js.html#l237"><code>addon&#x2F;mixins&#x2F;ajax.js:237</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>delete method response data serializer</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">data</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><p>response data</p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>serializer data</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method-getSerializer" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>getSerializer</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>data</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_ajax.js.html#l201"><code>addon&#x2F;mixins&#x2F;ajax.js:201</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>get method response data serializer</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">data</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><p>response data</p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>serializer data</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method-postSerializer" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>postSerializer</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>data</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_ajax.js.html#l213"><code>addon&#x2F;mixins&#x2F;ajax.js:213</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>post method response data serializer</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">data</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><p>response data</p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>serializer data</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method-putSerializer" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>putSerializer</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>data</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_ajax.js.html#l225"><code>addon&#x2F;mixins&#x2F;ajax.js:225</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>put method response data serializer</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">data</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><p>response data</p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>serializer data</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method-RESTSerializer" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>RESTSerializer</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>data</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_ajax.js.html#l189"><code>addon&#x2F;mixins&#x2F;ajax.js:189</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>all ajax response data serializer</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">data</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><p>response data</p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>serializer data</p>
+
+			</div>
+		</div>
+
+</div>
+        </div>
+    </div>
+
+    <div id="properties" class="page-section">
+        <h2 class="off-left">Properties</h2>
+
+        <div class="item-list">
+<div id="prop-ajaxSettings" class="property item">
+    <h3 class="name"><code>ajaxSettings</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_mixins_ajax.js.html#l115"><code>addon&#x2F;mixins&#x2F;ajax.js:115</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>ajax request setting See <a href="http://devdocs.io/jquery/jquery.ajax">http://devdocs.io/jquery/jquery.ajax</a></p>
+
+    </div>
+
+        <p><strong>Default:</strong> {dataType: &#x27;json&#x27;}</p>
+
+
+</div>
+<div id="prop-needSerializedMethod" class="property item">
+    <h3 class="name"><code>needSerializedMethod</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_mixins_ajax.js.html#l125"><code>addon&#x2F;mixins&#x2F;ajax.js:125</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>if contentType is application/json which method request data need to be serialized with json</p>
+
+    </div>
+
+        <p><strong>Default:</strong> [&#x27;post&#x27;, &#x27;put&#x27;]</p>
+
+
+</div>
+<div id="prop-request" class="property item">
+    <h3 class="name"><code>request</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_mixins_ajax.js.html#l108"><code>addon&#x2F;mixins&#x2F;ajax.js:108</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>wrapper all request method (get put post delete) into request object</p>
+
+    </div>
+
+        <p><strong>Default:</strong> {Object}</p>
+
+
+</div>
+        </div>
+    </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<script>prettyPrint();</script>
+</body>
+</html>

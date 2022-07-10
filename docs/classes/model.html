@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>model - ember-easy-orm</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/lucid.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="yui3-skin-sam">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+            ember-easy-orm
+        </h1>
+	<div class="nav">
+            <li class="divider-vertical"></li>
+            <li>
+                <p class="navbar-text">
+                    API Docs for Version: <b>1.0.0</b>
+                </p>
+            </li>
+        </div>
+        <form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/ajax", "classes/Form", "classes/godForm", "classes/model", "classes/store", "modules/ajax", "modules/form", "modules/mixins", "modules/model", "modules/pagination", "modules/services", "modules/store"]'>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="span3">
+<div>
+    <div id="sidebar">
+    <div id="classes">
+        <ul id="api-classes" class="nav nav-list">
+                <li><a href="../classes/ajax.html">ajax</a></li>
+                <li><a href="../classes/Form.html">Form</a></li>
+                <li><a href="../classes/godForm.html">godForm</a></li>
+                <li><a href="../classes/model.html">model</a></li>
+                <li><a href="../classes/store.html">store</a></li>
+        </ul>
+    </div>
+    </div>
+</div>
+        </div>
+        <div class="span9">
+    <form id="options-form" class="form-inline pull-right">
+        Show:
+        <label for="api-show-inherited" class="checkbox">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected" class="checkbox">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private" class="checkbox">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated" class="checkbox">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </form>
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<div class="page-header">
+    <h1>model</h1>
+</div>
+
+
+
+	<div class="well well-small">
+            Module: <a href="../modules/model.html">model</a><br>
+            Parent Module: <a href="../modules/mixins.html">mixins</a>
+    </div>
+
+
+
+<div class="yuidoc-class-description">
+<p>mixin in ORM model</p>
+
+</div>
+
+<!-- table of contents -->
+
+<div id="class-toc" class="page-section">
+	<h2>Table of Contents</h2>
+    <ul>
+		<li>
+			<strong>Methods</strong>
+			<ul>
+				<li><a href="#method-_filterParams"><span class="im">_filterParams</span>(<span class="ia">params</span>)</a></li>
+				<li><a href="#method-createRecord"><span class="im">createRecord</span>(<span class="ia">init</span>)</a></li>
+				<li><a href="#method-deleteRecord"><span class="im">deleteRecord</span>(<span class="ia">model</span><span class="ia">data</span>)</a></li>
+				<li><a href="#method-deleteSerializer"><span class="im">deleteSerializer</span>(<span class="ia">data</span>)</a></li>
+				<li><a href="#method-find"><span class="im">find</span>(<span class="ia">params</span>)</a></li>
+				<li><a href="#method-findOne"><span class="im">findOne</span>(<span class="ia">id</span><span class="ia">data</span>)</a></li>
+				<li><a href="#method-findOneSerializer"><span class="im">findOneSerializer</span>(<span class="ia">data</span>)</a></li>
+				<li><a href="#method-findSerializer"><span class="im">findSerializer</span>(<span class="ia">data</span>)</a></li>
+				<li><a href="#method-save"><span class="im">save</span>(<span class="ia">model</span>)</a></li>
+				<li><a href="#method-saveSerializer"><span class="im">saveSerializer</span>(<span class="ia">data</span>)</a></li>
+				<li><a href="#method-urlForDelete"><span class="im">urlForDelete</span>(<span class="ia">id</span>)</a></li>
+				<li><a href="#method-urlForFind"><span class="im">urlForFind</span>()</a></li>
+				<li><a href="#method-urlForFindOne"><span class="im">urlForFindOne</span>()</a></li>
+				<li><a href="#method-urlForSave"><span class="im">urlForSave</span>(<span class="ia">id</span>)</a></li>
+			</ul>
+		</li>
+
+		<li>
+			<strong>Properties</strong>
+			<ul>
+				<li><a href="#prop-api"><span class="ip">api</span></a></li>
+				<li><a href="#prop-displayModel"><span class="ip">displayModel</span></a></li>
+				<li><a href="#prop-host"><span class="ip">host</span></a></li>
+				<li><a href="#prop-namespace"><span class="ip">namespace</span></a></li>
+				<li><a href="#prop-primaryKey"><span class="ip">primaryKey</span></a></li>
+				<li><a href="#prop-rootKey"><span class="ip">rootKey</span></a></li>
+				<li><a href="#prop-url"><span class="ip">url</span></a></li>
+			</ul>
+		</li>
+
+
+	</ul>
+</div>
+
+<!-- details -->
+
+
+    <div id="methods" class="page-section">
+        <h2 class="off-left">Methods</h2>
+        <div class="item-list">
+<div id="method-_filterParams" class="method item private">
+	<div class="method-signature">
+	<span class="name"><code>_filterParams</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>params</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</div>
+
+
+		<span class="flag private">private</span>
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_model.js.html#l348"><code>addon&#x2F;mixins&#x2F;model.js:348</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>filter request params</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">params</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>Object filtered params</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method-createRecord" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>createRecord</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>init</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_model.js.html#l242"><code>addon&#x2F;mixins&#x2F;model.js:242</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>create new model with init options and model property</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">init</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><p>init data</p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>Object current model</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method-deleteRecord" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>deleteRecord</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>model</code>
+				</li>
+				<li class="arg">
+						<code>data</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_model.js.html#l265"><code>addon&#x2F;mixins&#x2F;model.js:265</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>delete the record from backend</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">model</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+				</li>
+				<li class="param">
+						<code class="param-name">data</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><p>passed to backend server as extra params</p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>Promise</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method-deleteSerializer" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>deleteSerializer</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>data</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_model.js.html#l456"><code>addon&#x2F;mixins&#x2F;model.js:456</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>serializer for delete</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">data</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><p>response data from backend</p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>serializer data</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method-find" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>find</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>params</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_model.js.html#l295"><code>addon&#x2F;mixins&#x2F;model.js:295</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>find the records from backend according to params</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">params</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><p>query params</p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>Promise</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method-findOne" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>findOne</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>id</code>
+				</li>
+				<li class="arg">
+						<code>data</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_model.js.html#l322"><code>addon&#x2F;mixins&#x2F;model.js:322</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>find only one according to primary id</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">id</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+					<div class="param-description"><p>primary key</p>
+</div>
+
+				</li>
+				<li class="param">
+						<code class="param-name">data</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><p>query parameter append to url</p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>Promise</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method-findOneSerializer" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>findOneSerializer</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>data</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_model.js.html#l415"><code>addon&#x2F;mixins&#x2F;model.js:415</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>serializer for findOne method</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">data</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><p>response data from backend</p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>serializer data</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method-findSerializer" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>findSerializer</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>data</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_model.js.html#l366"><code>addon&#x2F;mixins&#x2F;model.js:366</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>find serializer</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">data</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><p>response data from backend</p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>serializer data</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method-save" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>save</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>model</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="crosslink external" target="_blank">Promise</a></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_model.js.html#l174"><code>addon&#x2F;mixins&#x2F;model.js:174</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>save the record to backend when create or update object</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">model</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><p>model needed to save</p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="crosslink external" target="_blank">Promise</a></span>
+			</div>
+		</div>
+
+</div>
+<div id="method-saveSerializer" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>saveSerializer</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>data</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_model.js.html#l447"><code>addon&#x2F;mixins&#x2F;model.js:447</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>serializer for save method</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">data</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><p>response data from backend</p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>serializer data</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method-urlForDelete" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>urlForDelete</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>id</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_model.js.html#l155"><code>addon&#x2F;mixins&#x2F;model.js:155</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>url for delete method request, use this method to custome delete url</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">id</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><p>object primary key</p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>String</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method-urlForFind" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>urlForFind</code></span>
+
+		<span class="paren">()</span>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_model.js.html#l125"><code>addon&#x2F;mixins&#x2F;model.js:125</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>url for find method request, use this method to custome find url</p>
+</div>
+
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>String</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method-urlForFindOne" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>urlForFindOne</code></span>
+
+		<span class="paren">()</span>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_model.js.html#l135"><code>addon&#x2F;mixins&#x2F;model.js:135</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>url for findOne method request, use this method to custome findOne url</p>
+</div>
+
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>String</p>
+
+			</div>
+		</div>
+
+</div>
+<div id="method-urlForSave" class="method item">
+	<div class="method-signature">
+	<span class="name"><code>urlForSave</code></span>
+
+		<div class="args">
+			<span class="paren">(</span><ul class="args-list inline commas">
+				<li class="arg">
+						<code>id</code>
+				</li>
+			</ul><span class="paren">)</span>
+		</div>
+		<span class="returns-inline">
+			<span class="type"></span>
+		</span>
+	</div>
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="../files/addon_mixins_model.js.html#l144"><code>addon&#x2F;mixins&#x2F;model.js:144</code></a>
+		</p>
+
+
+
+	</div>
+
+	<div class="description"><p>url for save method request, use this method to custome create and update url</p>
+</div>
+
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				<li class="param">
+						<code class="param-name">id</code>
+						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+					<div class="param-description"><p>object primary key</p>
+</div>
+
+				</li>
+			</ul>
+		</div>
+
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+					<p>String</p>
+
+			</div>
+		</div>
+
+</div>
+        </div>
+    </div>
+
+    <div id="properties" class="page-section">
+        <h2 class="off-left">Properties</h2>
+
+        <div class="item-list">
+<div id="prop-api" class="property item">
+    <h3 class="name"><code>api</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_mixins_model.js.html#l165"><code>addon&#x2F;mixins&#x2F;model.js:165</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>make api with host, namespace, url</p>
+
+    </div>
+
+
+
+</div>
+<div id="prop-displayModel" class="property item">
+    <h3 class="name"><code>displayModel</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_mixins_model.js.html#l118"><code>addon&#x2F;mixins&#x2F;model.js:118</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The object is for extract response data {user: [], comment:[], avatar: {}}</p>
+
+    </div>
+
+        <p><strong>Default:</strong> null</p>
+
+
+</div>
+<div id="prop-host" class="property item">
+    <h3 class="name"><code>host</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_mixins_model.js.html#l83"><code>addon&#x2F;mixins&#x2F;model.js:83</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The api host, default is current host</p>
+
+    </div>
+
+        <p><strong>Default:</strong> &quot;&quot;</p>
+
+
+</div>
+<div id="prop-namespace" class="property item">
+    <h3 class="name"><code>namespace</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_mixins_model.js.html#l90"><code>addon&#x2F;mixins&#x2F;model.js:90</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The api namespace  like /v1  /v2</p>
+
+    </div>
+
+        <p><strong>Default:</strong> &quot;&quot;</p>
+
+
+</div>
+<div id="prop-primaryKey" class="property item">
+    <h3 class="name"><code>primaryKey</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_mixins_model.js.html#l111"><code>addon&#x2F;mixins&#x2F;model.js:111</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The model object primary key</p>
+
+    </div>
+
+        <p><strong>Default:</strong> &quot;_id&quot;</p>
+
+
+</div>
+<div id="prop-rootKey" class="property item">
+    <h3 class="name"><code>rootKey</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_mixins_model.js.html#l97"><code>addon&#x2F;mixins&#x2F;model.js:97</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The response data business logic root key like: {'code': 0, 'resp':{'user':[]}, 'msg':''}, the resp is is the rootKey</p>
+
+    </div>
+
+        <p><strong>Default:</strong> &quot;&quot;</p>
+
+
+</div>
+<div id="prop-url" class="property item">
+    <h3 class="name"><code>url</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_mixins_model.js.html#l104"><code>addon&#x2F;mixins&#x2F;model.js:104</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The api url. If rootURL ends with slash , the url should not starts with slash</p>
+
+    </div>
+
+        <p><strong>Default:</strong> &quot;&quot;</p>
+
+
+</div>
+        </div>
+    </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<script>prettyPrint();</script>
+</body>
+</html>

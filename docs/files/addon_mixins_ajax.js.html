@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>addon/mixins/ajax.js - ember-easy-orm</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/lucid.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="yui3-skin-sam">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+            ember-easy-orm
+        </h1>
+	<div class="nav">
+            <li class="divider-vertical"></li>
+            <li>
+                <p class="navbar-text">
+                    API Docs for Version: <b>1.0.0</b>
+                </p>
+            </li>
+        </div>
+        <form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/ajax", "classes/Form", "classes/godForm", "classes/model", "classes/store", "modules/ajax", "modules/form", "modules/mixins", "modules/model", "modules/pagination", "modules/services", "modules/store"]'>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="span3">
+<div>
+    <div id="sidebar">
+    <div id="classes">
+        <ul id="api-classes" class="nav nav-list">
+                <li><a href="../classes/ajax.html">ajax</a></li>
+                <li><a href="../classes/Form.html">Form</a></li>
+                <li><a href="../classes/godForm.html">godForm</a></li>
+                <li><a href="../classes/model.html">model</a></li>
+                <li><a href="../classes/store.html">store</a></li>
+        </ul>
+    </div>
+    </div>
+</div>
+        </div>
+        <div class="span9">
+    <form id="options-form" class="form-inline pull-right">
+        Show:
+        <label for="api-show-inherited" class="checkbox">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected" class="checkbox">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private" class="checkbox">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated" class="checkbox">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </form>
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<div class="page-header">
+    <h1>addon/mixins/ajax.js <small>File</small></h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+/**
+ support ajax request in this module
+ @module mixins
+ @submodule ajax
+ */
+import Mixin from &#x27;@ember/object/mixin&#x27;;
+import { A, isArray } from &#x27;@ember/array&#x27;;
+import Evented from &#x27;@ember/object/evented&#x27;;
+import { isBlank, isNone } from &#x27;@ember/utils&#x27;;
+import { Promise } from &#x27;rsvp&#x27;;
+import $ from &#x27;jquery&#x27;;
+
+/**
+ get request function used in ajax.request property
+ @private
+ */
+const _get = function (url, options) {
+  let self = this.parent;
+  return self.ajax(&#x27;get&#x27;, url, options).then(
+    function (data) {
+      // eslint-disable-next-line no-useless-catch
+      try {
+        return self.getSerializer(data);
+      } catch (e) {
+        throw e;
+      }
+    },
+    function (reason) {
+      throw reason;
+    }
+  );
+};
+
+/**
+ post request function used in ajax.request property
+ @private
+ */
+const _post = function (url, options) {
+  let self = this.parent;
+  return self.ajax(&#x27;post&#x27;, url, options).then(
+    function (data) {
+      // eslint-disable-next-line no-useless-catch
+      try {
+        return self.postSerializer(data);
+      } catch (e) {
+        throw e;
+      }
+    },
+    function (reason) {
+      throw reason;
+    }
+  );
+};
+
+/**
+ delete request function used in ajax.request property
+ @private
+ */
+const _delete = function (url, options) {
+  let self = this.parent;
+  return self.ajax(&#x27;delete&#x27;, url, options).then(
+    function (data) {
+      // eslint-disable-next-line no-useless-catch
+      try {
+        return self.deleteSerializer(data);
+      } catch (e) {
+        throw e;
+      }
+    },
+    function (reason) {
+      throw reason;
+    }
+  );
+};
+
+/**
+ put request function used in ajax.request property
+ @private
+ */
+const _put = function (url, options) {
+  let self = this.parent;
+  return self.ajax(&#x27;put&#x27;, url, options).then(
+    function (data) {
+      // eslint-disable-next-line no-useless-catch
+      try {
+        return self.putSerializer(data);
+      } catch (e) {
+        throw e;
+      }
+    },
+    function (reason) {
+      throw reason;
+    }
+  );
+};
+
+/**
+ wrap jquery ajax with Ember.RSVP.Promise, this mixin also has events like:
+ - ajaxStart be trigged when ajax request start
+ - ajaxDone  be trigged when ajax request finish (success or fails)
+ - ajaxSuccess  be trigged when promise resovle success
+ - ajaxError be trigged when ajax request fails
+ - RESTSerializerError  be trigged error happen when response data serialize
+ @public
+ @class ajax
+ */
+export default Mixin.create(Evented, {
+  /**
+     wrapper all request method (get put post delete) into request object
+     @property request
+     @type Object
+     @default {Object}
+     */
+  request: null,
+  /**
+     ajax request setting See http://devdocs.io/jquery/jquery.ajax
+     @property ajaxSettings
+     @type Object
+     @default {dataType: &#x27;json&#x27;}
+     */
+  // eslint-disable-next-line ember/avoid-leaking-state-in-ember-objects
+  ajaxSettings: {
+    dataType: &#x27;json&#x27;,
+  },
+  /**
+     if contentType is application/json which method request data need to be serialized with json
+     @property needSerializedMethod
+     @type Object
+     @default [&#x27;post&#x27;, &#x27;put&#x27;]
+     */
+  needSerializedMethod: null,
+  /**
+     jquery ajax method wrapper, return promise
+     @method ajax
+     @param {String} method request method
+     @param {String} url request url
+     @param {Object} options ajax jquery ajax settings, see http://devdocs.io/jquery/jquery.ajax
+     @return {Promise}
+     */
+  ajax: function (method, url, options) {
+    let self = this,
+      ajaxSettings = {};
+    Object.assign(ajaxSettings, this.ajaxSettings);
+    if (typeof options === &#x27;object&#x27; &amp;&amp; !isNone(options)) {
+      Object.assign(ajaxSettings, options);
+    }
+
+    if (typeof method !== &#x27;string&#x27; || isBlank(method)) {
+      throw new Error(&#x60;ajax request method is invalid: ${method}&#x60;);
+    }
+
+    if (typeof url !== &#x27;string&#x27; || isBlank(url)) {
+      throw new Error(&#x60;ajax request url is invalid: ${url}&#x60;);
+    }
+
+    Object.assign(ajaxSettings, { type: method, url: url });
+    if (
+      ajaxSettings.contentType === &#x27;application/json&#x27; &amp;&amp;
+      ajaxSettings[&#x27;data&#x27;] &amp;&amp;
+      isArray(this.needSerializedMethod) &amp;&amp;
+      this.needSerializedMethod.includes(method)
+    ) {
+      ajaxSettings[&#x27;data&#x27;] = JSON.stringify(ajaxSettings[&#x27;data&#x27;]);
+    }
+    self.trigger(&#x27;ajaxStart&#x27;);
+    return new Promise(function (resolve, reject) {
+      // eslint-disable-next-line ember/no-jquery
+      $.ajax(ajaxSettings)
+        .done(function (data) {
+          self.trigger(&#x27;ajaxDone&#x27;);
+          try {
+            resolve(self.RESTSerializer(data));
+            self.trigger(&#x27;ajaxSuccess&#x27;);
+          } catch (e) {
+            self.trigger(&#x27;RESTSerializerError&#x27;, e);
+            reject(e);
+          }
+        })
+        .fail(function (jqXHR, responseText, errorThrown) {
+          self.trigger(&#x27;ajaxDone&#x27;);
+          console.log(jqXHR);
+          console.log(ajaxSettings);
+          let error = &#x60;${responseText} ${errorThrown}&#x60;;
+          self.trigger(&#x27;ajaxError&#x27;, error, ajaxSettings, jqXHR);
+          reject(new Error(error));
+        });
+    });
+  },
+  /**
+     all ajax response data serializer
+     @method RESTSerializer
+     @param {Object} data response data
+     @return serializer data
+     */
+  RESTSerializer: function (data) {
+    console.log(
+      &#x27;subclass override RESTSerializer for response data serializer&#x27;
+    );
+    return data;
+  },
+  /**
+     get method response data serializer
+     @method getSerializer
+     @param {Object} data response data
+     @return serializer data
+     */
+  getSerializer: function (data) {
+    console.log(
+      &#x27;subclass override getSerializer for get response data serializer&#x27;
+    );
+    return data;
+  },
+  /**
+     post method response data serializer
+     @method postSerializer
+     @param {Object} data response data
+     @return serializer data
+     */
+  postSerializer: function (data) {
+    console.log(
+      &#x27;subclass override postSerializer for post response data serializer&#x27;
+    );
+    return data;
+  },
+  /**
+     put method response data serializer
+     @method putSerializer
+     @param {Object} data response data
+     @return serializer data
+     */
+  putSerializer: function (data) {
+    console.log(
+      &#x27;subclass override putSerializer for put response data serializer&#x27;
+    );
+    return data;
+  },
+  /**
+     delete method response data serializer
+     @method deleteSerializer
+     @param {Object} data response data
+     @return serializer data
+     */
+  deleteSerializer: function (data) {
+    console.log(
+      &#x27;subclass override deleteSerializer for delete response data serializer&#x27;
+    );
+    return data;
+  },
+  init: function () {
+    this._super(...arguments);
+    let self = this;
+    const request = {
+      parent: self,
+      get: _get,
+      post: _post,
+      put: _put,
+      delete: _delete,
+    };
+    this.set(&#x27;needSerializedMethod&#x27;, A([&#x27;post&#x27;, &#x27;put&#x27;]));
+    this.set(&#x27;request&#x27;, request);
+  },
+});
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<script>prettyPrint();</script>
+</body>
+</html>
