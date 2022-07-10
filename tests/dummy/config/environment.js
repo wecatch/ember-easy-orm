@@ -47,5 +47,11 @@ module.exports = function (environment) {
     // here you can enable a production-specific feature
   }
 
+  if (environment === 'gh-pages') {
+    ENV.rootURL = '/ember-easy-orm/';
+    ENV.modulePrefix = 'dummy';
+    ENV.locationType = 'hash';
+  }
+
   return ENV;
 };
