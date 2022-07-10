@@ -15,7 +15,7 @@ body {
 
 .hljs {
     color     : rgb(77, 77, 76);
-    background: rgb(248, 245, 236);
+    background: rgb(248, 245, 236) !important;
     padding   : 10px 15px;
     overflow  : auto;
 }
