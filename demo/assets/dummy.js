@@ -1196,14 +1196,14 @@
   };
   _exports.default = _default;
 });
-;define("dummy/models/user", ["exports", "@ember/object", "ember-easy-orm/mixins/model"], function (_exports, _object, _model) {
+;define("dummy/models/user", ["exports", "@ember/object", "ember-easy-orm/mixins/model", "dummy/config/environment"], function (_exports, _object, _model, _environment) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"@ember/object",0,"ember-easy-orm/mixins/model"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@ember/object",0,"ember-easy-orm/mixins/model",0,"dummy/config/environment"eaimeta@70e063a35619d71f
 
   function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -1223,7 +1223,7 @@
     constructor() {
       super(...arguments);
 
-      _defineProperty(this, "url", '/v1/user_json');
+      _defineProperty(this, "url", _environment.default.rootURL == '/' ? '/v1/user_json' : _environment.default.rootURL + '/v1/user_json');
 
       this.model = {
         name: attr('string'),
