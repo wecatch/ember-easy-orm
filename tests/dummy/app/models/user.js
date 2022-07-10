@@ -1,11 +1,15 @@
 import EmberObject from '@ember/object';
 // eslint-disable-next-line ember/no-mixins
 import model, { DS } from 'ember-easy-orm/mixins/model';
+import config from 'dummy/config/environment';
 
 const { attr } = DS;
 
+console.log(config.rootURL);
+
 export default class UserModel extends EmberObject.extend(model) {
-  url = '/v1/user_json';
+  url =
+    config.rootURL == '/' ? '/v1/user_json' : config.rootURL + '/v1/user_json';
 
   RESTSerializer(data) {
     return data;

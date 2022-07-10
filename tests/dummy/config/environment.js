@@ -48,7 +48,7 @@ module.exports = function (environment) {
   }
 
   if (environment === 'gh-pages') {
-    ENV.rootURL = '/ember-easy-orm/';
+    ENV.rootURL = '/ember-easy-orm/demo/';
     ENV.modulePrefix = 'dummy';
     ENV.locationType = 'hash';
   }
