@@ -1,7 +1,8 @@
 # Ember-easy-orm
 
 [![Build Status](https://github.com/wecatch/ember-easy-orm/actions/workflows/ci.yml/badge.svg)](https://github.com/wecatch/ember-easy-orm/actions)
-[![Downloads](https://img.shields.io/npm/dt/ember-easy-orm.svg)](https://www.npmjs.com/package/ember-easy-orm)
+[![Downloads](https://img.shields.io/npm/dt/ember-easy-orm.svg)](https://www.npmjs.com/package/ember-easy-orm)  
+
 [Docs](http://wecatch.me/ember-easy-orm/docs/)
 
 This Ember addon support some basic model layer for ajax request like find, create, delete and so on. When you use this addon, please remove ember-data. It also support some mixin for component to easily manage form
@@ -11,14 +12,14 @@ This Ember addon support some basic model layer for ajax request like find, crea
 
 In your ember-cli project, install this addon from npm
 
-```
+```bash
 ember install ember-easy-orm
 
 ```
 
 or install the latest version from github
 
-```
+```bash
 npm install https://github.com/wecatch/ember-easy-orm --save-dev
 
 ```
@@ -27,7 +28,7 @@ npm install https://github.com/wecatch/ember-easy-orm --save-dev
 
 In ember-cli project, create one model
 
-```
+```bash
 ember g model user
 
 ```
@@ -86,10 +87,11 @@ export default class IndexRoute extends Route {
 ```
 
 ## Running Tests
- 
 
-- `ember test`
-- `ember test --server`
+```bash
+ember test
+ember test --server
+```
 
 `npm test` (Runs `ember try:testall` to test your addon against multiple Ember versions)
 
