@@ -1,17 +1,17 @@
 [
   {
-    _id: 1,
-    name: 'Mac',
-    gender: 'f',
+    "_id": 1,
+    "name": "Mac",
+    "gender": "f"
   },
   {
-    _id: 2,
-    name: 'Wine',
-    gender: 'm',
+    "_id": 2,
+    "name": "Wine",
+    "gender": "m"
   },
   {
-    _id: 3,
-    name: 'Line',
-    gender: 'f',
-  },
+    "_id": 3,
+    "name": "Line",
+    "gender": "f"
+  }
 ]

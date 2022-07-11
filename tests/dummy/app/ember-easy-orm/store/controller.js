@@ -3,41 +3,40 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
+import config from 'dummy/config/environment';
+const rootURL = config.rootURL;
+
 export default class StoreController extends Controller {
+  idUrl = rootURL == '/' ? '/v1/user/1' : rootURL + '/v1/user/1';
+  noIdurl = rootURL == '/' ? '/v2/user' : rootURL + '/v2/user';
   @service store;
   @tracked message;
 
   @action
   storePut() {
-    let user = this.store.modelFor('user');
-    this.store.request.parent === user.request.parent;
-    this.store.request.parent === this.strore;
-    user.request.parent === user;
-    this.store.request.put('/v1/user/1', { dataType: 'text' }).then((data) => {
+    this.store.request.put(this.idUrl, { dataType: 'text' }).then((data) => {
       this.message = `store put call response ${JSON.stringify(data)}`;
     });
   }
 
   @action
   storeGet() {
-    this.store.request.get('/v1/user').then((data) => {
+    this.store.request.get(this.noIdurl).then((data) => {
       this.message = `store get call response ${JSON.stringify(data)}`;
     });
   }
 
   @action
   storeDelete() {
-    this.store.request
-      .delete('/v1/user/1', { dataType: 'text' })
-      .then((data) => {
-        this.message = `store delete call response ${JSON.stringify(data)}`;
-      });
+    this.store.request.delete(this.idUrl, { dataType: 'text' }).then((data) => {
+      this.message = `store delete call response ${JSON.stringify(data)}`;
+    });
   }
 
   @action
   storePost() {
     this.store.request
-      .post('/v1/user', {
+      .post(this.idUrl, {
         data: { name: 'name', gender: 'f' },
         dataType: 'text',
       })
@@ -49,7 +48,7 @@ export default class StoreController extends Controller {
   @action
   storeAjaxFail() {
     this.store
-      .ajax('put', '/v1/user/1')
+      .ajax('put', this.idUrl)
       .then((data) => {
         this.message = `store ajax call response ${JSON.stringify(data)}`;
       })
@@ -73,7 +72,7 @@ export default class StoreController extends Controller {
   @action
   storeAjaxSuccess() {
     this.store
-      .ajax('put', '/v1/user/1', { dataType: 'text' })
+      .ajax('put', this.idUrl, { dataType: 'text' })
       .then((data) => {
         this.message = `store ajax call response ${JSON.stringify(data)}`;
       })

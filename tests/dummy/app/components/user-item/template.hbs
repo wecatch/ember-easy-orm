@@ -1,18 +1,16 @@
-<form class="ui form" action="">
+<form class="ui form">
     {{this.reason}}
-    <label for="user-question">id</label>
-    <Input id="user-question" @type="text" @value={{@model._id}}/>
     <label for="user-name">name</label>
     <Input id="user-name" @type="text" @value={{@model.name}}/>
     <label for="user-gender">gender</label>
     <Input id="user-gender" @type="text" @value={{@model.gener}}/>
     <div class="ui segment" >
-        <button class="ui green button" type="submit" {{on "click" this.save}} >save</button>
-        <button class="ui button" type="submit" {{on "click" this.cancel}} >cancel</button>
+        <button class="ui green button" type="button" {{on "click" this.save}} >save</button>
+        <button class="ui button" type="button" {{on "click" this.cancel}} >cancel</button>
         {{#if @model._id}}
-            <button class="ui red button" type="submit" {{on "click" this.remove}} >delete</button>
+            <button class="ui red button" type="button" {{on "click" this.remove}} >delete</button>
         {{/if}}
     </div>
-    
-    
+
+
 </form>

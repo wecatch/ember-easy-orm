@@ -4,9 +4,6 @@ import model, { DS } from 'ember-easy-orm/mixins/model';
 import config from 'dummy/config/environment';
 
 const { attr } = DS;
-
-console.log(config.rootURL);
-
 export default class UserModel extends EmberObject.extend(model) {
   url =
     config.rootURL == '/' ? '/v1/user_json' : config.rootURL + '/v1/user_json';
@@ -14,6 +11,10 @@ export default class UserModel extends EmberObject.extend(model) {
   RESTSerializer(data) {
     return data;
   }
+
+  // urlForSave(){
+  //   return config.rootURL == '/' ? '/v1/user_json' : config.rootURL + '/v2/user';
+  // }
 
   saveSerializer(data) {
     return data.res['user'];

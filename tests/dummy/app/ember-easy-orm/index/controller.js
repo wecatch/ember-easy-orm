@@ -2,8 +2,13 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import config from 'dummy/config/environment';
+
+const rootURL = config.rootURL;
 
 export default class IndexController extends Controller {
+  url = rootURL == '/' ? '/v1/user/1' : rootURL + '/v1/user/1';
+
   @service store;
   @tracked message = '';
 
@@ -61,7 +66,7 @@ export default class IndexController extends Controller {
   modelAjaxFail() {
     this.store
       .modelFor('user')
-      .ajax('put', '/v1/user/1')
+      .ajax('put', this.url)
       .then((data) => {
         this.message = `model ajax call response ${JSON.stringify(data)}`;
       })
@@ -74,7 +79,7 @@ export default class IndexController extends Controller {
   modelAjaxSuccess() {
     this.store
       .modelFor('user')
-      .ajax('put', '/v1/user_json/1')
+      .ajax('put', this.url)
       .then((data) => {
         this.message = `model ajax call response ${JSON.stringify(data)}`;
       })
