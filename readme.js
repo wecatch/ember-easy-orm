@@ -34,6 +34,7 @@ const htmlBody = `
         </ul>
         <ul class="nav internal">
             <li><a href="/ember-easy-orm/docs/">Docs</a></li>
+            <li><a href="/ember-easy-orm/demo/">Demo</a></li>
         </ul>
     </div>
 </div>
