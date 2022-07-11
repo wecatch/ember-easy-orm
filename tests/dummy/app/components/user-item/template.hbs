@@ -2,8 +2,6 @@
     {{this.reason}}
     <label for="user-name">name</label>
     <Input id="user-name" @type="text" @value={{@model.name}}/>
-    <label for="user-gender">gender</label>
-    <Input id="user-gender" @type="text" @value={{@model.gener}}/>
     <div class="ui segment" >
         <button class="ui green button" type="button" {{on "click" this.save}} >save</button>
         <button class="ui button" type="button" {{on "click" this.cancel}} >cancel</button>
