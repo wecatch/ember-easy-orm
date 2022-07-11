@@ -669,8 +669,8 @@
   0; //eaimeta@70e063a35619d71f0,"@ember/template-factory"eaimeta@70e063a35619d71f
 
   var _default = (0, _templateFactory.createTemplateFactory)({
-    "id": "odohojCl",
-    "block": "[[[10,\"form\"],[14,0,\"ui form\"],[14,\"action\",\"\"],[12],[1,\"\\n    \"],[1,[30,0,[\"reason\"]]],[1,\"\\n    \"],[10,\"label\"],[14,\"for\",\"user-question\"],[12],[1,\"id\"],[13],[1,\"\\n    \"],[8,[39,0],[[24,1,\"user-question\"]],[[\"@type\",\"@value\"],[\"text\",[30,1,[\"_id\"]]]],null],[1,\"\\n    \"],[10,\"label\"],[14,\"for\",\"user-name\"],[12],[1,\"name\"],[13],[1,\"\\n    \"],[8,[39,0],[[24,1,\"user-name\"]],[[\"@type\",\"@value\"],[\"text\",[30,1,[\"name\"]]]],null],[1,\"\\n    \"],[10,\"label\"],[14,\"for\",\"user-gender\"],[12],[1,\"gender\"],[13],[1,\"\\n    \"],[8,[39,0],[[24,1,\"user-gender\"]],[[\"@type\",\"@value\"],[\"text\",[30,1,[\"gener\"]]]],null],[1,\"\\n    \"],[10,0],[14,0,\"ui segment\"],[12],[1,\"\\n        \"],[11,\"button\"],[24,0,\"ui green button\"],[24,4,\"submit\"],[4,[38,1],[\"click\",[30,0,[\"save\"]]],null],[12],[1,\"save\"],[13],[1,\"\\n        \"],[11,\"button\"],[24,0,\"ui button\"],[24,4,\"submit\"],[4,[38,1],[\"click\",[30,0,[\"cancel\"]]],null],[12],[1,\"cancel\"],[13],[1,\"\\n\"],[41,[30,1,[\"_id\"]],[[[1,\"            \"],[11,\"button\"],[24,0,\"ui red button\"],[24,4,\"submit\"],[4,[38,1],[\"click\",[30,0,[\"remove\"]]],null],[12],[1,\"delete\"],[13],[1,\"\\n\"]],[]],null],[1,\"    \"],[13],[1,\"\\n    \\n    \\n\"],[13]],[\"@model\"],false,[\"input\",\"on\",\"if\"]]",
+    "id": "7Ce7U0vO",
+    "block": "[[[10,\"form\"],[14,0,\"ui form\"],[12],[1,\"\\n    \"],[1,[30,0,[\"reason\"]]],[1,\"\\n    \"],[10,\"label\"],[14,\"for\",\"user-name\"],[12],[1,\"name\"],[13],[1,\"\\n    \"],[8,[39,0],[[24,1,\"user-name\"]],[[\"@type\",\"@value\"],[\"text\",[30,1,[\"name\"]]]],null],[1,\"\\n    \"],[10,0],[14,0,\"ui segment\"],[12],[1,\"\\n        \"],[11,\"button\"],[24,0,\"ui green button\"],[24,4,\"button\"],[4,[38,1],[\"click\",[30,0,[\"save\"]]],null],[12],[1,\"save\"],[13],[1,\"\\n        \"],[11,\"button\"],[24,0,\"ui button\"],[24,4,\"button\"],[4,[38,1],[\"click\",[30,0,[\"cancel\"]]],null],[12],[1,\"cancel\"],[13],[1,\"\\n\"],[41,[30,1,[\"_id\"]],[[[1,\"            \"],[11,\"button\"],[24,0,\"ui red button\"],[24,4,\"button\"],[4,[38,1],[\"click\",[30,0,[\"remove\"]]],null],[12],[1,\"delete\"],[13],[1,\"\\n\"]],[]],null],[1,\"    \"],[13],[1,\"\\n\\n\\n\"],[13]],[\"@model\"],false,[\"input\",\"on\",\"if\"]]",
     "moduleName": "dummy/components/user-item/template.hbs",
     "isStrictMode": false
   });
@@ -747,7 +747,7 @@
 
   _exports.default = _default;
 });
-;define("dummy/ember-easy-orm/index/controller", ["exports", "@ember/controller", "@ember/object", "@ember/service", "@glimmer/tracking"], function (_exports, _controller, _object, _service, _tracking) {
+;define("dummy/ember-easy-orm/index/controller", ["exports", "@ember/controller", "@ember/object", "@ember/service", "@glimmer/tracking", "dummy/config/environment"], function (_exports, _controller, _object, _service, _tracking, _environment) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -757,7 +757,7 @@
 
   var _class, _descriptor, _descriptor2;
 
-  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@ember/object",0,"@ember/service",0,"@glimmer/tracking"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@ember/object",0,"@ember/service",0,"@glimmer/tracking",0,"dummy/config/environment"eaimeta@70e063a35619d71f
 
   function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -767,9 +767,12 @@
 
   function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
+  const rootURL = _environment.default.rootURL;
   let IndexController = (_class = class IndexController extends _controller.default {
     constructor() {
       super(...arguments);
+
+      _defineProperty(this, "url", rootURL == '/' ? '/v1/user/1' : rootURL + '/v1/user/1');
 
       _initializerDefineProperty(this, "store", _descriptor, this);
 
@@ -827,7 +830,7 @@
     }
 
     modelAjaxFail() {
-      this.store.modelFor('user').ajax('put', '/v1/user/1').then(data => {
+      this.store.modelFor('user').ajax('put', this.url).then(data => {
         this.message = `model ajax call response ${JSON.stringify(data)}`;
       }).catch(reason => {
         this.message = `model ajax call response ${reason}`;
@@ -835,7 +838,7 @@
     }
 
     modelAjaxSuccess() {
-      this.store.modelFor('user').ajax('put', '/v1/user_json/1').then(data => {
+      this.store.modelFor('user').ajax('put', this.url).then(data => {
         this.message = `model ajax call response ${JSON.stringify(data)}`;
       }).catch(reason => {
         this.message = `model ajax call response ${reason}`;
@@ -914,7 +917,7 @@
 
   _exports.default = _default;
 });
-;define("dummy/ember-easy-orm/store/controller", ["exports", "@ember/controller", "@ember/object", "@ember/service", "@glimmer/tracking"], function (_exports, _controller, _object, _service, _tracking) {
+;define("dummy/ember-easy-orm/store/controller", ["exports", "@ember/controller", "@ember/object", "@ember/service", "@glimmer/tracking", "dummy/config/environment"], function (_exports, _controller, _object, _service, _tracking, _environment) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -924,7 +927,7 @@
 
   var _class, _descriptor, _descriptor2;
 
-  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@ember/object",0,"@ember/service",0,"@glimmer/tracking"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@ember/object",0,"@ember/service",0,"@glimmer/tracking",0,"dummy/config/environment"eaimeta@70e063a35619d71f
 
   function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -934,9 +937,14 @@
 
   function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
+  const rootURL = _environment.default.rootURL;
   let StoreController = (_class = class StoreController extends _controller.default {
     constructor() {
       super(...arguments);
+
+      _defineProperty(this, "idUrl", rootURL == '/' ? '/v1/user/1' : rootURL + '/v1/user/1');
+
+      _defineProperty(this, "noIdurl", rootURL == '/' ? '/v2/user' : rootURL + '/v2/user');
 
       _initializerDefineProperty(this, "store", _descriptor, this);
 
@@ -944,11 +952,7 @@
     }
 
     storePut() {
-      let user = this.store.modelFor('user');
-      this.store.request.parent === user.request.parent;
-      this.store.request.parent === this.strore;
-      user.request.parent === user;
-      this.store.request.put('/v1/user/1', {
+      this.store.request.put(this.idUrl, {
         dataType: 'text'
       }).then(data => {
         this.message = `store put call response ${JSON.stringify(data)}`;
@@ -956,13 +960,13 @@
     }
 
     storeGet() {
-      this.store.request.get('/v1/user').then(data => {
+      this.store.request.get(this.noIdurl).then(data => {
         this.message = `store get call response ${JSON.stringify(data)}`;
       });
     }
 
     storeDelete() {
-      this.store.request.delete('/v1/user/1', {
+      this.store.request.delete(this.idUrl, {
         dataType: 'text'
       }).then(data => {
         this.message = `store delete call response ${JSON.stringify(data)}`;
@@ -970,7 +974,7 @@
     }
 
     storePost() {
-      this.store.request.post('/v1/user', {
+      this.store.request.post(this.idUrl, {
         data: {
           name: 'name',
           gender: 'f'
@@ -982,7 +986,7 @@
     }
 
     storeAjaxFail() {
-      this.store.ajax('put', '/v1/user/1').then(data => {
+      this.store.ajax('put', this.idUrl).then(data => {
         this.message = `store ajax call response ${JSON.stringify(data)}`;
       }).catch(reason => {
         this.message = `store ajax call response ${reason}`;
@@ -998,7 +1002,7 @@
     }
 
     storeAjaxSuccess() {
-      this.store.ajax('put', '/v1/user/1', {
+      this.store.ajax('put', this.idUrl, {
         dataType: 'text'
       }).then(data => {
         this.message = `store ajax call response ${JSON.stringify(data)}`;
@@ -1214,7 +1218,10 @@
   class UserModel extends _object.default.extend(_model.default) {
     RESTSerializer(data) {
       return data;
-    }
+    } // urlForSave(){
+    //   return config.rootURL == '/' ? '/v1/user_json' : config.rootURL + '/v2/user';
+    // }
+
 
     saveSerializer(data) {
       return data.res['user'];
