@@ -22,7 +22,8 @@ export default class UserModel extends EmberObject.extend(model) {
 
   constructor() {
     super(...arguments);
-    this.model = {
+    // eslint-disable-next-line ember/no-classic-classes
+    this.model = EmberObject.extend({
       name: attr('string'),
       gender: attr('string'),
       age: attr('number'),
@@ -32,7 +33,7 @@ export default class UserModel extends EmberObject.extend(model) {
           return new Date();
         },
       }),
-    };
+    });
 
     this.ajaxSettings = {
       traditional: true,

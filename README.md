@@ -46,7 +46,7 @@ export default EmberObject.extend(model, {
     url: '/v1/food',
     init(){
         this._super(...arguments);
-        this.model = {
+        this.model = EmberObject.extend({
             'name': attr('string'),
             'desc': attr('string'),
             'pic': attr('array'),
@@ -61,7 +61,7 @@ export default EmberObject.extend(model, {
             'user': attr({defaultValue: function(){
                 return {name: '', 'gender': ''};
             }})
-        };
+        });
     }
 })
 
