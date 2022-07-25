@@ -1,6 +1,6 @@
 {
   "name": "ember-easy-orm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A easy ORM library for ember app",
   "keywords": [
     "orm",

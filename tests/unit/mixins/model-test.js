@@ -202,9 +202,9 @@ module('Acceptance | Mixin | model', function (hooks) {
     let obj = cls.create();
     assert.strictEqual(obj.str, '');
     assert.strictEqual(obj.num, 0);
-    assert.strictEqual(obj.bool, true);
+    assert.true(obj.bool);
     assert.strictEqual(obj.num2, 20);
-    assert.strictEqual(obj.bool2, false);
+    assert.false(obj.bool2);
     assert.strictEqual(obj.arry.length, 0);
     assert.strictEqual(obj.num3, 10);
     assert.strictEqual(obj.msg.msg, 'ok');

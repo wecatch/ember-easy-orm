@@ -249,7 +249,7 @@ export default Mixin.create(ajax, Evented, {
    @return Object current model
    */
   createRecord: function (init) {
-    if (typeof init === 'object' && init != null ) {
+    if (typeof init === 'object' && init != null) {
       return this.model.create(init);
     }
     return this.model.create();

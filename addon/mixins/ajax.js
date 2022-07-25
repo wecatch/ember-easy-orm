@@ -193,9 +193,6 @@ export default Mixin.create(Evented, {
      @return serializer data
      */
   RESTSerializer: function (data) {
-    console.log(
-      'subclass override RESTSerializer for response data serializer'
-    );
     return data;
   },
   /**
@@ -205,9 +202,6 @@ export default Mixin.create(Evented, {
      @return serializer data
      */
   getSerializer: function (data) {
-    console.log(
-      'subclass override getSerializer for get response data serializer'
-    );
     return data;
   },
   /**
@@ -217,9 +211,6 @@ export default Mixin.create(Evented, {
      @return serializer data
      */
   postSerializer: function (data) {
-    console.log(
-      'subclass override postSerializer for post response data serializer'
-    );
     return data;
   },
   /**
@@ -229,9 +220,6 @@ export default Mixin.create(Evented, {
      @return serializer data
      */
   putSerializer: function (data) {
-    console.log(
-      'subclass override putSerializer for put response data serializer'
-    );
     return data;
   },
   /**
@@ -241,9 +229,6 @@ export default Mixin.create(Evented, {
      @return serializer data
      */
   deleteSerializer: function (data) {
-    console.log(
-      'subclass override deleteSerializer for delete response data serializer'
-    );
     return data;
   },
   init: function () {

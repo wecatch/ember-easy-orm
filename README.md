@@ -112,6 +112,10 @@ ember test --server
 
 # Release notes
 
+## 1.0.1
+
+- Model add glimmer tracked for template rerender
+
 ## 1.0.0
 
 - Rewrite to native class

@@ -27,3 +27,4 @@ docs
 /package.json.ember-try
 # broccoli-debug
 /DEBUG/
+.eslintcache
