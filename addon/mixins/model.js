@@ -17,7 +17,7 @@
         url: '/v1/food',
         init(){
             this._super(...arguments);
-            this.model = {
+            this.model = EmberObject.extend({
                 'name': attr('string'),
                 'desc': attr('string'),
                 'pic': attr('array'),
@@ -32,7 +32,7 @@
                 'user': attr({defaultValue: function(){
                     return {name: '', 'gender': ''};
                 }})
-            };
+            });
         }
     })
  */
@@ -41,36 +41,39 @@ import { A, isArray } from '@ember/array';
 import Mixin from '@ember/object/mixin';
 import Evented from '@ember/object/evented';
 import EmberObject, { computed } from '@ember/object';
-import { merge } from '@ember/polyfills';
 import { isBlank, isNone } from '@ember/utils';
+import { tracked } from '@glimmer/tracking';
 
 import ajax from './ajax';
 
 export const DS = {
   attr(type, hash) {
-    if (typeof type === 'object') {
+    if (typeof type === 'object' && type) {
       hash = type;
       type = undefined;
     }
 
     if (typeof hash === 'object') {
       if (hash.defaultValue !== undefined) {
-        return hash.defaultValue;
+        if (typeof hash.defaultValue === 'function') {
+          return tracked({ initializer: () => hash.defaultValue.apply() });
+        }
+        return tracked({ value: hash.defaultValue });
       }
     }
 
     switch (type) {
       case 'string':
-        return '';
+        return tracked({ value: '' });
       case 'boolean':
-        return true;
+        return tracked({ value: true });
       case 'number':
-        return 0;
+        return tracked({ value: 0 });
       case 'array':
-        return A;
+        return tracked({ value: A() });
     }
 
-    return null;
+    return tracked({ value: null });
   },
 };
 
@@ -246,20 +249,10 @@ export default Mixin.create(ajax, Evented, {
    @return Object current model
    */
   createRecord: function (init) {
-    let record = EmberObject.create();
-    Object.keys(this.model).map((key) => {
-      if (typeof this.model[key] === 'function') {
-        record.set(key, this.model[key].apply());
-      } else {
-        record.set(key, this.model[key]);
-      }
-    });
-
-    if (typeof init === 'object') {
-      merge(record, init);
+    if (typeof init === 'object' && init != null ) {
+      return this.model.create(init);
     }
-
-    return record;
+    return this.model.create();
   },
 
   /**

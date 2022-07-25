@@ -23,7 +23,7 @@ module('Acceptance | Mixin | model', function (hooks) {
     let ModelClass = EmberObject.extend(ModelMixin, {
       init() {
         this._super(...arguments);
-        this.model = {
+        this.model = EmberObject.extend({
           name: DS.attr('string'),
           gender: DS.attr('string', {
             defaultValue: 'f',
@@ -35,7 +35,7 @@ module('Acceptance | Mixin | model', function (hooks) {
               };
             },
           }),
-        };
+        });
       },
     });
     let subject = ModelClass.create();
@@ -171,46 +171,43 @@ module('Acceptance | Mixin | model', function (hooks) {
   test('model DS', function (assert) {
     assert.expect(9);
 
-    assert.strictEqual(DS.attr('string'), '');
-    assert.strictEqual(DS.attr('number'), 0);
-    assert.true(DS.attr('boolean'));
-    assert.strictEqual(
-      DS.attr('number', {
+    let cls = EmberObject.extend({
+      str: DS.attr('string'),
+      num: DS.attr('number'),
+      bool: DS.attr('boolean'),
+      num2: DS.attr('number', {
         defaultValue: 20,
       }),
-      20
-    );
-    assert.false(
-      DS.attr('boolean', {
+      bool2: DS.attr('boolean', {
         defaultValue: false,
-      })
-    );
-    assert.strictEqual(DS.attr('array')().length, 0);
-
-    assert.strictEqual(
-      DS.attr({
+      }),
+      arry: DS.attr('array'),
+      num3: DS.attr({
         defaultValue: 10,
       }),
-      10
-    );
-    assert.strictEqual(
-      DS.attr({
+      msg: DS.attr({
         defaultValue: function () {
           return {
             msg: 'ok',
           };
         },
-      })().msg,
-      'ok'
-    );
-
-    assert.strictEqual(
-      DS.attr('number', {
+      }),
+      num4: DS.attr('number', {
         defaultValue: function () {
           return 11;
         },
-      })(),
-      11
-    );
+      }),
+    });
+
+    let obj = cls.create();
+    assert.strictEqual(obj.str, '');
+    assert.strictEqual(obj.num, 0);
+    assert.strictEqual(obj.bool, true);
+    assert.strictEqual(obj.num2, 20);
+    assert.strictEqual(obj.bool2, false);
+    assert.strictEqual(obj.arry.length, 0);
+    assert.strictEqual(obj.num3, 10);
+    assert.strictEqual(obj.msg.msg, 'ok');
+    assert.strictEqual(obj.num4, 11);
   });
 });
