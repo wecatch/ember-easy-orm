@@ -40,7 +40,7 @@
 import { A, isArray } from '@ember/array';
 import Mixin from '@ember/object/mixin';
 import Evented from '@ember/object/evented';
-import EmberObject, { computed } from '@ember/object';
+import EmberObject, { computed, get } from '@ember/object';
 import { isBlank, isNone } from '@ember/utils';
 import { tracked } from '@glimmer/tracking';
 
@@ -177,57 +177,22 @@ export default Mixin.create(ajax, Evented, {
   /**
    save the record to backend when create or update object
    @method save
-   @param model model needed to save
+   @param modelInstance model needed to save
    @return  {Promise}
    */
-  save: function (model) {
+  save: function (modelInstance) {
     let self = this,
       primaryKey = this.primaryKey,
-      url = this.urlForSave(model[primaryKey], model),
-      record = {},
-      model_keys = Object.keys(this.model);
+      url = this.urlForSave(modelInstance[primaryKey], modelInstance);
 
-    //filter model data
-    for (var i = model_keys.length - 1; i >= 0; i--) {
-      let key = model_keys[i];
-      if (typeof self.model[key] === 'function') {
-        if (typeof model[key] === 'object' && !isArray(model[key])) {
-          record[key] = JSON.stringify(model[key]);
-          continue;
-        }
-      }
-
-      if (isArray(model[key])) {
-        let content = model[key];
-        for (let i = 0; i < content.length; i++) {
-          if (typeof content[i] === 'object' && content[i]) {
-            model[key][i] = JSON.stringify(content[i]);
-          }
-        }
-      }
-
-      record[key] = model[key] !== undefined ? model[key] : self.model[key];
+    const record = this.filterRecord(modelInstance);
+    let method = 'post';
+    if (modelInstance[primaryKey]) {
+      method = 'put';
+      record[primaryKey] = modelInstance[primaryKey];
     }
 
-    //check if is new data
-    if (model[primaryKey]) {
-      record[primaryKey] = model[primaryKey];
-      return this.request.put(url, { data: record }).then(
-        function (data) {
-          // eslint-disable-next-line no-useless-catch
-          try {
-            return self.saveSerializer(data);
-          } catch (e) {
-            throw e;
-          }
-        },
-        function (reason) {
-          throw reason;
-        }
-      );
-    }
-
-    return this.request.post(url, { data: record }).then(
+    return this.request[method](url, { data: record }).then(
       function (data) {
         // eslint-disable-next-line no-useless-catch
         try {
@@ -253,6 +218,20 @@ export default Mixin.create(ajax, Evented, {
       return this.model.create(init);
     }
     return this.model.create();
+  },
+  /**
+   * filter native class instance or emberObject instance into pojo object
+   */
+  filterRecord(modelInstance) {
+    const record = {};
+    for (const key in modelInstance) {
+      if (typeof get(modelInstance, key) != 'function') {
+        if (modelInstance[key] != undefined) {
+          record[key] = modelInstance[key];
+        }
+      }
+    }
+    return record;
   },
 
   /**
